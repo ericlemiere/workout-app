@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  /* ── Brand palette ── */
+  --color-navy: #050816;
+  --color-charcoal: #111827;
+  --color-lime: #b7e63b;
+  --color-lime-dim: #9edb2f;
+  --color-offwhite: #f5f7fa;
+
+  /* ── Workout category colors ── */
+  --color-cat-lower: #00c2ff; /* lower body  — electric cyan  */
+  --color-cat-upper: #39ff14; /* upper body  — electric lime    */
+  --color-cat-core: #bf5fff;  /* core        — electric violet  */
+  --color-cat-full: #b7e63b;  /* full body   — brand lime       */
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overscroll-behavior: none;
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Smooth scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
 }

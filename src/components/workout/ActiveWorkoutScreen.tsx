@@ -1,0 +1,384 @@
+'use client'
+
+import { useEffect, useCallback, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useWorkoutStore } from '@/store/workoutStore'
+import { useProgressStore } from '@/store/progressStore'
+import { useWorkoutTimer, useVibration } from '@/hooks/useWorkoutTimer'
+import { useWakeLock } from '@/hooks/useWakeLock'
+import { CircularTimer } from '@/components/ui/CircularTimer'
+import { ExerciseImage } from '@/components/ui/ExercisePlaceholder'
+import { formatTime, getProgress } from '@/lib/timer'
+import { ensureAudioContextResumed } from '@/lib/audio'
+import type { Workout } from '@/types'
+
+interface Props {
+  workoutId: string
+  workout: Workout
+}
+
+const sectionLabel: Record<string, string> = {
+  intro: 'Get Ready',
+  warmup: 'Warm Up',
+  exercise: 'Exercise',
+  rest: 'Rest',
+  cooldown: 'Cool Down',
+  complete: 'Done!',
+}
+
+const sectionColor: Record<string, string> = {
+  warmup: 'text-cat-lower',
+  exercise: 'text-lime',
+  rest: 'text-emerald-400',
+  cooldown: 'text-cat-core',
+  intro: 'text-slate-400',
+  complete: 'text-lime',
+}
+
+export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
+  const router = useRouter()
+  const vibrate = useVibration()
+  const hasStartedRef = useRef(false)
+
+  const section = useWorkoutStore((s) => s.section)
+  const exerciseIndex = useWorkoutStore((s) => s.exerciseIndex)
+  const isResting = useWorkoutStore((s) => s.isResting)
+  const isGetReady = useWorkoutStore((s) => s.isGetReady)
+  const isPaused = useWorkoutStore((s) => s.isPaused)
+  const timer = useWorkoutStore((s) => s.timer)
+  const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs)
+
+  const startWorkout = useWorkoutStore((s) => s.startWorkout)
+  const beginSession = useWorkoutStore((s) => s.beginSession)
+  const pauseWorkout = useWorkoutStore((s) => s.pauseWorkout)
+  const resumeWorkout = useWorkoutStore((s) => s.resumeWorkout)
+  const next = useWorkoutStore((s) => s.next)
+  const prev = useWorkoutStore((s) => s.prev)
+  const skip = useWorkoutStore((s) => s.skip)
+  const getCurrentExercise = useWorkoutStore((s) => s.getCurrentExercise)
+  const getNextExercise = useWorkoutStore((s) => s.getNextExercise)
+  const getTotalExerciseCount = useWorkoutStore((s) => s.getTotalExerciseCount)
+  const getOverallExerciseNumber = useWorkoutStore((s) => s.getOverallExerciseNumber)
+
+  const recordCompletion = useProgressStore((s) => s.recordCompletion)
+
+  useWakeLock(section !== 'complete' && section !== 'intro')
+
+  // Initialize workout on mount
+  useEffect(() => {
+    if (!hasStartedRef.current) {
+      hasStartedRef.current = true
+      startWorkout(workout)
+    }
+  }, [workout, startWorkout])
+
+  // Navigate to complete page when done
+  useEffect(() => {
+    if (section === 'complete') {
+      const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0
+      recordCompletion(workoutId, durationMs)
+      router.replace(`/workout/${workoutId}/complete`)
+    }
+  }, [section, workoutId, workoutStartTs, recordCompletion, router])
+
+  const { remainingMs, totalWorkoutElapsed } = useWorkoutTimer()
+  const progress = getProgress(timer)
+
+  const currentExercise = getCurrentExercise()
+  const nextExercise = getNextExercise()
+  const totalCount = getTotalExerciseCount()
+  const overallNumber = getOverallExerciseNumber()
+
+  const handlePauseResume = useCallback(async () => {
+    await ensureAudioContextResumed()
+    vibrate(30)
+    if (isPaused) resumeWorkout()
+    else pauseWorkout()
+  }, [isPaused, pauseWorkout, resumeWorkout, vibrate])
+
+  const handleSkip = useCallback(() => {
+    vibrate(40)
+    skip()
+  }, [skip, vibrate])
+
+  const handlePrev = useCallback(() => {
+    vibrate(40)
+    prev()
+  }, [prev, vibrate])
+
+  const handleBegin = useCallback(async () => {
+    await ensureAudioContextResumed()
+    vibrate([50, 30, 50])
+    beginSession()
+  }, [beginSession, vibrate])
+
+  // ─── Intro Screen ──────────────────────────────────────────────────────────
+  if (section === 'intro') {
+    return (
+      <div className="fixed inset-0 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <div className="text-6xl mb-6">💪</div>
+          <h1 className="text-offwhite text-3xl font-bold mb-2">{workout.name}</h1>
+          <p className="text-slate-400 mb-2">{workout.warmups.length} warmups · {workout.exercises.length} exercises · {workout.cooldowns.length} stretches</p>
+          <p className="text-slate-500 text-sm mb-10">~{workout.estimatedDuration} minutes</p>
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={handleBegin}
+            className="bg-lime text-navy font-bold text-xl px-12 py-5 rounded-2xl w-full max-w-xs active:bg-lime-dim"
+          >
+            Start Workout
+          </motion.button>
+        </motion.div>
+      </div>
+    )
+  }
+
+  const displaySection = isResting ? 'rest' : section
+  const exercise = isResting ? null : currentExercise
+
+  return (
+    <div className="fixed inset-0 bg-navy flex flex-col safe-top safe-bottom">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-4 pt-2 pb-1 shrink-0">
+        <div className="flex items-center gap-2">
+          <span className={`text-xs font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}>
+            {sectionLabel[displaySection]}
+          </span>
+          {!isResting && section !== 'cooldown' && (
+            <span className="text-slate-600 text-xs">
+              {overallNumber}/{totalCount}
+            </span>
+          )}
+        </div>
+        <span className="text-slate-600 text-xs tabular-nums">
+          {formatTime(totalWorkoutElapsed)}
+        </span>
+      </div>
+
+      {/* Progress bar */}
+      <div className="h-0.5 bg-charcoal mx-4 rounded-full shrink-0">
+        <motion.div
+          className="h-full bg-lime rounded-full"
+          style={{ width: `${(overallNumber / totalCount) * 100}%` }}
+          transition={{ duration: 0.4 }}
+        />
+      </div>
+
+      {/* Exercise image */}
+      <div className="relative mx-4 mt-3 rounded-2xl overflow-hidden shrink-0" style={{ height: 220 }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${section}-${exerciseIndex}-${isResting}`}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0"
+          >
+            {isResting ? (
+              <div className="w-full h-full bg-linear-to-br from-emerald-900/40 to-slate-900 flex flex-col items-center justify-center">
+                <span className="text-6xl mb-3">🧘</span>
+                <p className="text-emerald-400 font-semibold text-lg">Take a breath</p>
+                {nextExercise && (
+                  <p className="text-slate-500 text-sm mt-1">Next: {nextExercise.name}</p>
+                )}
+              </div>
+            ) : (
+              <ExerciseImage
+                src={exercise?.image[0] ?? ''}
+                alt={exercise?.name ?? ''}
+                className="w-full h-full"
+                category={exercise?.category}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Exercise name */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`name-${section}-${exerciseIndex}-${isResting}`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25 }}
+          className="px-4 mt-3 shrink-0"
+        >
+          <h2 className="text-offwhite text-2xl font-bold leading-snug">
+            {isResting ? 'Rest' : exercise?.name ?? ''}
+          </h2>
+          {!isResting && exercise?.target && (
+            <p className="text-slate-500 text-sm mt-0.5 capitalize">{exercise.target}</p>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Timer — central focus */}
+      <div className="flex-1 flex items-center justify-center">
+        <CircularTimer
+          progress={progress}
+          remainingMs={remainingMs}
+          size={180}
+          strokeWidth={7}
+          isResting={isResting}
+        />
+      </div>
+
+      {/* Next up */}
+      <div className="px-4 pb-1 shrink-0 min-h-9">
+        {nextExercise && !isResting && (
+          <motion.p
+            key={`next-${section}-${exerciseIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-slate-500 text-sm"
+          >
+            <span className="text-slate-600">Next →</span>{' '}
+            <span className="text-slate-400">{nextExercise.name}</span>
+          </motion.p>
+        )}
+      </div>
+
+      {/* Instructions hint */}
+      {!isResting && exercise?.instructions && (
+        <div className="px-4 pb-2 shrink-0">
+          <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
+            {exercise.instructions}
+          </p>
+        </div>
+      )}
+
+      {/* Controls */}
+      <div className="px-6 pb-6 pt-2 shrink-0">
+        <div className="flex items-center justify-between gap-4">
+          {/* Prev */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={handlePrev}
+            className="w-14 h-14 rounded-full bg-charcoal flex items-center justify-center active:bg-slate-700"
+            aria-label="Previous"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-slate-300" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+          </motion.button>
+
+          {/* Pause / Resume */}
+          <motion.button
+            whileTap={{ scale: 0.94 }}
+            onClick={handlePauseResume}
+            className="flex-1 h-16 rounded-2xl bg-lime flex items-center justify-center gap-2 active:bg-lime-dim"
+            aria-label={isPaused ? 'Resume' : 'Pause'}
+          >
+            <AnimatePresence mode="wait">
+              {isPaused ? (
+                <motion.div
+                  key="resume"
+                  initial={{ scale: 0.7, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.7, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex items-center gap-2"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-navy">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                  <span className="text-navy font-semibold text-lg">Resume</span>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="pause"
+                  initial={{ scale: 0.7, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.7, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex items-center gap-2"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-navy">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                  <span className="text-navy font-semibold text-lg">Pause</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
+
+          {/* Skip */}
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={handleSkip}
+            className="w-14 h-14 rounded-full bg-charcoal flex items-center justify-center active:bg-slate-700"
+            aria-label="Skip"
+          >
+            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-slate-300" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Get-ready overlay */}
+      <AnimatePresence>
+        {isGetReady && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-navy/95 flex flex-col items-center justify-center gap-4"
+          >
+            <span className={`text-xs font-bold uppercase tracking-widest ${sectionColor[section]}`}>
+              {sectionLabel[section]} · Get Ready
+            </span>
+            <p className="text-offwhite text-3xl font-bold text-center px-6">
+              {currentExercise?.name ?? ''}
+            </p>
+            {currentExercise?.target && (
+              <p className="text-slate-500 text-sm capitalize">{currentExercise.target}</p>
+            )}
+            <CircularTimer
+              progress={progress}
+              remainingMs={remainingMs}
+              size={160}
+              strokeWidth={6}
+            />
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={handleSkip}
+              className="mt-2 text-slate-500 text-sm px-6 py-3 rounded-xl border border-slate-700 active:bg-charcoal"
+            >
+              Skip countdown
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Pause overlay */}
+      <AnimatePresence>
+        {isPaused && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-navy/70 backdrop-blur-sm flex items-center justify-center pointer-events-none"
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="text-slate-400 text-lg font-semibold tracking-widest uppercase"
+            >
+              Paused
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
