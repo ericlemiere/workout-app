@@ -45,7 +45,7 @@ export function WorkoutLibrary({ workouts }: Props) {
   );
 
   return (
-    <div className="min-h-screen pb-28 safe-top">
+    <div className="min-h-screen max-w-xl mx-auto pb-28 safe-top">
       {/* Header */}
       <div className="p-0">
         <div className="w-full overflow-hidden relative">

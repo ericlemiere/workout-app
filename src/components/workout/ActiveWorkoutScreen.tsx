@@ -255,7 +255,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
       )}
 
       {/* Controls */}
-      <div className="px-6 pb-6 pt-2 shrink-0">
+      <div className="px-6 pb-6 pt-2 shrink-0 relative z-20">
         <div className="flex items-center justify-between gap-4">
           {/* Prev */}
           <motion.button
@@ -366,7 +366,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-navy/70 backdrop-blur-sm flex items-center justify-center pointer-events-none"
+            className="absolute inset-0 z-10 bg-navy/70 backdrop-blur-sm flex items-center justify-center pointer-events-none"
           >
             <motion.div
               initial={{ scale: 0.8 }}

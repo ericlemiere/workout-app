@@ -73,7 +73,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
     workout.cooldowns.reduce((a, e) => a + e.duration, 0);
 
   return (
-    <div className="min-h-screen pb-32 safe-top">
+    <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
       {/* Hero */}
       <div className="relative h-56">
         <ExerciseImage
@@ -105,7 +105,9 @@ export function WorkoutDetailScreen({ workout }: Props) {
       <div className="px-4 -mt-6 relative z-10">
         {/* Title block */}
         <div className="mb-5">
-          <h1 className="text-offwhite text-3xl font-bold mb-1">{workout.name}</h1>
+          <h1 className="text-offwhite text-3xl font-bold mb-1">
+            {workout.name}
+          </h1>
           <p className="text-slate-400 text-sm leading-relaxed">
             {workout.description}
           </p>
@@ -145,7 +147,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
           </h2>
           <div className="bg-charcoal/50 rounded-2xl px-4">
             {workout.warmups.map((ex, i) => (
-              <ExerciseRow key={ex.id} exercise={ex} index={i} />
+              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
             ))}
           </div>
         </div>
@@ -157,7 +159,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
           </h2>
           <div className="bg-charcoal/50 rounded-2xl px-4">
             {workout.exercises.map((ex, i) => (
-              <ExerciseRow key={ex.id} exercise={ex} index={i} />
+              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
             ))}
           </div>
         </div>
@@ -169,7 +171,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
           </h2>
           <div className="bg-charcoal/50 rounded-2xl px-4">
             {workout.cooldowns.map((ex, i) => (
-              <ExerciseRow key={ex.id} exercise={ex} index={i} />
+              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
             ))}
           </div>
         </div>
