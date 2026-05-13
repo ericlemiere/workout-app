@@ -65,7 +65,7 @@ export function updateStreakData(completedDate: string): StreakData {
 
 const defaultSettings: AppSettings = {
   soundEnabled: true,
-  vibrationEnabled: true,
+  voiceCuesEnabled: false,
   autoAdvance: true,
   defaultRestDuration: 15,
 }
@@ -91,4 +91,10 @@ export function getCycleStartedAt(): string | null {
 export function saveCycleStartedAt(ts: string | null): void {
   if (ts === null) localStorage.removeItem(KEYS.cycleStartedAt)
   else localStorage.setItem(KEYS.cycleStartedAt, ts)
+}
+
+export function clearAllProgress(): void {
+  localStorage.removeItem(KEYS.completed)
+  localStorage.removeItem(KEYS.streak)
+  localStorage.removeItem(KEYS.cycleStartedAt)
 }

@@ -5,16 +5,11 @@ import { motion } from "framer-motion";
 import type { Workout, Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatDuration } from "@/lib/timer";
+import { GET_READY_SECS } from "@/lib/workout";
 
 interface Props {
   workout: Workout;
 }
-
-const categoryLabel: Record<string, string> = {
-  "warm-up": "Warm Up",
-  exercise: "Exercise",
-  "cool-down": "Cool Down",
-};
 
 const categoryColor: Record<string, string> = {
   "warm-up": "text-amber-400",
@@ -29,17 +24,38 @@ function ExerciseRow({
   exercise: Exercise;
   index: number;
 }) {
+  if (exercise.isRest) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.04 }}
+        className="flex items-center justify-between gap-3 py-3"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-xl bg-emerald-900/30 flex items-center justify-center shrink-0 text-xl">
+            🧘
+          </div>
+          <span className="text-emerald-400 text-sm font-medium">Rest</span>
+        </div>
+        <span className="text-slate-500 text-xs shrink-0">
+          {formatDuration(exercise.duration)}
+        </span>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="flex items-center gap-3 py-3 border-b border-slate-800/50 last:border-0"
+      className={`flex items-center gap-3 py-3 border-b border-slate-800/50 last:border-0`}
     >
       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
         <ExerciseImage
           src={exercise.image[0]}
-          alt={exercise.name}
+          alt=""
           className="w-full h-full"
           category={exercise.category}
         />
@@ -60,17 +76,17 @@ function ExerciseRow({
 }
 
 export function WorkoutDetailScreen({ workout }: Props) {
-  const totalExercises =
+  const totalRealExercises =
     workout.warmups.length +
-    workout.exercises.length +
+    workout.exercises.filter((e) => !e.isRest).length +
     workout.cooldowns.length;
+
   const totalSeconds =
+    totalRealExercises * GET_READY_SECS +
     workout.warmups.reduce((a, e) => a + e.duration, 0) +
-    workout.exercises.reduce(
-      (a, e) => a + e.duration + (e.restDuration ?? 15),
-      0,
-    ) +
+    workout.exercises.reduce((a, e) => a + e.duration, 0) +
     workout.cooldowns.reduce((a, e) => a + e.duration, 0);
+  const estimatedMinutes = Math.ceil(totalSeconds / 60);
 
   return (
     <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
@@ -116,8 +132,8 @@ export function WorkoutDetailScreen({ workout }: Props) {
         {/* Stats pills */}
         <div className="flex gap-2 flex-wrap mb-6">
           {[
-            { label: `~${workout.estimatedDuration}m`, icon: "⏱" },
-            { label: `${totalExercises} moves`, icon: "💪" },
+            { label: `~${estimatedMinutes}m`, icon: "⏱" },
+            { label: `${totalRealExercises} moves`, icon: "💪" },
             { label: workout.tags[0] ?? "general", icon: "🎯" },
           ].map(({ label, icon }) => (
             <span

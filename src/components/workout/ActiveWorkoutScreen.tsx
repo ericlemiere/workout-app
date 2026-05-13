@@ -1,131 +1,159 @@
-'use client'
+"use client";
 
-import { useEffect, useCallback, useRef } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useWorkoutStore } from '@/store/workoutStore'
-import { useProgressStore } from '@/store/progressStore'
-import { useWorkoutTimer, useVibration } from '@/hooks/useWorkoutTimer'
-import { useWakeLock } from '@/hooks/useWakeLock'
-import { CircularTimer } from '@/components/ui/CircularTimer'
-import { ExerciseImage } from '@/components/ui/ExercisePlaceholder'
-import { formatTime, getProgress } from '@/lib/timer'
-import { ensureAudioContextResumed } from '@/lib/audio'
-import type { Workout } from '@/types'
+import { useEffect, useCallback, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useWorkoutStore } from "@/store/workoutStore";
+import { useProgressStore } from "@/store/progressStore";
+import { useWorkoutTimer, useVibration } from "@/hooks/useWorkoutTimer";
+import { useWakeLock } from "@/hooks/useWakeLock";
+import { CircularTimer } from "@/components/ui/CircularTimer";
+import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
+import { formatTime, getProgress } from "@/lib/timer";
+import { ensureAudioContextResumed } from "@/lib/audio";
+import type { Workout } from "@/types";
 
 interface Props {
-  workoutId: string
-  workout: Workout
+  workoutId: string;
+  workout: Workout;
 }
 
 const sectionLabel: Record<string, string> = {
-  intro: 'Get Ready',
-  warmup: 'Warm Up',
-  exercise: 'Exercise',
-  rest: 'Rest',
-  cooldown: 'Cool Down',
-  complete: 'Done!',
-}
+  intro: "Get Ready",
+  warmup: "Warm Up",
+  exercise: "Exercise",
+  rest: "Rest",
+  cooldown: "Cool Down",
+  complete: "Done!",
+};
 
 const sectionColor: Record<string, string> = {
-  warmup: 'text-cat-lower',
-  exercise: 'text-lime',
-  rest: 'text-emerald-400',
-  cooldown: 'text-cat-core',
-  intro: 'text-slate-400',
-  complete: 'text-lime',
-}
+  warmup: "text-cat-lower",
+  exercise: "text-lime",
+  rest: "text-emerald-400",
+  cooldown: "text-cat-core",
+  intro: "text-slate-400",
+  complete: "text-lime",
+};
 
 export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
-  const router = useRouter()
-  const vibrate = useVibration()
-  const hasStartedRef = useRef(false)
+  const router = useRouter();
+  const vibrate = useVibration();
+  const hasStartedRef = useRef(false);
 
-  const section = useWorkoutStore((s) => s.section)
-  const exerciseIndex = useWorkoutStore((s) => s.exerciseIndex)
-  const isResting = useWorkoutStore((s) => s.isResting)
-  const isGetReady = useWorkoutStore((s) => s.isGetReady)
-  const isPaused = useWorkoutStore((s) => s.isPaused)
-  const timer = useWorkoutStore((s) => s.timer)
-  const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs)
+  const section = useWorkoutStore((s) => s.section);
+  const exerciseIndex = useWorkoutStore((s) => s.exerciseIndex);
+  const isGetReady = useWorkoutStore((s) => s.isGetReady);
+  const isPaused = useWorkoutStore((s) => s.isPaused);
+  const timer = useWorkoutStore((s) => s.timer);
+  const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs);
 
-  const startWorkout = useWorkoutStore((s) => s.startWorkout)
-  const beginSession = useWorkoutStore((s) => s.beginSession)
-  const pauseWorkout = useWorkoutStore((s) => s.pauseWorkout)
-  const resumeWorkout = useWorkoutStore((s) => s.resumeWorkout)
-  const next = useWorkoutStore((s) => s.next)
-  const prev = useWorkoutStore((s) => s.prev)
-  const skip = useWorkoutStore((s) => s.skip)
-  const getCurrentExercise = useWorkoutStore((s) => s.getCurrentExercise)
-  const getNextExercise = useWorkoutStore((s) => s.getNextExercise)
-  const getTotalExerciseCount = useWorkoutStore((s) => s.getTotalExerciseCount)
-  const getOverallExerciseNumber = useWorkoutStore((s) => s.getOverallExerciseNumber)
+  const startWorkout = useWorkoutStore((s) => s.startWorkout);
+  const beginSession = useWorkoutStore((s) => s.beginSession);
+  const pauseWorkout = useWorkoutStore((s) => s.pauseWorkout);
+  const resumeWorkout = useWorkoutStore((s) => s.resumeWorkout);
+  const next = useWorkoutStore((s) => s.next);
+  const prev = useWorkoutStore((s) => s.prev);
+  const skip = useWorkoutStore((s) => s.skip);
+  const getCurrentExercise = useWorkoutStore((s) => s.getCurrentExercise);
+  const getNextExercise = useWorkoutStore((s) => s.getNextExercise);
+  const getTotalExerciseCount = useWorkoutStore((s) => s.getTotalExerciseCount);
+  const getOverallExerciseNumber = useWorkoutStore(
+    (s) => s.getOverallExerciseNumber,
+  );
+  const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
 
-  const recordCompletion = useProgressStore((s) => s.recordCompletion)
+  const recordCompletion = useProgressStore((s) => s.recordCompletion);
 
-  useWakeLock(section !== 'complete' && section !== 'intro')
+  useWakeLock(section !== "complete" && section !== "intro");
 
   // Initialize workout on mount
   useEffect(() => {
     if (!hasStartedRef.current) {
-      hasStartedRef.current = true
-      startWorkout(workout)
+      hasStartedRef.current = true;
+      startWorkout(workout);
     }
-  }, [workout, startWorkout])
+  }, [workout, startWorkout]);
 
   // Navigate to complete page when done
   useEffect(() => {
-    if (section === 'complete') {
-      const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0
-      recordCompletion(workoutId, durationMs)
-      router.replace(`/workout/${workoutId}/complete`)
+    if (section === "complete") {
+      const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0;
+      recordCompletion(workoutId, durationMs);
+      router.replace(`/workout/${workoutId}/complete`);
     }
-  }, [section, workoutId, workoutStartTs, recordCompletion, router])
+  }, [section, workoutId, workoutStartTs, recordCompletion, router]);
 
-  const { remainingMs, totalWorkoutElapsed } = useWorkoutTimer()
-  const progress = getProgress(timer)
+  const { remainingMs, totalWorkoutElapsed } = useWorkoutTimer();
+  const progress = getProgress(timer);
 
-  const currentExercise = getCurrentExercise()
-  const nextExercise = getNextExercise()
-  const totalCount = getTotalExerciseCount()
-  const overallNumber = getOverallExerciseNumber()
+  const currentExercise = getCurrentExercise();
+  const nextExercise = getNextExercise();
+  const totalCount = getTotalExerciseCount();
+  const overallNumber = getOverallExerciseNumber();
 
   const handlePauseResume = useCallback(async () => {
-    await ensureAudioContextResumed()
-    vibrate(30)
-    if (isPaused) resumeWorkout()
-    else pauseWorkout()
-  }, [isPaused, pauseWorkout, resumeWorkout, vibrate])
+    await ensureAudioContextResumed();
+    vibrate(30);
+    if (isPaused) resumeWorkout();
+    else pauseWorkout();
+  }, [isPaused, pauseWorkout, resumeWorkout, vibrate]);
 
   const handleSkip = useCallback(() => {
-    vibrate(40)
-    skip()
-  }, [skip, vibrate])
+    vibrate(40);
+    skip();
+  }, [skip, vibrate]);
 
   const handlePrev = useCallback(() => {
-    vibrate(40)
-    prev()
-  }, [prev, vibrate])
+    vibrate(40);
+    prev();
+  }, [prev, vibrate]);
 
   const handleBegin = useCallback(async () => {
-    await ensureAudioContextResumed()
-    vibrate([50, 30, 50])
-    beginSession()
-  }, [beginSession, vibrate])
+    await ensureAudioContextResumed();
+    vibrate([50, 30, 50]);
+    beginSession();
+  }, [beginSession, vibrate]);
 
   // ─── Intro Screen ──────────────────────────────────────────────────────────
-  if (section === 'intro') {
+  if (section === "intro") {
     return (
       <div className="fixed inset-0 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom">
+        {/* Back button */}
+        <button
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 w-10 h-10 rounded-full bg-charcoal/80 flex items-center justify-center active:bg-charcoal"
+          style={{ marginTop: "env(safe-area-inset-top)" }}
+          aria-label="Back"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className="w-5 h-5 text-offwhite"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+          >
+            <path d="M19 12H5M12 5l-7 7 7 7" />
+          </svg>
+        </button>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
           <div className="text-6xl mb-6">💪</div>
-          <h1 className="text-offwhite text-3xl font-bold mb-2">{workout.name}</h1>
-          <p className="text-slate-400 mb-2">{workout.warmups.length} warmups · {workout.exercises.length} exercises · {workout.cooldowns.length} stretches</p>
-          <p className="text-slate-500 text-sm mb-10">~{workout.estimatedDuration} minutes</p>
+          <h1 className="text-offwhite text-3xl font-bold mb-2">
+            {workout.name}
+          </h1>
+          <p className="text-slate-400 mb-2">
+            {workout.warmups.length} warmups · {workout.exercises.length}{" "}
+            exercises · {workout.cooldowns.length} stretches
+          </p>
+          <p className="text-slate-500 text-sm mb-10">
+            ~{workout.estimatedDuration} minutes
+          </p>
           <motion.button
             whileTap={{ scale: 0.96 }}
             onClick={handleBegin}
@@ -135,27 +163,31 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           </motion.button>
         </motion.div>
       </div>
-    )
+    );
   }
 
-  const displaySection = isResting ? 'rest' : section
-  const exercise = isResting ? null : currentExercise
+  const isRest = currentExercise?.isRest ?? false;
+  const displaySection = isRest ? "rest" : section;
+  const exercise = isRest ? null : currentExercise;
 
   return (
     <div className="fixed inset-0 bg-navy flex flex-col safe-top safe-bottom">
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 pt-2 pb-1 shrink-0">
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}>
+          <span
+            className={`text-sm font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}
+          >
             {sectionLabel[displaySection]}
           </span>
-          {!isResting && section !== 'cooldown' && (
-            <span className="text-slate-600 text-xs">
+
+          {!isRest && section !== "cooldown" && (
+            <span className="text-lime text-sm">
               {overallNumber}/{totalCount}
             </span>
           )}
         </div>
-        <span className="text-slate-600 text-xs tabular-nums">
+        <span className="text-lime text-sm tabular-nums">
           {formatTime(totalWorkoutElapsed)}
         </span>
       </div>
@@ -170,28 +202,35 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
       </div>
 
       {/* Exercise image */}
-      <div className="relative mx-4 mt-3 rounded-2xl overflow-hidden shrink-0" style={{ height: 220 }}>
+      <div
+        className="relative mx-4 mt-3 rounded-2xl overflow-hidden shrink-0"
+        style={{ height: 220 }}
+      >
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${section}-${exerciseIndex}-${isResting}`}
+            key={`${section}-${exerciseIndex}-${isRest}`}
             initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.3 }}
             className="absolute inset-0"
           >
-            {isResting ? (
+            {isRest ? (
               <div className="w-full h-full bg-linear-to-br from-emerald-900/40 to-slate-900 flex flex-col items-center justify-center">
                 <span className="text-6xl mb-3">🧘</span>
-                <p className="text-emerald-400 font-semibold text-lg">Take a breath</p>
+                <p className="text-emerald-400 font-semibold text-lg">
+                  Take a breath
+                </p>
                 {nextExercise && (
-                  <p className="text-slate-500 text-sm mt-1">Next: {nextExercise.name}</p>
+                  <p className="text-slate-500 text-sm mt-1">
+                    Next: {nextExercise.name}
+                  </p>
                 )}
               </div>
             ) : (
               <ExerciseImage
-                src={exercise?.image[0] ?? ''}
-                alt={exercise?.name ?? ''}
+                src={exercise?.image[0] ?? ""}
+                alt={exercise?.name ?? ""}
                 className="w-full h-full"
                 category={exercise?.category}
               />
@@ -203,7 +242,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
       {/* Exercise name */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={`name-${section}-${exerciseIndex}-${isResting}`}
+          key={`name-${section}-${exerciseIndex}-${isRest}`}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -211,48 +250,55 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           className="px-4 mt-3 shrink-0"
         >
           <h2 className="text-offwhite text-2xl font-bold leading-snug">
-            {isResting ? 'Rest' : exercise?.name ?? ''}
+            {isRest ? "Rest" : (exercise?.name ?? "")}
           </h2>
-          {!isResting && exercise?.target && (
-            <p className="text-slate-500 text-sm mt-0.5 capitalize">{exercise.target}</p>
+          {!isRest && exercise?.target && (
+            <p className="text-slate-500 text-sm mt-0.5 capitalize">
+              {exercise.target}
+            </p>
           )}
         </motion.div>
       </AnimatePresence>
 
       {/* Timer — central focus */}
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center relative">
         <CircularTimer
           progress={progress}
           remainingMs={remainingMs}
           size={180}
           strokeWidth={7}
-          isResting={isResting}
+          isRest={isRest}
         />
+        {isGetReady && (
+          <span className="absolute top-1/8 text-4xl uppercase font-bold tracking-widest text-offwhite animate-pulse">
+            Get Ready
+          </span>
+        )}
       </div>
+
+      {/* Instructions hint */}
+      {!isRest && exercise?.instructions && (
+        <div className="px-4 pb-2 shrink-0">
+          <p className="text-offwhite text-sm leading-relaxed line-clamp-2">
+            {exercise.instructions}
+          </p>
+        </div>
+      )}
 
       {/* Next up */}
       <div className="px-4 pb-1 shrink-0 min-h-9">
-        {nextExercise && !isResting && (
+        {nextExercise && !isRest && !isGetReady && (
           <motion.p
             key={`next-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-slate-500 text-sm"
           >
-            <span className="text-slate-600">Next →</span>{' '}
+            <span className="text-slate-600">Next →</span>{" "}
             <span className="text-slate-400">{nextExercise.name}</span>
           </motion.p>
         )}
       </div>
-
-      {/* Instructions hint */}
-      {!isResting && exercise?.instructions && (
-        <div className="px-4 pb-2 shrink-0">
-          <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
-            {exercise.instructions}
-          </p>
-        </div>
-      )}
 
       {/* Controls */}
       <div className="px-6 pb-6 pt-2 shrink-0 relative z-20">
@@ -264,7 +310,14 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             className="w-14 h-14 rounded-full bg-charcoal flex items-center justify-center active:bg-slate-700"
             aria-label="Previous"
           >
-            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-slate-300" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="w-6 h-6 text-slate-300"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+            >
               <path d="M19 12H5M12 5l-7 7 7 7" />
             </svg>
           </motion.button>
@@ -274,7 +327,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             whileTap={{ scale: 0.94 }}
             onClick={handlePauseResume}
             className="flex-1 h-16 rounded-2xl bg-lime flex items-center justify-center gap-2 active:bg-lime-dim"
-            aria-label={isPaused ? 'Resume' : 'Pause'}
+            aria-label={isPaused ? "Resume" : "Pause"}
           >
             <AnimatePresence mode="wait">
               {isPaused ? (
@@ -286,10 +339,16 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
                   transition={{ duration: 0.15 }}
                   className="flex items-center gap-2"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-navy">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-7 h-7 text-navy"
+                  >
                     <path d="M8 5v14l11-7z" />
                   </svg>
-                  <span className="text-navy font-semibold text-lg">Resume</span>
+                  <span className="text-navy font-semibold text-lg">
+                    Resume
+                  </span>
                 </motion.div>
               ) : (
                 <motion.div
@@ -300,7 +359,11 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
                   transition={{ duration: 0.15 }}
                   className="flex items-center gap-2"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-navy">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-7 h-7 text-navy"
+                  >
                     <rect x="6" y="4" width="4" height="16" rx="1" />
                     <rect x="14" y="4" width="4" height="16" rx="1" />
                   </svg>
@@ -317,44 +380,39 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             className="w-14 h-14 rounded-full bg-charcoal flex items-center justify-center active:bg-slate-700"
             aria-label="Skip"
           >
-            <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-slate-300" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="w-6 h-6 text-slate-300"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+            >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </motion.button>
         </div>
       </div>
 
-      {/* Get-ready overlay */}
+      {/* Quit button — slides in when paused */}
       <AnimatePresence>
-        {isGetReady && (
+        {isPaused && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-navy/95 flex flex-col items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute bottom-30 left-0 right-0 w-full flex items-center justify-center shrink-0 z-20"
           >
-            <span className={`text-xs font-bold uppercase tracking-widest ${sectionColor[section]}`}>
-              {sectionLabel[section]} · Get Ready
-            </span>
-            <p className="text-offwhite text-3xl font-bold text-center px-6">
-              {currentExercise?.name ?? ''}
-            </p>
-            {currentExercise?.target && (
-              <p className="text-slate-500 text-sm capitalize">{currentExercise.target}</p>
-            )}
-            <CircularTimer
-              progress={progress}
-              remainingMs={remainingMs}
-              size={160}
-              strokeWidth={6}
-            />
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSkip}
-              className="mt-2 text-slate-500 text-sm px-6 py-3 rounded-xl border border-slate-700 active:bg-charcoal"
+            <button
+              onClick={() => {
+                resetWorkout();
+                router.replace("/");
+              }}
+              className="w-70 m-auto h-16 text-slate-400 text-lg font-semibold rounded-2xl border border-lime/60 active:bg-charcoal"
             >
-              Skip countdown
-            </motion.button>
+              Quit Workout
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -380,5 +438,5 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

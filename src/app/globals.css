@@ -2,6 +2,8 @@
 
 @theme inline {
   --font-sans: var(--font-geist);
+  --font-orbitron: var(--font-orbitron);
+  --font-space-mono: var(--font-space-mono);
 }
 
 @theme {
@@ -15,8 +17,8 @@
   /* ── Workout category colors ── */
   --color-cat-lower: #00c2ff; /* lower body  — electric cyan  */
   --color-cat-upper: #39ff14; /* upper body  — electric lime    */
-  --color-cat-core: #bf5fff;  /* core        — electric violet  */
-  --color-cat-full: #b7e63b;  /* full body   — brand lime       */
+  --color-cat-core: #bf5fff; /* core        — electric violet  */
+  --color-cat-full: #b7e63b; /* full body   — brand lime       */
 }
 
 * {
@@ -25,6 +27,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {

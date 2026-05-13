@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useWorkoutStore } from '@/store/workoutStore'
 import { useProgressStore } from '@/store/progressStore'
-import { playCountdownBeep, playGoBeep, playRestBeep, playCompleteSound, ensureAudioContextResumed } from '@/lib/audio'
+import { playCountdownBeep, playGoBeep, ensureAudioContextResumed } from '@/lib/audio'
 import { getRemainingMs } from '@/lib/timer'
 
 export function useWorkoutTimer(onComplete?: () => void) {
@@ -11,7 +11,6 @@ export function useWorkoutTimer(onComplete?: () => void) {
   const finishGetReady = useWorkoutStore((s) => s.finishGetReady)
   const isPaused = useWorkoutStore((s) => s.isPaused)
   const section = useWorkoutStore((s) => s.section)
-  const isResting = useWorkoutStore((s) => s.isResting)
   const isGetReady = useWorkoutStore((s) => s.isGetReady)
   const timer = useWorkoutStore((s) => s.timer)
   const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs)
@@ -22,7 +21,6 @@ export function useWorkoutTimer(onComplete?: () => void) {
   const lastBeepRef = useRef<number>(-1)
   const hasCompletedRef = useRef(false)
 
-  // Reset completion guard when timer resets
   useEffect(() => {
     hasCompletedRef.current = false
     lastBeepRef.current = -1
@@ -50,10 +48,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
           if (soundEnabled) playGoBeep()
           finishGetReady()
         } else {
-          if (soundEnabled) {
-            if (isResting) playGoBeep()
-            else playGoBeep()
-          }
+          if (soundEnabled) playGoBeep()
           if (autoAdvance) next()
         }
         onComplete?.()
@@ -61,7 +56,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
     }, 100)
 
     return () => clearInterval(interval)
-  }, [isPaused, section, timer, soundEnabled, autoAdvance, isResting, next, onComplete])
+  }, [isPaused, section, timer, soundEnabled, autoAdvance, isGetReady, next, onComplete, finishGetReady])
 
   const totalWorkoutElapsed = workoutStartTs ? Date.now() - workoutStartTs : 0
 
@@ -69,15 +64,9 @@ export function useWorkoutTimer(onComplete?: () => void) {
 }
 
 export function useVibration() {
-  const vibrationEnabled = useProgressStore((s) => s.settings.vibrationEnabled)
-
-  return useCallback(
-    (pattern: number | number[] = 50) => {
-      if (!vibrationEnabled) return
-      if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-        navigator.vibrate(pattern)
-      }
-    },
-    [vibrationEnabled],
-  )
+  return useCallback((pattern: number | number[] = 50) => {
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      navigator.vibrate(pattern)
+    }
+  }, [])
 }

@@ -14,7 +14,6 @@ export const mainExercises: Exercise[] = [
     target: "full body",
     instructions:
       "Squat, jump feet back to plank, do a push-up, jump feet forward, then jump up with arms overhead.",
-    restDuration: 20,
   },
   {
     id: "push-ups",
@@ -25,7 +24,6 @@ export const mainExercises: Exercise[] = [
     target: "chest",
     instructions:
       "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor, press up.",
-    restDuration: 15,
   },
   {
     id: "squats",
@@ -36,7 +34,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Feet shoulder-width, toes slightly out. Sit back and down until thighs are parallel. Drive through heels to stand.",
-    restDuration: 15,
   },
   {
     id: "mountain-climbers",
@@ -47,7 +44,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Start in plank. Drive alternate knees toward chest as fast as control allows. Keep hips level.",
-    restDuration: 20,
   },
   {
     id: "plank",
@@ -58,7 +54,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Forearms on floor, elbows under shoulders. Hold a straight line from head to heels. Breathe steadily.",
-    restDuration: 15,
   },
   {
     id: "lunges",
@@ -69,7 +64,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Step forward, lower back knee toward floor. Return to standing. Alternate legs. Keep torso upright.",
-    restDuration: 15,
   },
   {
     id: "diamond-push-ups",
@@ -80,7 +74,6 @@ export const mainExercises: Exercise[] = [
     target: "arms",
     instructions:
       "Place hands close together under chest, forming a diamond shape. Lower chest to hands, press up.",
-    restDuration: 20,
   },
   {
     id: "pike-push-ups",
@@ -91,7 +84,6 @@ export const mainExercises: Exercise[] = [
     target: "shoulders",
     instructions:
       "Form an inverted V. Bend elbows to lower head toward floor, then press back up.",
-    restDuration: 20,
   },
   {
     id: "tricep-dips",
@@ -102,7 +94,6 @@ export const mainExercises: Exercise[] = [
     target: "arms",
     instructions:
       "Use a chair or floor. Hands behind you, fingers forward. Lower hips by bending elbows, then press up.",
-    restDuration: 20,
   },
   {
     id: "superman",
@@ -113,7 +104,6 @@ export const mainExercises: Exercise[] = [
     target: "back",
     instructions:
       "Lie face down, arms forward. Simultaneously lift arms, chest, and legs off floor. Hold briefly, lower.",
-    restDuration: 15,
   },
   {
     id: "glute-bridges",
@@ -124,7 +114,6 @@ export const mainExercises: Exercise[] = [
     target: "glutes",
     instructions:
       "Lie on back, knees bent. Drive hips up by squeezing glutes. Hold 1 second at top, lower slowly.",
-    restDuration: 15,
   },
   {
     id: "russian-twists",
@@ -135,7 +124,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Sit with knees bent, lean back 45°. Rotate torso to tap floor on each side. Lift feet to increase difficulty.",
-    restDuration: 15,
   },
   {
     id: "jump-squats",
@@ -146,7 +134,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Perform a squat, then explode upward into a jump. Land softly, immediately descend into next squat.",
-    restDuration: 20,
   },
   {
     id: "side-lunges",
@@ -157,7 +144,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Step wide to the right, bend right knee, keep left leg straight. Push back to center. Alternate sides.",
-    restDuration: 15,
   },
   {
     id: "wall-sit",
@@ -168,7 +154,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Slide back against wall until thighs are parallel to floor. Hold position. Keep back flat against wall.",
-    restDuration: 20,
   },
   {
     id: "inchworms",
@@ -179,7 +164,6 @@ export const mainExercises: Exercise[] = [
     target: "full body",
     instructions:
       "Stand, hinge forward, walk hands out to plank, do a push-up, walk hands back, stand. Repeat.",
-    restDuration: 15,
   },
   {
     id: "plank-shoulder-taps",
@@ -190,7 +174,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "In high plank, tap opposite shoulder with each hand while keeping hips as still as possible.",
-    restDuration: 15,
   },
   {
     id: "calf-raises",
@@ -201,7 +184,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Stand with feet hip-width. Rise onto toes as high as possible, lower slowly. Use a wall for balance if needed.",
-    restDuration: 10,
   },
   {
     id: "wide-push-ups",
@@ -212,7 +194,6 @@ export const mainExercises: Exercise[] = [
     target: "chest",
     instructions:
       "Hands wider than shoulder-width, fingers angled out. Lower chest to floor, press up. Targets outer chest.",
-    restDuration: 15,
   },
   {
     id: "high-knees",
@@ -223,7 +204,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Run in place, driving knees up to hip height as fast as possible. Pump arms for balance.",
-    restDuration: 20,
   },
   {
     id: "jumping-jacks",
@@ -234,7 +214,6 @@ export const mainExercises: Exercise[] = [
     target: "full body",
     instructions:
       "Jump feet out wide while raising arms overhead. Jump feet back together while lowering arms. Repeat rapidly.",
-    restDuration: 15,
   },
   {
     id: "single-leg-deadlift",
@@ -245,7 +224,6 @@ export const mainExercises: Exercise[] = [
     target: "glutes",
     instructions:
       "Stand on one leg, hinge forward at hip, extend back leg behind. Return to standing. 20 seconds each side.",
-    restDuration: 15,
   },
   {
     id: "reverse-lunges",
@@ -256,7 +234,6 @@ export const mainExercises: Exercise[] = [
     target: "lower body",
     instructions:
       "Step backward and lower back knee toward floor. Drive front foot through heel to return. Alternate legs.",
-    restDuration: 15,
   },
   // ── Back-safe core & glute exercises (indices 23–30) ──────────────────────
   // 23
@@ -269,7 +246,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Lie on back, arms straight up, knees bent 90°. Slowly lower opposite arm and leg toward the floor while pressing your lower back into the ground. Return and alternate.",
-    restDuration: 15,
   },
   // 24
   {
@@ -281,7 +257,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "On hands and knees, extend opposite arm and leg until parallel to floor. Hold 2 seconds, return, alternate. Keep hips level throughout.",
-    restDuration: 15,
   },
   // 25
   {
@@ -293,7 +268,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Lie on your left side, forearm on the floor, elbow under shoulder. Lift hips to form a straight line. Hold. Modify by keeping bottom knee down.",
-    restDuration: 0,
   },
   // 26
   {
@@ -305,7 +279,6 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Lie on your right side, forearm on the floor, elbow under shoulder. Lift hips to form a straight line. Hold. Modify by keeping bottom knee down.",
-    restDuration: 15,
   },
   // 27
   {
@@ -317,7 +290,6 @@ export const mainExercises: Exercise[] = [
     target: "glutes",
     instructions:
       "Lie on your side, hips stacked, knees bent. Keeping feet together, rotate top knee upward like a clamshell. Do 20 seconds each side.",
-    restDuration: 15,
   },
   // 28
   {
@@ -329,7 +301,6 @@ export const mainExercises: Exercise[] = [
     target: "glutes",
     instructions:
       "On hands and knees, lift one knee out to the side, keeping it bent at 90°. Keep hips square. Lower and repeat. Do 20 seconds each side.",
-    restDuration: 15,
   },
   // 29
   {
@@ -341,7 +312,6 @@ export const mainExercises: Exercise[] = [
     target: "glutes",
     instructions:
       "On hands and knees, kick one leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
-    restDuration: 15,
   },
   // 30
   {
@@ -353,6 +323,5 @@ export const mainExercises: Exercise[] = [
     target: "core",
     instructions:
       "Lie on back, knees bent. Gently flatten your lower back into the floor by tightening your abs and tilting your pelvis. Hold 5 seconds, release. Repeat slowly.",
-    restDuration: 15,
   },
 ];

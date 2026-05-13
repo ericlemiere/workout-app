@@ -7,7 +7,7 @@ interface Props {
   remainingMs: number
   size?: number
   strokeWidth?: number
-  isResting?: boolean
+  isRest?: boolean
 }
 
 export function CircularTimer({
@@ -15,19 +15,20 @@ export function CircularTimer({
   remainingMs,
   size = 200,
   strokeWidth = 6,
-  isResting = false,
+  isRest = false,
 }: Props) {
   const radius = (size - strokeWidth * 2) / 2
   const circumference = 2 * Math.PI * radius
-  const offset = circumference * (1 - Math.min(1, Math.max(0, progress)))
+  const safeProgress = isNaN(progress) || !isFinite(progress) ? 0 : progress
+  const offset = circumference * (1 - Math.min(1, Math.max(0, safeProgress)))
   const totalSeconds = Math.ceil(remainingMs / 1000)
   const mins = Math.floor(totalSeconds / 60)
   const secs = totalSeconds % 60
   const timeStr = mins > 0 ? `${mins}:${secs.toString().padStart(2, '0')}` : `${secs}`
   const isUrgent = remainingMs <= 4000 && remainingMs > 0
 
-  const trackColor = isResting ? 'rgba(52,211,153,0.12)' : 'rgba(183,230,59,0.12)'
-  const progressColor = isResting ? '#34d399' : isUrgent ? '#f87171' : '#B7E63B'
+  const trackColor = isRest ? 'rgba(52,211,153,0.12)' : 'rgba(183,230,59,0.12)'
+  const progressColor = isRest ? '#34d399' : isUrgent ? '#f87171' : '#B7E63B'
 
   return (
     <div
@@ -63,7 +64,7 @@ export function CircularTimer({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span
-          className="font-bold tabular-nums leading-none"
+          className="font-bold font-orbitron tracking-widest tabular-nums leading-none"
           style={{
             fontSize: timeStr.length > 4 ? size * 0.22 : size * 0.28,
             color: isUrgent ? '#f87171' : '#F5F7FA',
@@ -71,8 +72,8 @@ export function CircularTimer({
         >
           {timeStr}
         </span>
-        {isResting && (
-          <span className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mt-1">
+        {isRest && (
+          <span className="text-emerald-400 absolute top-2/3 text-xs font-semibold uppercase tracking-widest mt-1">
             Rest
           </span>
         )}

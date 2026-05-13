@@ -29,7 +29,7 @@ export interface Exercise {
   target: MuscleTarget;
   audio?: string;
   instructions?: string;
-  restDuration?: number; // seconds of rest after this exercise, 0 = no rest
+  isRest?: boolean;
 }
 
 export interface Workout {
@@ -65,7 +65,7 @@ export interface StreakData {
 
 export interface AppSettings {
   soundEnabled: boolean;
-  vibrationEnabled: boolean;
+  voiceCuesEnabled: boolean;
   autoAdvance: boolean;
   defaultRestDuration: number; // seconds
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Orbitron, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
@@ -8,6 +8,18 @@ import { ProgressHydrator } from "@/components/layout/ProgressHydrator";
 const geist = Geist({
   variable: "--font-geist",
   subsets: ["latin"],
+});
+
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
+  subsets: ["latin"],
+  weight: "500",
+});
+
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geist.variable} h-full`}>
+    <html lang="en" className={`${geist.variable} ${orbitron.variable} ${spaceMono.variable} h-full`}>
       <body className="h-full bg-navy text-offwhite antialiased font-sans overflow-x-hidden">
         <ServiceWorkerRegistrar />
         <ProgressHydrator />

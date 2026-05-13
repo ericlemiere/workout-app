@@ -9,23 +9,20 @@ import {
   getRemainingMs,
   getProgress,
 } from '@/lib/timer'
-
-const GET_READY_SECS = 8
-const DEFAULT_REST = 15
+import { GET_READY_SECS } from '@/lib/workout'
 
 interface WorkoutState {
   workout: Workout | null
   section: WorkoutSection
   exerciseIndex: number
-  isResting: boolean
-  isGetReady: boolean        // true during 8-second countdown before each section
+  isGetReady: boolean
   timer: TimerSnapshot
   workoutStartTs: number | null
   isPaused: boolean
 
   startWorkout: (workout: Workout) => void
   beginSession: () => void
-  finishGetReady: () => void // called when get-ready timer hits 0
+  finishGetReady: () => void
   pauseWorkout: () => void
   resumeWorkout: () => void
   next: () => void
@@ -52,7 +49,6 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   workout: null,
   section: 'intro',
   exerciseIndex: 0,
-  isResting: false,
   isGetReady: false,
   timer: makeTimerSnapshot(0),
   workoutStartTs: null,
@@ -63,7 +59,6 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       workout,
       section: 'intro',
       exerciseIndex: 0,
-      isResting: false,
       isGetReady: false,
       timer: makeTimerSnapshot(0),
       workoutStartTs: null,
@@ -71,14 +66,12 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
     })
   },
 
-  // User taps "Start" → 8-second get-ready before first warmup
   beginSession: () => {
     const { workout } = get()
     if (!workout) return
     set({
       section: 'warmup',
       exerciseIndex: 0,
-      isResting: false,
       isGetReady: true,
       timer: makeTimerSnapshot(GET_READY_SECS),
       workoutStartTs: Date.now(),
@@ -86,12 +79,11 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
     })
   },
 
-  // Get-ready countdown finished → start actual exercise timer
   finishGetReady: () => {
     const { workout, section, exerciseIndex } = get()
     if (!workout) return
     const list = exercisesForSection(workout, section)
-    const duration = list[exerciseIndex]?.duration ?? DEFAULT_REST
+    const duration = list[exerciseIndex]?.duration ?? GET_READY_SECS
     set({ isGetReady: false, timer: makeTimerSnapshot(duration) })
   },
 
@@ -108,7 +100,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   },
 
   next: () => {
-    const { workout, section, exerciseIndex, isResting } = get()
+    const { workout, section, exerciseIndex } = get()
     if (!workout) return
 
     if (section === 'intro') {
@@ -116,67 +108,30 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       return
     }
 
-    if (isResting) {
-      const nextIdx = exerciseIndex + 1
-      const list = exercisesForSection(workout, section)
-      if (nextIdx >= list.length) {
-        // Rest after last exercise → get-ready for cooldown
-        set({
-          section: 'cooldown',
-          exerciseIndex: 0,
-          isResting: false,
-          isGetReady: true,
-          timer: makeTimerSnapshot(GET_READY_SECS),
-        })
-      } else {
-        set({
-          exerciseIndex: nextIdx,
-          isResting: false,
-          timer: makeTimerSnapshot(list[nextIdx].duration),
-        })
-      }
-      return
-    }
-
     const list = exercisesForSection(workout, section)
-    const current = list[exerciseIndex]
+    const nextIdx = exerciseIndex + 1
 
     if (section === 'warmup') {
-      if (exerciseIndex < list.length - 1) {
-        const nextIdx = exerciseIndex + 1
-        set({ exerciseIndex: nextIdx, timer: makeTimerSnapshot(list[nextIdx].duration) })
+      if (nextIdx < list.length) {
+        set({ exerciseIndex: nextIdx, isGetReady: true, timer: makeTimerSnapshot(GET_READY_SECS) })
       } else {
-        // Last warmup → get-ready for exercises
-        set({
-          section: 'exercise',
-          exerciseIndex: 0,
-          isResting: false,
-          isGetReady: true,
-          timer: makeTimerSnapshot(GET_READY_SECS),
-        })
+        set({ section: 'exercise', exerciseIndex: 0, isGetReady: true, timer: makeTimerSnapshot(GET_READY_SECS) })
       }
       return
     }
 
     if (section === 'exercise') {
-      const restDur = current.restDuration !== undefined ? current.restDuration : DEFAULT_REST
-      const isLastExercise = exerciseIndex >= list.length - 1
-
-      if (!isLastExercise && restDur > 0) {
-        set({ isResting: true, timer: makeTimerSnapshot(restDur) })
-      } else if (!isLastExercise) {
-        const nextIdx = exerciseIndex + 1
-        set({ exerciseIndex: nextIdx, timer: makeTimerSnapshot(list[nextIdx].duration) })
+      if (nextIdx < list.length) {
+        const nextEx = list[nextIdx]
+        if (nextEx.isRest) {
+          // Go straight into rest — no get-ready countdown
+          set({ exerciseIndex: nextIdx, isGetReady: false, timer: makeTimerSnapshot(nextEx.duration) })
+        } else {
+          set({ exerciseIndex: nextIdx, isGetReady: true, timer: makeTimerSnapshot(GET_READY_SECS) })
+        }
       } else {
-        // Last exercise → get-ready for cooldown (or complete)
         if (workout.cooldowns.length > 0) {
-          set({
-            section: 'cooldown',
-            exerciseIndex: 0,
-            isResting: false,
-            isGetReady: true,
-            timer: makeTimerSnapshot(GET_READY_SECS),
-          })
+          set({ section: 'cooldown', exerciseIndex: 0, isGetReady: true, timer: makeTimerSnapshot(GET_READY_SECS) })
         } else {
           set({ section: 'complete', timer: makeTimerSnapshot(0) })
         }
@@ -185,9 +140,8 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
     }
 
     if (section === 'cooldown') {
-      if (exerciseIndex < list.length - 1) {
-        const nextIdx = exerciseIndex + 1
-        set({ exerciseIndex: nextIdx, timer: makeTimerSnapshot(list[nextIdx].duration) })
+      if (nextIdx < list.length) {
+        set({ exerciseIndex: nextIdx, isGetReady: true, timer: makeTimerSnapshot(GET_READY_SECS) })
       } else {
         set({ section: 'complete', timer: makeTimerSnapshot(0) })
       }
@@ -196,83 +150,40 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   },
 
   prev: () => {
-    const { workout, section, exerciseIndex, isResting, isGetReady } = get()
+    const { workout, section, exerciseIndex, isGetReady } = get()
     if (!workout) return
 
-    // During get-ready, go back to the previous section's last exercise
     if (isGetReady) {
-      if (section === 'warmup') {
+      const list = exercisesForSection(workout, section)
+      if (exerciseIndex > 0) {
+        const prevIdx = exerciseIndex - 1
+        set({ exerciseIndex: prevIdx, isGetReady: false, timer: makeTimerSnapshot(list[prevIdx].duration) })
+      } else if (section === 'warmup') {
         set({ section: 'intro', isGetReady: false, timer: makeTimerSnapshot(0) })
       } else if (section === 'exercise') {
         const lastIdx = workout.warmups.length - 1
-        set({
-          section: 'warmup',
-          exerciseIndex: lastIdx,
-          isGetReady: false,
-          isResting: false,
-          timer: makeTimerSnapshot(workout.warmups[lastIdx].duration),
-        })
+        set({ section: 'warmup', exerciseIndex: lastIdx, isGetReady: false, timer: makeTimerSnapshot(workout.warmups[lastIdx].duration) })
       } else if (section === 'cooldown') {
-        const lastIdx = workout.exercises.length - 1
-        set({
-          section: 'exercise',
-          exerciseIndex: lastIdx,
-          isGetReady: false,
-          isResting: false,
-          timer: makeTimerSnapshot(workout.exercises[lastIdx].duration),
-        })
+        const exList = exercisesForSection(workout, 'exercise')
+        const lastIdx = exList.length - 1
+        set({ section: 'exercise', exerciseIndex: lastIdx, isGetReady: false, timer: makeTimerSnapshot(exList[lastIdx].duration) })
       }
       return
     }
 
-    if (isResting) {
+    if (exerciseIndex > 0) {
       const list = exercisesForSection(workout, section)
-      set({ isResting: false, timer: makeTimerSnapshot(list[exerciseIndex].duration) })
-      return
-    }
-
-    if (section === 'warmup') {
-      if (exerciseIndex > 0) {
-        const prevIdx = exerciseIndex - 1
-        set({ exerciseIndex: prevIdx, timer: makeTimerSnapshot(workout.warmups[prevIdx].duration) })
-      }
-      return
-    }
-
-    if (section === 'exercise') {
-      if (exerciseIndex > 0) {
-        const prevIdx = exerciseIndex - 1
-        set({
-          exerciseIndex: prevIdx,
-          isResting: false,
-          timer: makeTimerSnapshot(workout.exercises[prevIdx].duration),
-        })
-      } else {
+      const prevIdx = exerciseIndex - 1
+      set({ exerciseIndex: prevIdx, isGetReady: false, timer: makeTimerSnapshot(list[prevIdx].duration) })
+    } else {
+      if (section === 'exercise') {
         const lastIdx = workout.warmups.length - 1
-        set({
-          section: 'warmup',
-          exerciseIndex: lastIdx,
-          isResting: false,
-          timer: makeTimerSnapshot(workout.warmups[lastIdx].duration),
-        })
+        set({ section: 'warmup', exerciseIndex: lastIdx, isGetReady: false, timer: makeTimerSnapshot(workout.warmups[lastIdx].duration) })
+      } else if (section === 'cooldown') {
+        const exList = exercisesForSection(workout, 'exercise')
+        const lastIdx = exList.length - 1
+        set({ section: 'exercise', exerciseIndex: lastIdx, isGetReady: false, timer: makeTimerSnapshot(exList[lastIdx].duration) })
       }
-      return
-    }
-
-    if (section === 'cooldown') {
-      if (exerciseIndex > 0) {
-        const prevIdx = exerciseIndex - 1
-        set({ exerciseIndex: prevIdx, timer: makeTimerSnapshot(workout.cooldowns[prevIdx].duration) })
-      } else {
-        const lastIdx = workout.exercises.length - 1
-        set({
-          section: 'exercise',
-          exerciseIndex: lastIdx,
-          isResting: false,
-          timer: makeTimerSnapshot(workout.exercises[lastIdx].duration),
-        })
-      }
-      return
     }
   },
 
@@ -290,7 +201,6 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       workout: null,
       section: 'intro',
       exerciseIndex: 0,
-      isResting: false,
       isGetReady: false,
       timer: makeTimerSnapshot(0),
       workoutStartTs: null,
@@ -302,20 +212,20 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   getProgress: () => getProgress(get().timer),
 
   getCurrentExercise: () => {
-    const { workout, section, exerciseIndex, isResting } = get()
-    if (!workout || isResting) return null
+    const { workout, section, exerciseIndex } = get()
+    if (!workout) return null
     return exercisesForSection(workout, section)[exerciseIndex] ?? null
   },
 
   getNextExercise: () => {
-    const { workout, section, exerciseIndex, isResting } = get()
+    const { workout, section, exerciseIndex } = get()
     if (!workout) return null
-    if (isResting) {
-      return exercisesForSection(workout, section)[exerciseIndex + 1] ?? null
-    }
     const list = exercisesForSection(workout, section)
-    if (exerciseIndex < list.length - 1) return list[exerciseIndex + 1]
-    if (section === 'warmup') return workout.exercises[0] ?? null
+    // Return the next real (non-rest) exercise
+    for (let i = exerciseIndex + 1; i < list.length; i++) {
+      if (!list[i].isRest) return list[i]
+    }
+    if (section === 'warmup') return workout.exercises.find(e => !e.isRest) ?? null
     if (section === 'exercise') return workout.cooldowns[0] ?? null
     return null
   },
@@ -323,16 +233,26 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   getTotalExerciseCount: () => {
     const { workout } = get()
     if (!workout) return 0
-    return workout.warmups.length + workout.exercises.length + workout.cooldowns.length
+    return (
+      workout.warmups.length +
+      workout.exercises.filter(e => !e.isRest).length +
+      workout.cooldowns.length
+    )
   },
 
   getOverallExerciseNumber: () => {
     const { workout, section, exerciseIndex } = get()
     if (!workout) return 0
     if (section === 'warmup') return exerciseIndex + 1
-    if (section === 'exercise') return workout.warmups.length + exerciseIndex + 1
-    if (section === 'cooldown')
-      return workout.warmups.length + workout.exercises.length + exerciseIndex + 1
+    if (section === 'exercise') {
+      return workout.warmups.length +
+        workout.exercises.slice(0, exerciseIndex + 1).filter(e => !e.isRest).length
+    }
+    if (section === 'cooldown') {
+      return workout.warmups.length +
+        workout.exercises.filter(e => !e.isRest).length +
+        exerciseIndex + 1
+    }
     return 0
   },
 }))

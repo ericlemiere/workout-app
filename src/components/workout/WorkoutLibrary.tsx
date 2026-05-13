@@ -45,7 +45,7 @@ export function WorkoutLibrary({ workouts }: Props) {
   );
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto pb-28 safe-top">
+    <div className="min-h-screen max-w-xl mx-auto bg-navy pb-28 safe-top">
       {/* Header */}
       <div className="p-0">
         <div className="w-full overflow-hidden relative">
@@ -68,20 +68,20 @@ export function WorkoutLibrary({ workouts }: Props) {
       <div className="mb-5">
         <div className="border-t border-b border-lime/30 p-2 grid grid-cols-3 gap-3">
           <div className="text-center">
-            <div className="text-offwhite text-xl font-bold">
+            <div className="text-offwhite font-orbitron text-xl font-bold">
               {completed.length}
             </div>
             <div className="text-slate-300 text-xs mt-0.5">completed</div>
           </div>
 
           <div className="text-center">
-            <div className="text-offwhite text-xl font-bold">
+            <div className="text-offwhite font-orbitron text-xl font-bold">
               {streak.currentStreak}
             </div>
             <div className="text-slate-300 text-xs mt-0.5">day streak</div>
           </div>
           <div className="text-center">
-            <div className="text-offwhite text-xl font-bold">
+            <div className="text-offwhite font-orbitron text-xl font-bold">
               {streak.longestStreak}
             </div>
             <div className="text-slate-300 text-xs mt-0.5">best streak</div>
@@ -115,18 +115,20 @@ export function WorkoutLibrary({ workouts }: Props) {
               key={workout.id}
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.025, duration: 0.25 }}
+              transition={{ delay: i * 0.02, duration: 0.25 }}
               whileTap={{ scale: 0.93 }}
             >
               <Link href={`/workout/${workout.id}`} className="block">
                 <div
-                  className={`aspect-square rounded border flex flex-col items-center justify-center relative ${done ? "bg-gray-800" : bg}`}
+                  className={`aspect-square rounded border flex flex-col items-center justify-center relative ${bg} shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
                 >
-                  <span className={`text-4xl font-bold text-shadow-2xl ${tc}`}>
+                  <span
+                    className={`text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : tc}`}
+                  >
                     {num}
                   </span>
                   {done && (
-                    <div className="absolute opacity-50 top-0 left-0 w-full h-full rounded flex items-center justify-center">
+                    <div className="absolute opacity-30 top-0 left-0 w-full h-full flex items-center justify-center">
                       <svg
                         viewBox="0 0 10 10"
                         fill="none"
@@ -153,8 +155,10 @@ export function WorkoutLibrary({ workouts }: Props) {
                         <path
                           d="M2 5l2 2 4-4"
                           stroke="white"
-                          strokeWidth="1"
+                          strokeWidth="0.6"
                           filter="url(#checkShadow)"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </div>

@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 import type { CompletedWorkout, StreakData, AppSettings } from '@/types'
-import { addCompletedWorkout, getCompletedWorkouts, getStreakData, updateStreakData, getSettings, saveSettings, getCycleStartedAt, saveCycleStartedAt } from '@/lib/storage'
+import { addCompletedWorkout, getCompletedWorkouts, getStreakData, updateStreakData, getSettings, saveSettings, getCycleStartedAt, saveCycleStartedAt, clearAllProgress } from '@/lib/storage'
 
 interface ProgressState {
   completed: CompletedWorkout[]
@@ -15,6 +15,7 @@ interface ProgressState {
   recordCompletion: (workoutId: string, durationMs: number) => void
   updateSettings: (partial: Partial<AppSettings>) => void
   resetGrid: () => void
+  resetAllStats: () => void
 }
 
 export const useProgressStore = create<ProgressState>((set, get) => ({
@@ -22,7 +23,7 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
   streak: { currentStreak: 0, longestStreak: 0, lastCompletedDate: null },
   settings: {
     soundEnabled: true,
-    vibrationEnabled: true,
+    voiceCuesEnabled: false,
     autoAdvance: true,
     defaultRestDuration: 15,
   },
@@ -66,5 +67,14 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
     const ts = new Date().toISOString()
     saveCycleStartedAt(ts)
     set({ cycleStartedAt: ts })
+  },
+
+  resetAllStats: () => {
+    clearAllProgress()
+    set({
+      completed: [],
+      streak: { currentStreak: 0, longestStreak: 0, lastCompletedDate: null },
+      cycleStartedAt: null,
+    })
   },
 }))

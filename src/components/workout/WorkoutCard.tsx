@@ -34,7 +34,7 @@ export function WorkoutCard({ workout, completedCount = 0 }: Props) {
               className="w-full h-full"
               category="exercise"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 via-transparent to-transparent" />
             {completedCount > 0 && (
               <div className="absolute top-3 right-3 bg-emerald-500/90 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1">
                 <span className="text-offwhite text-xs font-semibold">✓ Done {completedCount}×</span>
