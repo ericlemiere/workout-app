@@ -1,28 +1,40 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Workout App',
-    short_name: 'Workout',
-    description: 'Your personal 20-minute workout companion',
-    start_url: '/',
-    display: 'standalone',
-    background_color: '#020617',
-    theme_color: '#020617',
-    orientation: 'portrait',
+    name: "Lunar Gravity",
+    short_name: "Lunar Gravity",
+    description: "Your personal 20-minute workout cycle",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#050816",
+    theme_color: "#050816",
+    orientation: "portrait",
     icons: [
       {
-        src: '/icons/icon-192.png',
-        sizes: '192x192',
-        type: 'image/png',
-        purpose: 'maskable',
+        src: "/icons/apple-touch-icon.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
       },
       {
-        src: '/icons/icon-512.png',
-        sizes: '512x512',
-        type: 'image/png',
-        purpose: 'maskable',
+        src: "/icons/apple-touch-icon.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "maskable",
+      },
+      {
+        src: "/icons/apple-touch-icon.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/icons/apple-touch-icon.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
     ],
-  }
+  };
 }
