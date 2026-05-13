@@ -10,10 +10,10 @@ interface Props {
 }
 
 const categoryColors: Record<string, string> = {
-  "warm-up": "from-amber-900/60 to-amber-800/40",
-  exercise: "from-blue-900/60 to-blue-800/40",
-  "cool-down": "from-emerald-900/60 to-emerald-800/40",
-  rest: "from-slate-800/80 to-slate-700/60",
+  "warm-up": "from-lime/60 to-white/20",
+  exercise: "from-cat-lower/60 to-white/20",
+  "cool-down": "from-cat-core/60 to-white/20",
+  rest: "from-slate-800/80 to-white/20",
 };
 
 const categoryIcons: Record<string, string> = {
@@ -38,7 +38,7 @@ export function ExerciseImage({
       <div
         className={`bg-linear-to-br ${gradient} flex flex-col items-center justify-center ${className}`}
       >
-        <span className="text-5xl mb-2 opacity-60">{icon}</span>
+        <span className="text-3xl opacity-90">{icon}</span>
       </div>
     );
   }

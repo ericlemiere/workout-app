@@ -5,14 +5,14 @@ import { motion } from "framer-motion";
 import type { Workout, Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatDuration } from "@/lib/timer";
-import { GET_READY_SECS } from "@/lib/workout";
+import { calculateWorkoutMinutes } from "@/lib/workout";
 
 interface Props {
   workout: Workout;
 }
 
 const categoryColor: Record<string, string> = {
-  "warm-up": "text-amber-400",
+  "warm-up": "text-lime",
   exercise: "text-blue-400",
   "cool-down": "text-purple-400",
 };
@@ -30,13 +30,15 @@ function ExerciseRow({
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.04 }}
-        className="flex items-center justify-between gap-3 py-3"
+        className="flex items-center justify-between gap-3 py-3 border-b border-slate-800/50 "
       >
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-emerald-900/30 flex items-center justify-center shrink-0 text-xl">
+          <div className="w-12 h-12 rounded-xl bg-linear-to-br from-cat-upper/60 to-white/20 flex items-center justify-center shrink-0">
             🧘
           </div>
-          <span className="text-emerald-400 text-sm font-medium">Rest</span>
+          <span className="text-cat-upper opacity-80 text-sm font-medium">
+            Rest
+          </span>
         </div>
         <span className="text-slate-500 text-xs shrink-0">
           {formatDuration(exercise.duration)}
@@ -80,13 +82,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
     workout.warmups.length +
     workout.exercises.filter((e) => !e.isRest).length +
     workout.cooldowns.length;
-
-  const totalSeconds =
-    totalRealExercises * GET_READY_SECS +
-    workout.warmups.reduce((a, e) => a + e.duration, 0) +
-    workout.exercises.reduce((a, e) => a + e.duration, 0) +
-    workout.cooldowns.reduce((a, e) => a + e.duration, 0);
-  const estimatedMinutes = Math.ceil(totalSeconds / 60);
+  const estimatedMinutes = calculateWorkoutMinutes(workout);
 
   return (
     <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
@@ -158,7 +154,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
         {/* Warmup section */}
         <div className="mb-6">
-          <h2 className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+          <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
             Warm Up · {workout.warmups.length} exercises
           </h2>
           <div className="bg-charcoal/50 rounded-2xl px-4">
@@ -171,7 +167,8 @@ export function WorkoutDetailScreen({ workout }: Props) {
         {/* Main exercises */}
         <div className="mb-6">
           <h2 className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
-            Exercises · {workout.exercises.length} exercises
+            Exercises · {workout.exercises.filter((e) => !e.isRest).length}{" "}
+            exercises + rest
           </h2>
           <div className="bg-charcoal/50 rounded-2xl px-4">
             {workout.exercises.map((ex, i) => (

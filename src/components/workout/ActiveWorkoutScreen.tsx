@@ -11,6 +11,7 @@ import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
+import { calculateWorkoutMinutes } from "@/lib/workout";
 import type { Workout } from "@/types";
 
 interface Props {
@@ -118,7 +119,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
   // ─── Intro Screen ──────────────────────────────────────────────────────────
   if (section === "intro") {
     return (
-      <div className="fixed inset-0 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom">
+      <div className="fixed max-w-xl mx-auto inset-0 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom">
         {/* Back button */}
         <button
           onClick={() => router.back()}
@@ -148,11 +149,12 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             {workout.name}
           </h1>
           <p className="text-slate-400 mb-2">
-            {workout.warmups.length} warmups · {workout.exercises.length}{" "}
-            exercises · {workout.cooldowns.length} stretches
+            {workout.warmups.length} warmups ·{" "}
+            {workout.exercises.filter((e) => !e.isRest).length} exercises ·{" "}
+            {workout.cooldowns.length} stretches
           </p>
           <p className="text-slate-500 text-sm mb-10">
-            ~{workout.estimatedDuration} minutes
+            ~{calculateWorkoutMinutes(workout)} minutes
           </p>
           <motion.button
             whileTap={{ scale: 0.96 }}
@@ -171,7 +173,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
   const exercise = isRest ? null : currentExercise;
 
   return (
-    <div className="fixed inset-0 bg-navy flex flex-col safe-top safe-bottom">
+    <div className="fixed max-w-xl mx-auto inset-0 bg-navy flex flex-col safe-top safe-bottom">
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 pt-2 pb-1 shrink-0">
         <div className="flex items-center gap-2">

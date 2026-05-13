@@ -47,7 +47,7 @@ const rest: Exercise = {
   id: "rest",
   name: "Rest",
   duration: REST_DURATION,
-  image: ["/images/exercises/rest.jpg"],
+  image: [],
   category: "exercise",
   target: "full body",
   isRest: true,
