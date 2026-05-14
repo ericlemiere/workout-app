@@ -56,7 +56,7 @@ function ExerciseRow({
     >
       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
         <ExerciseImage
-          src={exercise.image[0]}
+          src={exercise.image?.[0] ?? ""}
           alt=""
           className="w-full h-full"
           category={exercise.category}
