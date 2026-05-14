@@ -17,8 +17,8 @@ import { REST_DURATION } from "@/lib/workout";
 //  7  Standing Hip Rotations       7  Pike Push-Ups                 7  Tricep Stretch
 //  8  Shoulder Rotations           8  Tricep Dips                   8  Upper Back Stretch
 //  9  Pendulum Hamstring Stretch   9  Superman                      9  Calf Stretch
-// 10  Cat-Cow                     10  Glute Bridges                10  Figure-4 Stretch (combined)
-// 11  Hip Marching                11  Russian Twists               11  Deep Breathing
+// 10  Cat-Cow                     10  Glute Bridges                
+// 11  Hip Marching                11  Russian Twists               
 //                                 12  Jump Squats
 //                                 13  Side Lunges
 //                                 14  Wall Sit
@@ -59,6 +59,12 @@ function superset(e1: Exercise, e2: Exercise, e3?: Exercise): Exercise[] {
   return [...round, ...round];
 }
 
+// Final superset: repeats twice but removes rest from the second round
+function supersetFinal(e1: Exercise, e2: Exercise, e3?: Exercise): Exercise[] {
+  const round = [{ ...e1 }, { ...e2 }, ...(e3 ? [{ ...e3 }] : []), { ...rest }];
+  return [...round, ...round.slice(0, -1)];
+}
+
 // Every cooldown ends: Figure-4 Left → Figure-4 Right → Child's Pose
 const COOLDOWN_END = [C[4], C[5], C[0]];
 
@@ -78,9 +84,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[2], M[10]),
       ...superset(M[22], M[27]),
-      ...superset(M[14], M[29]),
+      ...supersetFinal(M[14], M[29]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 2 · Upper Body ─────────────────────────────────────────────────────────
@@ -96,9 +102,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[1], M[8]),
       ...superset(M[18], M[9]),
-      ...superset(M[6], M[7]),
+      ...supersetFinal(M[6], M[7]),
     ],
-    cooldowns: [C[6], C[8], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 3 · Core ───────────────────────────────────────────────────────────────
@@ -114,9 +120,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[4], M[23]),
       ...superset(M[24], M[25]),
-      ...superset(M[26], M[30]),
+      ...supersetFinal(M[26], M[30]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 4 · Full Body ──────────────────────────────────────────────────────────
@@ -132,9 +138,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[20], M[2]),
       ...superset(M[19], M[1]),
-      ...superset(M[10], M[3]),
+      ...supersetFinal(M[10], M[3]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 5 · Lower Body ─────────────────────────────────────────────────────────
@@ -150,9 +156,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[13], M[27]),
       ...superset(M[2], M[10]),
-      ...superset(M[17], M[28]),
+      ...supersetFinal(M[17], M[28]),
     ],
-    cooldowns: [C[9], C[2], ...COOLDOWN_END],
+    cooldowns: [C[9], C[2], C[1], ...COOLDOWN_END],
   },
 
   // ── 6 · Upper Body ─────────────────────────────────────────────────────────
@@ -168,9 +174,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[1], M[6]),
       ...superset(M[8], M[18]),
-      ...superset(M[15], M[16]),
+      ...supersetFinal(M[15], M[16]),
     ],
-    cooldowns: [C[7], C[8], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 7 · Core ───────────────────────────────────────────────────────────────
@@ -186,9 +192,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[23], M[24]),
       ...superset(M[4], M[16]),
-      ...superset(M[25], M[26]),
+      ...supersetFinal(M[25], M[26]),
     ],
-    cooldowns: [C[1], C[8], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
   },
 
   // ── 8 · Full Body ──────────────────────────────────────────────────────────
@@ -204,9 +210,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[12], M[1]),
       ...superset(M[20], M[4]),
-      ...superset(M[10], M[19]),
+      ...supersetFinal(M[10], M[19]),
     ],
-    cooldowns: [C[2], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 9 · Lower Body ─────────────────────────────────────────────────────────
@@ -222,9 +228,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[2], M[21]),
       ...superset(M[5], M[10]),
-      ...superset(M[22], M[27]),
+      ...supersetFinal(M[22], M[27]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 10 · Upper Body ────────────────────────────────────────────────────────
@@ -240,9 +246,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[18], M[7]),
       ...superset(M[6], M[8]),
-      ...superset(M[1], M[9]),
+      ...supersetFinal(M[1], M[9]),
     ],
-    cooldowns: [C[6], C[7], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 11 · Core ──────────────────────────────────────────────────────────────
@@ -258,9 +264,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[24], M[23]),
       ...superset(M[25], M[26]),
-      ...superset(M[4], M[3]),
+      ...supersetFinal(M[4], M[3]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 12 · Full Body ─────────────────────────────────────────────────────────
@@ -276,9 +282,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[19], M[5]),
       ...superset(M[20], M[16]),
-      ...superset(M[1], M[10]),
+      ...supersetFinal(M[1], M[10]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 13 · Lower Body ────────────────────────────────────────────────────────
@@ -294,9 +300,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[12], M[10]),
       ...superset(M[13], M[28]),
-      ...superset(M[22], M[29]),
+      ...supersetFinal(M[22], M[29]),
     ],
-    cooldowns: [C[2], C[3], ...COOLDOWN_END],
+    cooldowns: [C[2], C[3], C[9], ...COOLDOWN_END],
   },
 
   // ── 14 · Upper Body ────────────────────────────────────────────────────────
@@ -312,9 +318,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[6], M[18]),
       ...superset(M[7], M[16]),
-      ...superset(M[1], M[15]),
+      ...supersetFinal(M[1], M[15]),
     ],
-    cooldowns: [C[6], C[8], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 15 · Core ──────────────────────────────────────────────────────────────
@@ -330,9 +336,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[4], M[25]),
       ...superset(M[26], M[23]),
-      ...superset(M[24], M[16]),
+      ...supersetFinal(M[24], M[16]),
     ],
-    cooldowns: [C[1], C[8], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
   },
 
   // ── 16 · Full Body ─────────────────────────────────────────────────────────
@@ -348,9 +354,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[12], M[4]),
       ...superset(M[19], M[1]),
-      ...superset(M[20], M[10]),
+      ...supersetFinal(M[20], M[10]),
     ],
-    cooldowns: [C[2], C[1], ...COOLDOWN_END],
+    cooldowns: [C[2], C[1], C[3], ...COOLDOWN_END],
   },
 
   // ── 17 · Lower Body ────────────────────────────────────────────────────────
@@ -366,9 +372,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[2], M[10]),
       ...superset(M[12], M[21]),
-      ...superset(M[13], M[27]),
+      ...supersetFinal(M[13], M[27]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[9], ...COOLDOWN_END],
   },
 
   // ── 18 · Upper Body ────────────────────────────────────────────────────────
@@ -384,9 +390,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[1], M[7]),
       ...superset(M[6], M[8]),
-      ...superset(M[18], M[9]),
+      ...supersetFinal(M[18], M[9]),
     ],
-    cooldowns: [C[7], C[6], ...COOLDOWN_END],
+    cooldowns: [C[7], C[6], C[8], ...COOLDOWN_END],
   },
 
   // ── 19 · Core ──────────────────────────────────────────────────────────────
@@ -402,9 +408,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[23], M[24]),
       ...superset(M[3], M[4]),
-      ...superset(M[16], M[25]),
+      ...supersetFinal(M[16], M[25]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
   },
 
   // ── 20 · Full Body ─────────────────────────────────────────────────────────
@@ -420,9 +426,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[0], M[10]),
       ...superset(M[12], M[1]),
-      ...superset(M[19], M[4]),
+      ...supersetFinal(M[19], M[4]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 21 · Lower Body ────────────────────────────────────────────────────────
@@ -438,9 +444,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[22], M[29]),
       ...superset(M[13], M[27]),
-      ...superset(M[12], M[10]),
+      ...supersetFinal(M[12], M[10]),
     ],
-    cooldowns: [C[2], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 
   // ── 22 · Upper Body ────────────────────────────────────────────────────────
@@ -456,9 +462,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[6], M[18]),
       ...superset(M[1], M[8]),
-      ...superset(M[7], M[9]),
+      ...supersetFinal(M[7], M[9]),
     ],
-    cooldowns: [C[6], C[7], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 23 · Core ──────────────────────────────────────────────────────────────
@@ -474,9 +480,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[25], M[26]),
       ...superset(M[4], M[24]),
-      ...superset(M[23], M[3]),
+      ...supersetFinal(M[23], M[3]),
     ],
-    cooldowns: [C[1], C[8], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
   },
 
   // ── 24 · Full Body ─────────────────────────────────────────────────────────
@@ -492,9 +498,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[0], M[3]),
       ...superset(M[12], M[1]),
-      ...superset(M[20], M[4]),
+      ...supersetFinal(M[20], M[4]),
     ],
-    cooldowns: [C[2], C[3], ...COOLDOWN_END],
+    cooldowns: [C[2], C[3], C[9], ...COOLDOWN_END],
   },
 
   // ── 25 · Lower Body ────────────────────────────────────────────────────────
@@ -510,9 +516,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[12], M[21]),
       ...superset(M[13], M[28]),
-      ...superset(M[22], M[29]),
+      ...supersetFinal(M[22], M[29]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[9], ...COOLDOWN_END],
   },
 
   // ── 26 · Upper Body ────────────────────────────────────────────────────────
@@ -528,9 +534,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[1], M[6]),
       ...superset(M[18], M[7]),
-      ...superset(M[8], M[16]),
+      ...supersetFinal(M[8], M[16]),
     ],
-    cooldowns: [C[7], C[8], ...COOLDOWN_END],
+    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
   },
 
   // ── 27 · Core ──────────────────────────────────────────────────────────────
@@ -546,9 +552,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[4], M[23]),
       ...superset(M[24], M[3]),
-      ...superset(M[25], M[26]),
+      ...supersetFinal(M[25], M[26]),
     ],
-    cooldowns: [C[1], C[3], ...COOLDOWN_END],
+    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
   },
 
   // ── 28 · Full Body ─────────────────────────────────────────────────────────
@@ -564,9 +570,9 @@ export const workouts: Workout[] = [
     exercises: [
       ...superset(M[0], M[10]),
       ...superset(M[12], M[3]),
-      ...superset(M[19], M[1]),
+      ...supersetFinal(M[19], M[1]),
     ],
-    cooldowns: [C[1], C[2], ...COOLDOWN_END],
+    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
 ];
 

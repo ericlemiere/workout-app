@@ -188,12 +188,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   },
 
   skip: () => {
-    const { isGetReady } = get()
-    if (isGetReady) {
-      get().finishGetReady()
-    } else {
-      get().next()
-    }
+    get().next()
   },
 
   resetWorkout: () => {
@@ -221,11 +216,9 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
     const { workout, section, exerciseIndex } = get()
     if (!workout) return null
     const list = exercisesForSection(workout, section)
-    // Return the next real (non-rest) exercise
-    for (let i = exerciseIndex + 1; i < list.length; i++) {
-      if (!list[i].isRest) return list[i]
-    }
-    if (section === 'warmup') return workout.exercises.find(e => !e.isRest) ?? null
+    const immediate = list[exerciseIndex + 1]
+    if (immediate) return immediate
+    if (section === 'warmup') return workout.exercises[0] ?? null
     if (section === 'exercise') return workout.cooldowns[0] ?? null
     return null
   },

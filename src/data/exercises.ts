@@ -8,7 +8,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "burpees",
     name: "Burpees",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/burpees.jpg"],
     category: "exercise",
     target: "full body",
@@ -16,19 +16,69 @@ export const mainExercises: Exercise[] = [
       "Squat, jump feet back to plank, do a push-up, jump feet forward, then jump up with arms overhead.",
   },
   {
+    id: "burpee-walk",
+    name: "Burpee Walk",
+    duration: 30,
+    image: ["/images/exercises/burpee-walk.jpg"],
+    category: "exercise",
+    target: "full body",
+    instructions:
+      "Feet shoulder-width apart. Lower into a plank position then stand up.",
+  },
+  {
     id: "push-ups",
     name: "Push-Ups",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/push-ups.jpg"],
     category: "exercise",
     target: "chest",
     instructions:
-      "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor, press up.",
+      "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor and press up.",
+  },
+  {
+    id: "kneeling-push-ups",
+    name: "Kneeling Push-Ups",
+    duration: 30,
+    image: ["/images/exercises/kneeling-push-ups.jpg"],
+    category: "exercise",
+    target: "chest",
+    instructions:
+      "Hands shoulder-width, knees on the ground. Lower chest to floor and press up.",
+  },
+  {
+    id: "airplane-push-ups",
+    name: "Airplane Push-Ups",
+    duration: 30,
+    image: ["/images/exercises/airplane-push-ups.jpg"],
+    category: "exercise",
+    target: "chest",
+    instructions:
+      "Start in a push-up position. Rotate your torso and arm toward the ceiling and back. Do a push-up. Alternate sides.",
+  },
+  {
+    id: "wave-push-ups",
+    name: "Wave Push-Ups",
+    duration: 40,
+    image: ["/images/exercises/wave-push-ups.jpg"],
+    category: "exercise",
+    target: "chest",
+    instructions:
+      "Start in a push-up position. Lower yourself to the floor in a wave motion from knees to chest to shoulders. Reverse the motion to push back up.",
+  },
+  {
+    id: "spider-cross-planks",
+    name: "Spider Cross Planks",
+    duration: 40,
+    image: ["/images/exercises/spider-cross-planks.jpg"],
+    category: "exercise",
+    target: "upper body",
+    instructions:
+      "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. Alternate sides.",
   },
   {
     id: "squats",
     name: "Squats",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/squats.jpg"],
     category: "exercise",
     target: "lower body",
@@ -38,7 +88,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "mountain-climbers",
     name: "Mountain Climbers",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/mountain-climbers.jpg"],
     category: "exercise",
     target: "core",
@@ -48,7 +98,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "plank",
     name: "Plank Hold",
-    duration: 45,
+    duration: 40,
     image: ["/images/exercises/plank.jpg"],
     category: "exercise",
     target: "core",
@@ -58,57 +108,17 @@ export const mainExercises: Exercise[] = [
   {
     id: "lunges",
     name: "Alternating Lunges",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/lunges.jpg"],
     category: "exercise",
     target: "lower body",
     instructions:
-      "Step forward, lower back knee toward floor. Return to standing. Alternate legs. Keep torso upright.",
-  },
-  {
-    id: "diamond-push-ups",
-    name: "Diamond Push-Ups",
-    duration: 40,
-    image: ["/images/exercises/diamond-push-ups.jpg"],
-    category: "exercise",
-    target: "arms",
-    instructions:
-      "Place hands close together under chest, forming a diamond shape. Lower chest to hands, press up.",
-  },
-  {
-    id: "pike-push-ups",
-    name: "Pike Push-Ups",
-    duration: 40,
-    image: ["/images/exercises/pike-push-ups.jpg"],
-    category: "exercise",
-    target: "shoulders",
-    instructions:
-      "Form an inverted V. Bend elbows to lower head toward floor, then press back up.",
-  },
-  {
-    id: "tricep-dips",
-    name: "Tricep Dips",
-    duration: 40,
-    image: ["/images/exercises/tricep-dips.jpg"],
-    category: "exercise",
-    target: "arms",
-    instructions:
-      "Use a chair or floor. Hands behind you, fingers forward. Lower hips by bending elbows, then press up.",
-  },
-  {
-    id: "superman",
-    name: "Superman",
-    duration: 40,
-    image: ["/images/exercises/superman.jpg"],
-    category: "exercise",
-    target: "back",
-    instructions:
-      "Lie face down, arms forward. Simultaneously lift arms, chest, and legs off floor. Hold briefly, lower.",
+      "Step forward, lower your back knee toward floor. Return to standing. Alternate legs. Keep torso upright.",
   },
   {
     id: "glute-bridges",
     name: "Glute Bridges",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/glute-bridges.jpg"],
     category: "exercise",
     target: "glutes",
@@ -116,9 +126,19 @@ export const mainExercises: Exercise[] = [
       "Lie on back, knees bent. Drive hips up by squeezing glutes. Hold 1 second at top, lower slowly.",
   },
   {
+    id: "glute-bridge-holds",
+    name: "Glute Bridge Holds",
+    duration: 30,
+    image: ["/images/exercises/glute-bridge-holds.jpg"],
+    category: "exercise",
+    target: "glutes",
+    instructions:
+      "Lie on back, knees bent. Drive hips up by squeezing glutes and hold.",
+  },
+  {
     id: "russian-twists",
     name: "Russian Twists",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/russian-twists.jpg"],
     category: "exercise",
     target: "core",
@@ -128,7 +148,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "jump-squats",
     name: "Jump Squats",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/jump-squats.jpg"],
     category: "exercise",
     target: "lower body",
@@ -138,7 +158,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "side-lunges",
     name: "Side Lunges",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/side-lunges.jpg"],
     category: "exercise",
     target: "lower body",
@@ -146,19 +166,9 @@ export const mainExercises: Exercise[] = [
       "Step wide to the right, bend right knee, keep left leg straight. Push back to center. Alternate sides.",
   },
   {
-    id: "wall-sit",
-    name: "Wall Sit",
-    duration: 45,
-    image: ["/images/exercises/wall-sit.jpg"],
-    category: "exercise",
-    target: "lower body",
-    instructions:
-      "Slide back against wall until thighs are parallel to floor. Hold position. Keep back flat against wall.",
-  },
-  {
     id: "inchworms",
     name: "Inchworms",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/inchworms.jpg"],
     category: "exercise",
     target: "full body",
@@ -168,7 +178,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "plank-shoulder-taps",
     name: "Plank Shoulder Taps",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/plank-shoulder-taps.jpg"],
     category: "exercise",
     target: "core",
@@ -178,7 +188,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "calf-raises",
     name: "Calf Raises",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/calf-raises.jpg"],
     category: "exercise",
     target: "lower body",
@@ -186,19 +196,9 @@ export const mainExercises: Exercise[] = [
       "Stand with feet hip-width. Rise onto toes as high as possible, lower slowly. Use a wall for balance if needed.",
   },
   {
-    id: "wide-push-ups",
-    name: "Wide Push-Ups",
-    duration: 40,
-    image: ["/images/exercises/wide-push-ups.jpg"],
-    category: "exercise",
-    target: "chest",
-    instructions:
-      "Hands wider than shoulder-width, fingers angled out. Lower chest to floor, press up. Targets outer chest.",
-  },
-  {
     id: "high-knees",
     name: "High Knees",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/high-knees.jpg"],
     category: "exercise",
     target: "lower body",
@@ -228,19 +228,18 @@ export const mainExercises: Exercise[] = [
   {
     id: "reverse-lunges",
     name: "Reverse Lunges",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/reverse-lunges.jpg"],
     category: "exercise",
     target: "lower body",
     instructions:
       "Step backward and lower back knee toward floor. Drive front foot through heel to return. Alternate legs.",
   },
-  // ── Back-safe core & glute exercises (indices 23–30) ──────────────────────
-  // 23
+
   {
     id: "dead-bug",
     name: "Dead Bug",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/dead-bug.jpg"],
     category: "exercise",
     target: "core",
@@ -251,7 +250,7 @@ export const mainExercises: Exercise[] = [
   {
     id: "bird-dog",
     name: "Bird Dog",
-    duration: 40,
+    duration: 30,
     image: ["/images/exercises/bird-dog.jpg"],
     category: "exercise",
     target: "core",
@@ -260,36 +259,14 @@ export const mainExercises: Exercise[] = [
   },
   // 25
   {
-    id: "side-plank-left",
-    name: "Side Plank Left",
-    duration: 30,
-    image: ["/images/exercises/side-plank-left.jpg"],
-    category: "exercise",
-    target: "core",
-    instructions:
-      "Lie on your left side, forearm on the floor, elbow under shoulder. Lift hips to form a straight line. Hold. Modify by keeping bottom knee down.",
-  },
-  // 26
-  {
-    id: "side-plank-right",
-    name: "Side Plank Right",
-    duration: 30,
-    image: ["/images/exercises/side-plank-right.jpg"],
-    category: "exercise",
-    target: "core",
-    instructions:
-      "Lie on your right side, forearm on the floor, elbow under shoulder. Lift hips to form a straight line. Hold. Modify by keeping bottom knee down.",
-  },
-  // 27
-  {
-    id: "clamshells",
-    name: "Clamshells",
+    id: "plank-rotations",
+    name: "Plank Rotations",
     duration: 40,
-    image: ["/images/exercises/clamshells.jpg"],
+    image: ["/images/exercises/plank-rotations.jpg"],
     category: "exercise",
-    target: "glutes",
+    target: "core",
     instructions:
-      "Lie on your side, hips stacked, knees bent. Keeping feet together, rotate top knee upward like a clamshell. Do 20 seconds each side.",
+      "Start in a forearm plank. Rotate your torso and reach one arm toward the ceiling, then return to plank. Alternate sides.",
   },
   // 28
   {

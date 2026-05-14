@@ -223,11 +223,6 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
                 <p className="text-emerald-400 font-semibold text-lg">
                   Take a breath
                 </p>
-                {nextExercise && (
-                  <p className="text-slate-500 text-sm mt-1">
-                    Next: {nextExercise.name}
-                  </p>
-                )}
               </div>
             ) : (
               <ExerciseImage
@@ -254,11 +249,6 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           <h2 className="text-offwhite text-2xl font-bold leading-snug">
             {isRest ? "Rest" : (exercise?.name ?? "")}
           </h2>
-          {!isRest && exercise?.target && (
-            <p className="text-slate-500 text-sm mt-0.5 capitalize">
-              {exercise.target}
-            </p>
-          )}
         </motion.div>
       </AnimatePresence>
 
@@ -267,29 +257,27 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
         <CircularTimer
           progress={progress}
           remainingMs={remainingMs}
-          size={180}
-          strokeWidth={7}
+          size={160}
+          strokeWidth={5}
           isRest={isRest}
         />
-        {isGetReady && (
-          <span className="absolute top-1/8 text-4xl uppercase font-bold tracking-widest text-offwhite animate-pulse">
-            Get Ready
-          </span>
-        )}
       </div>
-
-      {/* Instructions hint */}
-      {!isRest && exercise?.instructions && (
-        <div className="px-4 pb-2 shrink-0">
-          <p className="text-offwhite text-sm leading-relaxed line-clamp-2">
-            {exercise.instructions}
-          </p>
-        </div>
-      )}
 
       {/* Next up */}
       <div className="px-4 pb-1 shrink-0 min-h-9">
-        {nextExercise && !isRest && !isGetReady && (
+        {isGetReady && (
+          <motion.p
+            key={`get-ready-${section}-${exerciseIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-lime text-sm"
+          >
+            <span className="uppercase font-bold tracking-widest animate-pulse">
+              Get Ready
+            </span>
+          </motion.p>
+        )}
+        {nextExercise && !isGetReady && (
           <motion.p
             key={`next-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
@@ -297,13 +285,19 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             className="text-slate-500 text-sm"
           >
             <span className="text-slate-600">Next →</span>{" "}
-            <span className="text-slate-400">{nextExercise.name}</span>
+            <span
+              className={
+                nextExercise.isRest ? "text-emerald-400" : "text-slate-400"
+              }
+            >
+              {nextExercise.isRest ? "Rest" : nextExercise.name}
+            </span>
           </motion.p>
         )}
       </div>
 
       {/* Controls */}
-      <div className="px-6 pb-6 pt-2 shrink-0 relative z-20">
+      <div className="px-6 pb-6 pt-2 shrink-0 relative">
         <div className="flex items-center justify-between gap-4">
           {/* Prev */}
           <motion.button
@@ -328,7 +322,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           <motion.button
             whileTap={{ scale: 0.94 }}
             onClick={handlePauseResume}
-            className="flex-1 h-16 rounded-2xl bg-lime flex items-center justify-center gap-2 active:bg-lime-dim"
+            className="flex-1 h-14 rounded-2xl bg-lime flex items-center justify-center gap-2 active:bg-lime-dim z-20"
             aria-label={isPaused ? "Resume" : "Pause"}
           >
             <AnimatePresence mode="wait">
@@ -396,29 +390,6 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
         </div>
       </div>
 
-      {/* Quit button — slides in when paused */}
-      <AnimatePresence>
-        {isPaused && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute bottom-30 left-0 right-0 w-full flex items-center justify-center shrink-0 z-20"
-          >
-            <button
-              onClick={() => {
-                resetWorkout();
-                router.replace("/");
-              }}
-              className="w-70 m-auto h-16 text-slate-400 text-lg font-semibold rounded-2xl border border-lime/60 active:bg-charcoal"
-            >
-              Quit Workout
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Pause overlay */}
       <AnimatePresence>
         {isPaused && (
@@ -426,16 +397,28 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 bg-navy/70 backdrop-blur-sm flex items-center justify-center pointer-events-none"
+            className="absolute inset-0 z-10 bg-navy/90 backdrop-blur-sm flex items-center justify-center pointer-events-none"
           >
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="text-slate-400 text-lg font-semibold tracking-widest uppercase"
+            <button
+              onClick={() => {
+                resetWorkout();
+                router.replace("/");
+              }}
+              className="pointer-events-auto w-60 m-auto h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-lime flex items-center justify-center gap-2"
             >
-              Paused
-            </motion.div>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="w-5.5 h-5.5 text-lime"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" />
+              </svg>
+              Stop Workout
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -88,7 +88,7 @@ export const cooldownExercises: Exercise[] = [
   {
     id: "upper-back-stretch",
     name: "Upper Back Stretch",
-    duration: 20,
+    duration: 30,
     image: ["/images/exercises/upper-back-stretch.jpg"],
     category: "cool-down",
     target: "back",
@@ -104,5 +104,25 @@ export const cooldownExercises: Exercise[] = [
     target: "back",
     instructions:
       "On hands and knees, inhale and let your belly drop (Cow), then exhale and round your spine toward the ceiling (Cat). Move slowly through the full range.",
+  },
+  {
+    id: "spinal-twist",
+    name: "Spinal Twist",
+    duration: 30,
+    image: ["/images/exercises/spinal-twist.jpg"],
+    category: "cool-down",
+    target: "back",
+    instructions:
+      "Lie on your back, knees bent. Drop both knees to one side while keeping shoulders flat. Hold, then switch sides.",
+  },
+  {
+    id: "plank-to-downward-dog",
+    name: "Plank to Downward Dog",
+    duration: 30,
+    image: ["/images/exercises/plank-to-downward-dog.jpg"],
+    category: "cool-down",
+    target: "full body",
+    instructions:
+      "Start in a plank position. Push hips up and back into a downward dog. Hold, then return to plank.",
   },
 ];

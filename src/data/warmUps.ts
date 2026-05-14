@@ -116,4 +116,15 @@ export const warmupExercises: Exercise[] = [
     instructions:
       "March in place, lifting one knee at a time as high as comfortable. Engage your core throughout.",
   },
+
+  {
+    id: "rotating-toe-touches",
+    name: "Rotating Toe Touches",
+    duration: 20,
+    image: ["/images/exercises/rotating-toe-touches.jpg"],
+    category: "warm-up",
+    target: "lower body",
+    instructions:
+      "Stand with feet hip-width apart. Reach your right hand to your left foot while twisting your torso. Alternate sides.",
+  },
 ];
