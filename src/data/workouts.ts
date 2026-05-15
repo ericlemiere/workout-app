@@ -8,36 +8,34 @@ import { REST_DURATION } from "@/lib/workout";
 //
 // warmupExercises (W)             mainExercises (M)               cooldownExercises (C)
 //  0  Dynamic Side Bends           0  Burpees                       0  Child's Pose
-//  1  Chest Openers w/ Rotation    1  Push-Ups                      1  Hip Flexor Stretch
-//  2  Deep Side-to-Side Lunges     2  Squats                        2  Quad Stretch
-//  3  Torso Twists                 3  Mountain Climbers             3  Seated Hamstring Stretch
-//  4  Active Calf Stretch          4  Plank Hold                    4  Figure-4 Left Stretch
-//  5  Malasana Squat               5  Alternating Lunges            5  Figure-4 Right Stretch
-//  6  Roll Downs                   6  Diamond Push-Ups              6  Chest Stretch
-//  7  Standing Hip Rotations       7  Pike Push-Ups                 7  Tricep Stretch
-//  8  Shoulder Rotations           8  Tricep Dips                   8  Upper Back Stretch
-//  9  Pendulum Hamstring Stretch   9  Superman                      9  Calf Stretch
-// 10  Cat-Cow                     10  Glute Bridges                
-// 11  Hip Marching                11  Russian Twists               
-//                                 12  Jump Squats
-//                                 13  Side Lunges
-//                                 14  Wall Sit
-//                                 15  Inchworms
-//                                 16  Plank Shoulder Taps
-//                                 17  Calf Raises
-//                                 18  Wide Push-Ups
+//  1  Chest Openers w/ Rotation    1  Burpee Walk                   1  Hip Flexor Stretch
+//  2  Deep Side-to-Side Lunges     2  Push-Ups                      2  Quad Stretch
+//  3  Torso Twists                 3  Kneeling Push-Ups             3  Seated Hamstring Stretch
+//  4  Active Calf Stretch          4  Airplane Push-Ups             4  Figure-4 Left Stretch
+//  5  Malasana Squat               5  Wave Push-Ups                 5  Figure-4 Right Stretch
+//  6  Roll Downs                   6  Spider Cross Planks           6  Chest Stretch
+//  7  Standing Hip Rotations       7  Squats                        7  Tricep Stretch
+//  8  Shoulder Rotations           8  Mountain Climbers             8  Upper Back Stretch
+//  9  Pendulum Hamstring Stretch   9  Plank Hold                    9  Calf Stretch
+// 10  Hip Marching                10  Alternating Lunges
+// 11  Rotating Toe Touches        11  Glute Bridges
+//                                 12  Glute Bridge Holds
+//                                 13  Russian Twists
+//                                 14  Jump Squats
+//                                 15  Side Lunges
+//                                 16  Inchworms
+//                                 17  Plank Shoulder Taps
+//                                 18  Calf Raises
 //                                 19  High Knees
 //                                 20  Jumping Jacks
 //                                 21  Single Leg Deadlift
 //                                 22  Reverse Lunges
 //                                 23  Dead Bug
 //                                 24  Bird Dog
-//                                 25  Side Plank Left
-//                                 26  Side Plank Right
-//                                 27  Clamshells
-//                                 28  Fire Hydrant
-//                                 29  Donkey Kicks
-//                                 30  Pelvic Tilts
+//                                 25  Plank Rotations
+//                                 26  Fire Hydrant
+//                                 27  Donkey Kicks
+//                                 28  Pelvic Tilts
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -79,12 +77,12 @@ export const workouts: Workout[] = [
       "Foundation lower body session. Focuses on glutes and leg stability with gentle, back-safe movements.",
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "foundation"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[10], W[7], W[4], W[5], W[3]],
     exercises: [
       ...superset(M[2], M[10]),
       ...superset(M[22], M[27]),
-      ...supersetFinal(M[14], M[29]),
+      ...supersetFinal(M[14], M[27]),
     ],
     cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
@@ -97,7 +95,7 @@ export const workouts: Workout[] = [
       "Foundational push and arm strength. All movements supported to protect the lower back.",
     estimatedDuration: 20,
     tags: ["upper body", "push", "foundation"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[0], W[1], W[3], W[8], W[6]],
     exercises: [
       ...superset(M[1], M[8]),
@@ -115,12 +113,12 @@ export const workouts: Workout[] = [
       "Anti-extension and anti-rotation core work. Zero spinal flexion — completely safe for lower back pain.",
     estimatedDuration: 20,
     tags: ["core", "foundation", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[10], W[6], W[0], W[3], W[4]],
     exercises: [
       ...superset(M[4], M[23]),
       ...superset(M[24], M[25]),
-      ...supersetFinal(M[26], M[30]),
+      ...supersetFinal(M[26], M[28]),
     ],
     cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
   },
@@ -133,7 +131,7 @@ export const workouts: Workout[] = [
       "A total-body conditioning circuit mixing cardio, lower body, and upper body movements.",
     estimatedDuration: 20,
     tags: ["full body", "cardio", "foundation"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[2], W[3], W[4], W[7]],
     exercises: [
       ...superset(M[20], M[2]),
@@ -151,7 +149,7 @@ export const workouts: Workout[] = [
       "Lateral leg strength and glute activation. Side lunges and hip work improve stability.",
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "lateral"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[7], W[2], W[5], W[4], W[3]],
     exercises: [
       ...superset(M[13], M[27]),
@@ -169,7 +167,7 @@ export const workouts: Workout[] = [
       "Upper body strength with tricep and shoulder emphasis. Finishes with a full-body movement pattern.",
     estimatedDuration: 20,
     tags: ["upper body", "triceps", "shoulders"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[0], W[8], W[1], W[3], W[6]],
     exercises: [
       ...superset(M[1], M[6]),
@@ -187,7 +185,7 @@ export const workouts: Workout[] = [
       "Core stability deepening. Progresses from dead bug to plank to lateral holds.",
     estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[0], W[3], W[10], W[7], W[4]],
     exercises: [
       ...superset(M[23], M[24]),
@@ -205,7 +203,7 @@ export const workouts: Workout[] = [
       "Power and endurance combined. Jump squats, push-ups, and planks challenge every muscle.",
     estimatedDuration: 20,
     tags: ["full body", "power", "endurance"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[3], W[2], W[7], W[4]],
     exercises: [
       ...superset(M[12], M[1]),
@@ -223,7 +221,7 @@ export const workouts: Workout[] = [
       "Single-leg stability and glute strength. Builds balance and protects the lower back.",
     estimatedDuration: 20,
     tags: ["lower body", "stability", "single-leg"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[2], W[7], W[5], W[4], W[3]],
     exercises: [
       ...superset(M[2], M[21]),
@@ -241,7 +239,7 @@ export const workouts: Workout[] = [
       "Chest and shoulder focus. Wide and pike push-up variations hit different angles.",
     estimatedDuration: 20,
     tags: ["upper body", "chest", "shoulders"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[1], W[0], W[3], W[6], W[8]],
     exercises: [
       ...superset(M[18], M[7]),
@@ -259,7 +257,7 @@ export const workouts: Workout[] = [
       "Bird dog, dead bug and side planks. Maximum spinal stability with zero compression.",
     estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[3], W[0], W[10], W[7], W[4]],
     exercises: [
       ...superset(M[24], M[23]),
@@ -277,7 +275,7 @@ export const workouts: Workout[] = [
       "High-knee cardio with lunges and push strength. Keeps heart rate up while building muscle.",
     estimatedDuration: 20,
     tags: ["full body", "cardio", "strength"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[2], W[0], W[3], W[7], W[4]],
     exercises: [
       ...superset(M[19], M[5]),
@@ -295,12 +293,12 @@ export const workouts: Workout[] = [
       "Explosive lower body with jump squats. Glute bridges balance the power work.",
     estimatedDuration: 20,
     tags: ["lower body", "power", "glutes"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[2], W[7], W[4], W[3], W[5]],
     exercises: [
       ...superset(M[12], M[10]),
       ...superset(M[13], M[28]),
-      ...supersetFinal(M[22], M[29]),
+      ...supersetFinal(M[22], M[27]),
     ],
     cooldowns: [C[2], C[3], C[9], ...COOLDOWN_END],
   },
@@ -313,7 +311,7 @@ export const workouts: Workout[] = [
       "Tricep and shoulder endurance. Plank shoulder taps add core stability to the mix.",
     estimatedDuration: 20,
     tags: ["upper body", "triceps", "endurance"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[0], W[1], W[8], W[3], W[6]],
     exercises: [
       ...superset(M[6], M[18]),
@@ -331,7 +329,7 @@ export const workouts: Workout[] = [
       "Plank and side plank progressions. Builds lateral core strength vital for lower back protection.",
     estimatedDuration: 20,
     tags: ["core", "lateral strength", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[0], W[10], W[3], W[7], W[4]],
     exercises: [
       ...superset(M[4], M[25]),
@@ -349,7 +347,7 @@ export const workouts: Workout[] = [
       "Jump squats, push strength and glute bridges. A well-rounded conditioning circuit.",
     estimatedDuration: 20,
     tags: ["full body", "conditioning", "strength"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[2], W[7], W[3], W[4]],
     exercises: [
       ...superset(M[12], M[4]),
@@ -367,7 +365,7 @@ export const workouts: Workout[] = [
       "Progressive lower body strength. Single-leg deadlifts and jump squats challenge balance and power.",
     estimatedDuration: 20,
     tags: ["lower body", "strength", "balance"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[7], W[2], W[4], W[5], W[3]],
     exercises: [
       ...superset(M[2], M[10]),
@@ -385,7 +383,7 @@ export const workouts: Workout[] = [
       "Push-up strength from multiple angles. Diamond, pike, and wide push-ups hit every upper body fiber.",
     estimatedDuration: 20,
     tags: ["upper body", "push", "strength"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[1], W[0], W[8], W[6], W[3]],
     exercises: [
       ...superset(M[1], M[7]),
@@ -403,7 +401,7 @@ export const workouts: Workout[] = [
       "Mountain climbers, dead bug and plank shoulder taps. High-demand core session.",
     estimatedDuration: 20,
     tags: ["core", "strength", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[3], W[0], W[7], W[10], W[4]],
     exercises: [
       ...superset(M[23], M[24]),
@@ -421,7 +419,7 @@ export const workouts: Workout[] = [
       "Burpees enter the mix. A challenging full-body session with glute bridge recovery.",
     estimatedDuration: 20,
     tags: ["full body", "intense", "strength"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[3], W[2], W[4], W[7]],
     exercises: [
       ...superset(M[0], M[10]),
@@ -439,10 +437,10 @@ export const workouts: Workout[] = [
       "Reverse lunges, clamshells and jump squats. Glute endurance is the priority.",
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "endurance"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[2], W[7], W[5], W[3], W[4]],
     exercises: [
-      ...superset(M[22], M[29]),
+      ...superset(M[22], M[27]),
       ...superset(M[13], M[27]),
       ...supersetFinal(M[12], M[10]),
     ],
@@ -457,7 +455,7 @@ export const workouts: Workout[] = [
       "High-rep push challenge. Back-to-back push-up variations will test your endurance.",
     estimatedDuration: 20,
     tags: ["upper body", "endurance", "push"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[0], W[8], W[1], W[6], W[3]],
     exercises: [
       ...superset(M[6], M[18]),
@@ -475,7 +473,7 @@ export const workouts: Workout[] = [
       "Side plank, bird dog and mountain climbers. Attacks all planes of core stability.",
     estimatedDuration: 20,
     tags: ["core", "advanced", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[0], W[3], W[7], W[10], W[4]],
     exercises: [
       ...superset(M[25], M[26]),
@@ -493,7 +491,7 @@ export const workouts: Workout[] = [
       "Burpees and mountain climbers paired with power squats. A high-intensity full-body session.",
     estimatedDuration: 20,
     tags: ["full body", "intense", "cardio"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[2], W[3], W[7], W[4]],
     exercises: [
       ...superset(M[0], M[3]),
@@ -511,12 +509,12 @@ export const workouts: Workout[] = [
       "Peak lower body session. Explosive and stability work combined for maximum glute and leg strength.",
     estimatedDuration: 20,
     tags: ["lower body", "peak", "glutes"],
-    coverImage: "/images/workouts/lower-body.jpg",
+    coverImage: "/images/workouts/lower-body.png",
     warmups: [W[7], W[2], W[5], W[4], W[3]],
     exercises: [
       ...superset(M[12], M[21]),
       ...superset(M[13], M[28]),
-      ...supersetFinal(M[22], M[29]),
+      ...supersetFinal(M[22], M[27]),
     ],
     cooldowns: [C[1], C[3], C[9], ...COOLDOWN_END],
   },
@@ -529,7 +527,7 @@ export const workouts: Workout[] = [
       "Peak upper body session. A full push-up ladder plus tricep and core stability.",
     estimatedDuration: 20,
     tags: ["upper body", "peak", "push"],
-    coverImage: "/images/workouts/upper-body.jpg",
+    coverImage: "/images/workouts/upper-body.png",
     warmups: [W[1], W[0], W[3], W[8], W[6]],
     exercises: [
       ...superset(M[1], M[6]),
@@ -547,7 +545,7 @@ export const workouts: Workout[] = [
       "Peak core session. Plank, dead bug and side planks for total spinal stability.",
     estimatedDuration: 20,
     tags: ["core", "peak", "back safe"],
-    coverImage: "/images/workouts/core.jpg",
+    coverImage: "/images/workouts/core.png",
     warmups: [W[3], W[0], W[10], W[4], W[7]],
     exercises: [
       ...superset(M[4], M[23]),
@@ -565,7 +563,7 @@ export const workouts: Workout[] = [
       "The final workout. Burpees, jump squats and mountain climbers test everything you've built.",
     estimatedDuration: 20,
     tags: ["full body", "peak", "challenge"],
-    coverImage: "/images/workouts/full-body.jpg",
+    coverImage: "/images/workouts/full-body.png",
     warmups: [W[0], W[2], W[3], W[4], W[7]],
     exercises: [
       ...superset(M[0], M[10]),
