@@ -23,12 +23,12 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lunar Gravity",
+  title: "MOOV",
   description: "Your personal 20-minute workout cycle",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Lunar Gravity",
+    title: "MOOV",
   },
 };
 

@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Lunar Gravity",
-    short_name: "Lunar Gravity",
+    name: "MOOV",
+    short_name: "MOOV",
     description: "Your personal 20-minute workout cycle",
     start_url: "/",
     display: "standalone",

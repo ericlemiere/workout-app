@@ -47,11 +47,11 @@ export function WorkoutLibrary({ workouts }: Props) {
   return (
     <div className="min-h-screen max-w-xl mx-auto bg-navy pb-28 safe-top">
       {/* Header */}
-      <div className="p-0">
+      <div className="py-2">
         <div className="w-full overflow-hidden relative">
           <Image
-            src="/header-image.png"
-            alt="Lunar Gravity Logo"
+            src="/moov-horizontal-logo.png"
+            alt="MOOV Logo"
             width={850}
             height={289}
             className="w-full h-auto"
@@ -60,7 +60,7 @@ export function WorkoutLibrary({ workouts }: Props) {
 
           {/* <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent via-70% to-navy" /> */}
         </div>
-        <h1 className="sr-only">Lunar Gravity</h1>
+        <h1 className="sr-only">MOOV</h1>
       </div>
 
       {/* Stats row */}
@@ -120,7 +120,7 @@ export function WorkoutLibrary({ workouts }: Props) {
             >
               <Link href={`/workout/${workout.id}`} className="block">
                 <div
-                  className={`aspect-square rounded border flex flex-col items-center justify-center relative ${bg} shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
+                  className={`aspect-square rounded border flex flex-col items-center justify-center relative shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
                 >
                   <span
                     className={`text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : tc}`}
