@@ -25,6 +25,18 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: "MOOV",
   description: "Your personal 20-minute workout cycle",
+  openGraph: {
+    title: "MOOV",
+    description: "Your personal 20-minute workout cycle",
+    url: "https://moov-1.vercel.app/",
+    siteName: "MOOV",
+    images: [{ url: "https://moov-1.vercel.app/opengraph-image.jpg" }],
+    type: "website",
+  },
+  icons: {
+    icon: "/icons/favicon.ico",
+    apple: "/icons/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { Workout } from '@/types'
 import { ExerciseImage } from '@/components/ui/ExercisePlaceholder'
+import { calculateWorkoutMinutes } from '@/lib/workout'
 
 interface Props {
   workout: Workout
@@ -62,7 +63,7 @@ export function WorkoutCard({ workout, completedCount = 0 }: Props) {
                   <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5" />
                   <path d="M8 4v4l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
-                ~{workout.estimatedDuration}m
+                {calculateWorkoutMinutes(workout)}m
               </span>
               <span>·</span>
               <span>{totalExercises} moves</span>

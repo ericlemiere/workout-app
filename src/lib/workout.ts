@@ -1,7 +1,7 @@
 import type { Workout } from "@/types";
 
 export const REST_DURATION = 30;
-export const GET_READY_SECS = 10;
+export const GET_READY_SECS = 8;
 
 export function calculateWorkoutMinutes(workout: Workout): number {
   const realExerciseCount =

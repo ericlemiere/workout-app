@@ -6,6 +6,9 @@ import type { Workout, Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatDuration } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
+import { MdOutlineTimer } from "react-icons/md";
+import { SlTarget } from "react-icons/sl";
+import { GrYoga } from "react-icons/gr";
 
 interface Props {
   workout: Workout;
@@ -128,9 +131,18 @@ export function WorkoutDetailScreen({ workout }: Props) {
         {/* Stats pills */}
         <div className="flex gap-2 flex-wrap mb-6">
           {[
-            { label: `~${estimatedMinutes}m`, icon: "⏱" },
-            { label: `${totalRealExercises} moves`, icon: "💪" },
-            { label: workout.tags[0] ?? "general", icon: "🎯" },
+            {
+              label: `${estimatedMinutes}m`,
+              icon: <MdOutlineTimer color="#b7e63b" />,
+            },
+            {
+              label: `${totalRealExercises} moves`,
+              icon: <GrYoga color="#b7e63b" />,
+            },
+            {
+              label: workout.tags[0] ?? "general",
+              icon: <SlTarget color="#b7e63b" />,
+            },
           ].map(({ label, icon }) => (
             <span
               key={label}

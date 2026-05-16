@@ -144,7 +144,11 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <div className="text-6xl mb-6">💪</div>
+          <img
+            src={workout.coverImage}
+            alt={workout.name}
+            className="w-24 h-24 rounded-2xl object-cover mb-6 mx-auto"
+          />
           <h1 className="text-offwhite text-3xl font-bold mb-2">
             {workout.name}
           </h1>
@@ -154,7 +158,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             {workout.cooldowns.length} stretches
           </p>
           <p className="text-slate-500 text-sm mb-10">
-            ~{calculateWorkoutMinutes(workout)} minutes
+            {calculateWorkoutMinutes(workout)} minutes
           </p>
           <motion.button
             whileTap={{ scale: 0.96 }}
@@ -270,7 +274,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             key={`get-ready-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-lime text-sm"
+            className="text-lime text-lg"
           >
             <span className="uppercase font-bold tracking-widest animate-pulse">
               Get Ready
@@ -282,7 +286,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             key={`next-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-slate-500 text-sm"
+            className="text-slate-500 text-lg"
           >
             <span className="text-slate-600">Next →</span>{" "}
             <span

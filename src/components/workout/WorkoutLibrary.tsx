@@ -50,7 +50,7 @@ export function WorkoutLibrary({ workouts }: Props) {
       <div className="py-2">
         <div className="w-full overflow-hidden relative">
           <Image
-            src="/moov-horizontal-logo.png"
+            src="/moov-logo-transparent.png"
             alt="MOOV Logo"
             width={850}
             height={289}
@@ -108,6 +108,7 @@ export function WorkoutLibrary({ workouts }: Props) {
           const done = completedIds.has(workout.id);
           const focus = focusTag(workout.tags);
           const bg = tagColor[focus] ?? "bg-slate-800/60 border-slate-700/50";
+          const border = tagColor[focus]?.replace("/15", "/25") ?? "border-slate-700/50";
           const tc = tagTextColor[focus] ?? "text-slate-400";
 
           return (
@@ -120,10 +121,10 @@ export function WorkoutLibrary({ workouts }: Props) {
             >
               <Link href={`/workout/${workout.id}`} className="block">
                 <div
-                  className={`aspect-square rounded border flex flex-col items-center justify-center relative shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
+                  className={`aspect-square rounded border-2 ${border} flex flex-col items-center justify-center relative shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
                 >
                   <span
-                    className={`text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : tc}`}
+                    className={`text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : ''}`}
                   >
                     {num}
                   </span>

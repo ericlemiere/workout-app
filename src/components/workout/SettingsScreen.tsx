@@ -55,12 +55,22 @@ const confirmContent: Record<
   },
 };
 
+const APP_URL = "https://moov-1.vercel.app/";
+
 export function SettingsScreen() {
   const settings = useProgressStore((s) => s.settings);
   const updateSettings = useProgressStore((s) => s.updateSettings);
   const resetGrid = useProgressStore((s) => s.resetGrid);
   const resetAllStats = useProgressStore((s) => s.resetAllStats);
   const [confirmMode, setConfirmMode] = useState<ConfirmMode>(null);
+
+  async function handleShare() {
+    try {
+      await navigator.share({
+        text: `Check out MOOV — a personal workout app.\n\n${APP_URL}`,
+      });
+    } catch (_) {}
+  }
 
   function handleConfirm() {
     if (confirmMode === "grid") resetGrid();
@@ -106,14 +116,44 @@ export function SettingsScreen() {
         <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
           About
         </h2>
-        <div className="bg-charcoal/50 rounded-2xl px-4 py-4">
-          <p className="text-slate-400 text-sm leading-relaxed">
-            A personal workout companion with 28 workouts, each ~20 minutes. No
-            subscriptions, no ads, no internet required after first load.
-          </p>
-          <p className="text-offwhite text-xs mt-3">
-            Install to home screen for the best experience.
-          </p>
+        <div className="bg-charcoal/50 rounded-2xl px-4">
+          <div className="py-4 border-b border-lime/50">
+            <p className="text-slate-400 text-sm leading-relaxed">
+              A personal workout companion with 28 workouts, each ~20 minutes.
+              No subscriptions, no ads, no internet required after first load.
+            </p>
+            <p className="text-offwhite text-xs mt-3">
+              Install to home screen for the best experience.
+            </p>
+          </div>
+          <div className="flex items-center justify-between gap-2 py-4">
+            <div>
+              <p className="text-offwhite font-medium">Share</p>
+              <p className="text-slate-500 text-xs mt-0.5">
+                Tell a friend about MOOV
+              </p>
+            </div>
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={handleShare}
+              className="bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600 flex items-center gap-1.5"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="w-4 h-4"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+                <polyline points="16 6 12 2 8 6" />
+                <line x1="12" y1="2" x2="12" y2="15" />
+              </svg>
+              Share
+            </motion.button>
+          </div>
         </div>
       </div>
 
