@@ -168,7 +168,7 @@ export function SettingsScreen() {
             <div>
               <p className="text-offwhite font-medium">Reset Grid</p>
               <p className="text-slate-500 text-xs mt-0.5">
-                Clear checkmarks and start a new round
+                Clear checkmarks and start a new cycle
               </p>
             </div>
             <motion.button
