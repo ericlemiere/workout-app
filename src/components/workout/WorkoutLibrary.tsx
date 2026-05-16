@@ -5,16 +5,17 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
+import { MoonIcon } from "@/lib/moonIcon";
 
 interface Props {
   workouts: Workout[];
 }
 
 const tagColor: Record<string, string> = {
-  "lower body": "bg-cat-lower/15 border-cat-lower/25",
-  "upper body": "bg-cat-upper/15 border-cat-upper/25",
-  core: "bg-cat-core/15 border-cat-core/25",
-  "full body": "bg-cat-full/15 border-cat-full/25",
+  "lower body": "border-cat-lower/55",
+  "upper body": "border-cat-upper/55",
+  core: "border-cat-core/55",
+  "full body": "border-cat-full/55",
 };
 
 const tagTextColor: Record<string, string> = {
@@ -107,8 +108,7 @@ export function WorkoutLibrary({ workouts }: Props) {
           const num = i + 1;
           const done = completedIds.has(workout.id);
           const focus = focusTag(workout.tags);
-          const bg = tagColor[focus] ?? "bg-slate-800/60 border-slate-700/50";
-          const border = tagColor[focus]?.replace("/15", "/25") ?? "border-slate-700/50";
+          const border = tagColor[focus] ?? "border-slate-700/85";
           const tc = tagTextColor[focus] ?? "text-slate-400";
 
           return (
@@ -121,10 +121,13 @@ export function WorkoutLibrary({ workouts }: Props) {
             >
               <Link href={`/workout/${workout.id}`} className="block">
                 <div
-                  className={`aspect-square rounded border-2 ${border} flex flex-col items-center justify-center relative shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
+                  className={`aspect-square rounded border ${border} flex flex-col items-center justify-center relative shadow-[2px_2px_4px_0px_rgba(255,255,255,0.2)]`}
                 >
+                  <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <MoonIcon num={num} />
+                  </div>
                   <span
-                    className={`text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : ''}`}
+                    className={`relative text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : ""}`}
                   >
                     {num}
                   </span>
@@ -133,7 +136,7 @@ export function WorkoutLibrary({ workouts }: Props) {
                       <svg
                         viewBox="0 0 10 10"
                         fill="none"
-                        className="w-28 h-28"
+                        className="w-16 h-16"
                       >
                         <defs>
                           <filter
@@ -156,7 +159,7 @@ export function WorkoutLibrary({ workouts }: Props) {
                         <path
                           d="M2 5l2 2 4-4"
                           stroke="white"
-                          strokeWidth="0.6"
+                          strokeWidth="0.85"
                           filter="url(#checkShadow)"
                           strokeLinecap="round"
                           strokeLinejoin="round"

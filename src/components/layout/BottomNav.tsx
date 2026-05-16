@@ -1,15 +1,22 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { motion } from 'framer-motion'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const navItems = [
   {
-    href: '/',
-    label: 'Workouts',
+    href: "/",
+    label: "Workouts",
     icon: (active: boolean) => (
-      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={active ? 2.5 : 2}>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className="w-6 h-6"
+        stroke="currentColor"
+        strokeWidth={active ? 2.5 : 2}
+      >
         <rect x="2" y="8" width="6" height="8" rx="1" />
         <rect x="16" y="8" width="6" height="8" rx="1" />
         <path d="M8 12h8" strokeLinecap="round" />
@@ -18,38 +25,38 @@ const navItems = [
     ),
   },
   {
-    href: '/settings',
-    label: 'Settings',
+    href: "/settings",
+    label: "Settings",
     icon: (active: boolean) => (
-      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth={active ? 2.5 : 2}>
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" strokeLinecap="round" />
-      </svg>
+      <IoSettingsOutline size={20} strokeWidth={active ? 2.5 : 2} />
     ),
   },
-]
+];
 
 export function BottomNav() {
-  const pathname = usePathname()
-  const isActive = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href)
-  const isWorkoutActive = pathname.startsWith('/workout/')
+  const pathname = usePathname();
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isWorkoutActive = pathname.startsWith("/workout/");
 
-  if (isWorkoutActive) return null
+  if (isWorkoutActive) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
       <div className="flex items-center justify-around h-16 max-w-sm mx-auto px-4">
         {navItems.map(({ href, label, icon }) => {
-          const active = isActive(href)
+          const active = isActive(href);
           return (
             <Link
               key={href}
               href={href}
               className="flex flex-col items-center gap-0.5 min-w-16 py-2 relative"
             >
-              <span className={active ? 'text-lime' : 'text-slate-500'}>{icon(active)}</span>
+              <span className={active ? "text-lime" : "text-slate-500"}>
+                {icon(active)}
+              </span>
               <span
-                className={`text-[10px] font-medium tracking-wide ${active ? 'text-lime' : 'text-slate-500'}`}
+                className={`text-[10px] font-medium tracking-wide ${active ? "text-lime" : "text-slate-500"}`}
               >
                 {label}
               </span>
@@ -60,9 +67,9 @@ export function BottomNav() {
                 />
               )}
             </Link>
-          )
+          );
         })}
       </div>
     </nav>
-  )
+  );
 }
