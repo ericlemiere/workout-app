@@ -72,7 +72,7 @@ export const workouts: Workout[] = [
   // ── 1 · Lower Body ─────────────────────────────────────────────────────────
   {
     id: "workout-01",
-    name: "Lower Body 1",
+    name: "Workout 1 · Lower Body",
     description:
       "Foundation lower body session. Focuses on glutes and leg stability with gentle, back-safe movements.",
     estimatedDuration: 20,
@@ -90,7 +90,7 @@ export const workouts: Workout[] = [
   // ── 2 · Upper Body ─────────────────────────────────────────────────────────
   {
     id: "workout-02",
-    name: "Upper Body 1",
+    name: "Workout 2 · Upper Body",
     description:
       "Foundational push and arm strength. All movements supported to protect the lower back.",
     estimatedDuration: 20,
@@ -108,7 +108,7 @@ export const workouts: Workout[] = [
   // ── 3 · Core ───────────────────────────────────────────────────────────────
   {
     id: "workout-03",
-    name: "Core 1",
+    name: "Workout 3 · Core",
     description:
       "Anti-extension and anti-rotation core work. Zero spinal flexion — completely safe for lower back pain.",
     estimatedDuration: 20,
@@ -126,7 +126,7 @@ export const workouts: Workout[] = [
   // ── 4 · Full Body ──────────────────────────────────────────────────────────
   {
     id: "workout-04",
-    name: "Full Body 1",
+    name: "Workout 4 · Full Body",
     description:
       "A total-body conditioning circuit mixing cardio, lower body, and upper body movements.",
     estimatedDuration: 20,
@@ -144,7 +144,7 @@ export const workouts: Workout[] = [
   // ── 5 · Lower Body ─────────────────────────────────────────────────────────
   {
     id: "workout-05",
-    name: "Lower Body 2",
+    name: "Workout 5 · Lower Body",
     description:
       "Lateral leg strength and glute activation. Side lunges and hip work improve stability.",
     estimatedDuration: 20,
@@ -162,7 +162,7 @@ export const workouts: Workout[] = [
   // ── 6 · Upper Body ─────────────────────────────────────────────────────────
   {
     id: "workout-06",
-    name: "Upper Body 2",
+    name: "Workout 6 · Upper Body",
     description:
       "Upper body strength with tricep and shoulder emphasis. Finishes with a full-body movement pattern.",
     estimatedDuration: 20,
@@ -180,7 +180,7 @@ export const workouts: Workout[] = [
   // ── 7 · Core ───────────────────────────────────────────────────────────────
   {
     id: "workout-07",
-    name: "Core 2",
+    name: "Workout 7 · Core",
     description:
       "Core stability deepening. Progresses from dead bug to plank to lateral holds.",
     estimatedDuration: 20,
@@ -198,7 +198,7 @@ export const workouts: Workout[] = [
   // ── 8 · Full Body ──────────────────────────────────────────────────────────
   {
     id: "workout-08",
-    name: "Full Body 2",
+    name: "Workout 8 · Full Body",
     description:
       "Power and endurance combined. Jump squats, push-ups, and planks challenge every muscle.",
     estimatedDuration: 20,
@@ -216,7 +216,7 @@ export const workouts: Workout[] = [
   // ── 9 · Lower Body ─────────────────────────────────────────────────────────
   {
     id: "workout-09",
-    name: "Lower Body 3",
+    name: "Workout 9 · Lower Body",
     description:
       "Single-leg stability and glute strength. Builds balance and protects the lower back.",
     estimatedDuration: 20,
@@ -234,7 +234,7 @@ export const workouts: Workout[] = [
   // ── 10 · Upper Body ────────────────────────────────────────────────────────
   {
     id: "workout-10",
-    name: "Upper Body 3",
+    name: "Workout 10 · Upper Body",
     description:
       "Chest and shoulder focus. Wide and pike push-up variations hit different angles.",
     estimatedDuration: 20,
@@ -252,7 +252,7 @@ export const workouts: Workout[] = [
   // ── 11 · Core ──────────────────────────────────────────────────────────────
   {
     id: "workout-11",
-    name: "Core 3",
+    name: "Workout 11 · Core",
     description:
       "Bird dog, dead bug and side planks. Maximum spinal stability with zero compression.",
     estimatedDuration: 20,
@@ -270,7 +270,7 @@ export const workouts: Workout[] = [
   // ── 12 · Full Body ─────────────────────────────────────────────────────────
   {
     id: "workout-12",
-    name: "Full Body 3",
+    name: "Workout 12 · Full Body",
     description:
       "High-knee cardio with lunges and push strength. Keeps heart rate up while building muscle.",
     estimatedDuration: 20,
@@ -288,7 +288,7 @@ export const workouts: Workout[] = [
   // ── 13 · Lower Body ────────────────────────────────────────────────────────
   {
     id: "workout-13",
-    name: "Lower Body 4",
+    name: "Workout 13 · Lower Body",
     description:
       "Explosive lower body with jump squats. Glute bridges balance the power work.",
     estimatedDuration: 20,
@@ -306,7 +306,7 @@ export const workouts: Workout[] = [
   // ── 14 · Upper Body ────────────────────────────────────────────────────────
   {
     id: "workout-14",
-    name: "Upper Body 4",
+    name: "Workout 14 · Upper Body",
     description:
       "Tricep and shoulder endurance. Plank shoulder taps add core stability to the mix.",
     estimatedDuration: 20,
@@ -324,7 +324,7 @@ export const workouts: Workout[] = [
   // ── 15 · Core ──────────────────────────────────────────────────────────────
   {
     id: "workout-15",
-    name: "Core 4",
+    name: "Workout 15 · Core",
     description:
       "Plank and side plank progressions. Builds lateral core strength vital for lower back protection.",
     estimatedDuration: 20,
@@ -342,7 +342,7 @@ export const workouts: Workout[] = [
   // ── 16 · Full Body ─────────────────────────────────────────────────────────
   {
     id: "workout-16",
-    name: "Full Body 4",
+    name: "Workout 16 · Full Body",
     description:
       "Jump squats, push strength and glute bridges. A well-rounded conditioning circuit.",
     estimatedDuration: 20,
@@ -360,7 +360,7 @@ export const workouts: Workout[] = [
   // ── 17 · Lower Body ────────────────────────────────────────────────────────
   {
     id: "workout-17",
-    name: "Lower Body 5",
+    name: "Workout 17 · Lower Body",
     description:
       "Progressive lower body strength. Single-leg deadlifts and jump squats challenge balance and power.",
     estimatedDuration: 20,
@@ -378,7 +378,7 @@ export const workouts: Workout[] = [
   // ── 18 · Upper Body ────────────────────────────────────────────────────────
   {
     id: "workout-18",
-    name: "Upper Body 5",
+    name: "Workout 18 · Upper Body",
     description:
       "Push-up strength from multiple angles. Diamond, pike, and wide push-ups hit every upper body fiber.",
     estimatedDuration: 20,
@@ -396,7 +396,7 @@ export const workouts: Workout[] = [
   // ── 19 · Core ──────────────────────────────────────────────────────────────
   {
     id: "workout-19",
-    name: "Core 5",
+    name: "Workout 19 · Core",
     description:
       "Mountain climbers, dead bug and plank shoulder taps. High-demand core session.",
     estimatedDuration: 20,
@@ -414,7 +414,7 @@ export const workouts: Workout[] = [
   // ── 20 · Full Body ─────────────────────────────────────────────────────────
   {
     id: "workout-20",
-    name: "Full Body 5",
+    name: "Workout 20 · Full Body",
     description:
       "Burpees enter the mix. A challenging full-body session with glute bridge recovery.",
     estimatedDuration: 20,
@@ -432,7 +432,7 @@ export const workouts: Workout[] = [
   // ── 21 · Lower Body ────────────────────────────────────────────────────────
   {
     id: "workout-21",
-    name: "Lower Body 6",
+    name: "Workout 21 · Lower Body",
     description:
       "Reverse lunges, clamshells and jump squats. Glute endurance is the priority.",
     estimatedDuration: 20,
@@ -450,7 +450,7 @@ export const workouts: Workout[] = [
   // ── 22 · Upper Body ────────────────────────────────────────────────────────
   {
     id: "workout-22",
-    name: "Upper Body 6",
+    name: "Workout 22 · Upper Body",
     description:
       "High-rep push challenge. Back-to-back push-up variations will test your endurance.",
     estimatedDuration: 20,
@@ -468,7 +468,7 @@ export const workouts: Workout[] = [
   // ── 23 · Core ──────────────────────────────────────────────────────────────
   {
     id: "workout-23",
-    name: "Core 6",
+    name: "Workout 23 · Core",
     description:
       "Side plank, bird dog and mountain climbers. Attacks all planes of core stability.",
     estimatedDuration: 20,
@@ -486,7 +486,7 @@ export const workouts: Workout[] = [
   // ── 24 · Full Body ─────────────────────────────────────────────────────────
   {
     id: "workout-24",
-    name: "Full Body 6",
+    name: "Workout 24 · Full Body",
     description:
       "Burpees and mountain climbers paired with power squats. A high-intensity full-body session.",
     estimatedDuration: 20,
@@ -504,7 +504,7 @@ export const workouts: Workout[] = [
   // ── 25 · Lower Body ────────────────────────────────────────────────────────
   {
     id: "workout-25",
-    name: "Lower Body 7",
+    name: "Workout 25 · Lower Body",
     description:
       "Peak lower body session. Explosive and stability work combined for maximum glute and leg strength.",
     estimatedDuration: 20,
@@ -522,7 +522,7 @@ export const workouts: Workout[] = [
   // ── 26 · Upper Body ────────────────────────────────────────────────────────
   {
     id: "workout-26",
-    name: "Upper Body 7",
+    name: "Workout 26 · Upper Body",
     description:
       "Peak upper body session. A full push-up ladder plus tricep and core stability.",
     estimatedDuration: 20,
@@ -540,7 +540,7 @@ export const workouts: Workout[] = [
   // ── 27 · Core ──────────────────────────────────────────────────────────────
   {
     id: "workout-27",
-    name: "Core 7",
+    name: "Workout 27 · Core",
     description:
       "Peak core session. Plank, dead bug and side planks for total spinal stability.",
     estimatedDuration: 20,
@@ -558,7 +558,7 @@ export const workouts: Workout[] = [
   // ── 28 · Full Body ─────────────────────────────────────────────────────────
   {
     id: "workout-28",
-    name: "Full Body 7",
+    name: "Workout 28 · Full Body",
     description:
       "The final workout. Burpees, jump squats and mountain climbers test everything you've built.",
     estimatedDuration: 20,

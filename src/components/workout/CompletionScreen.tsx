@@ -23,11 +23,11 @@ export function CompletionScreen({ workout }: Props) {
   const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
 
   async function handleShare() {
-    const streakText = ` ${streak.currentStreak} day streak! 🔥`;
+    const streakText = `🔥 ${streak.currentStreak} day streak!`;
 
     try {
       await navigator.share({
-        text: `Just completed ${workout.name} on MOOV!${streakText}\n\n${APP_URL}`,
+        text: `Just completed ${workout.name} on MOOV!\n${streakText}\n${APP_URL}`,
       });
     } catch (_) {}
   }

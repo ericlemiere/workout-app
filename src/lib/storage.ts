@@ -40,9 +40,9 @@ export function getStreakData(): StreakData {
 export function updateStreakData(completedDate: string): StreakData {
   const streak = getStreakData()
   const today = completedDate
-  const yesterday = new Date(new Date(today).getTime() - 86400000)
-    .toISOString()
-    .split('T')[0]
+  const [y, m, d] = today.split('-').map(Number)
+  const prev = new Date(y, m - 1, d - 1)
+  const yesterday = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, '0')}-${String(prev.getDate()).padStart(2, '0')}`
 
   let newStreak = streak.currentStreak
   if (streak.lastCompletedDate === today) {
