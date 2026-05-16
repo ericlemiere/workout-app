@@ -97,7 +97,7 @@ export function SettingsScreen() {
             description="Countdown beeps and completion sounds"
           />
           <Toggle
-            label="Voice Cues"
+            label="Voice Cues [Coming Soon]"
             value={settings.voiceCuesEnabled}
             onChange={(v) => updateSettings({ voiceCuesEnabled: v })}
             description="Audible cues for exercises"
