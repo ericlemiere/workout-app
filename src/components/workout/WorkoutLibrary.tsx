@@ -109,7 +109,6 @@ export function WorkoutLibrary({ workouts }: Props) {
           const done = completedIds.has(workout.id);
           const focus = focusTag(workout.tags);
           const border = tagColor[focus] ?? "border-slate-700/85";
-          const tc = tagTextColor[focus] ?? "text-slate-400";
 
           return (
             <motion.div
@@ -127,7 +126,11 @@ export function WorkoutLibrary({ workouts }: Props) {
                     <MoonIcon num={num} />
                   </div>
                   <span
-                    className={`relative text-3xl tracking-widest font-bold font-orbitron text-shadow-2xl ${done ? "text-offwhite opacity-20" : ""}`}
+                    className={`relative text-3xl font-bold font-orbitron ${done ? "text-offwhite opacity-20" : ""}`}
+                    style={{
+                      textShadow:
+                        "0 0 4px rgba(251, 191, 36, 0.6), 0 0 4px rgba(251, 191, 36, 0.5)",
+                    }}
                   >
                     {num}
                   </span>
