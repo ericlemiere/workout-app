@@ -127,10 +127,10 @@ export function WorkoutLibrary({ workouts }: Props) {
                   </div>
                   <span
                     className={`relative text-3xl font-bold font-orbitron ${done ? "text-offwhite opacity-20" : ""}`}
-                    style={{
-                      textShadow:
-                        "0 0 4px rgba(251, 191, 36, 0.6), 0 0 4px rgba(251, 191, 36, 0.5)",
-                    }}
+                    // style={{
+                    //   textShadow:
+                    //     "1px 1px 4px rgba(255,255,255,0.3)",
+                    // }}
                   >
                     {num}
                   </span>
