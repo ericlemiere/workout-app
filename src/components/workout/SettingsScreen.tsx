@@ -130,7 +130,7 @@ export function SettingsScreen() {
             <div>
               <p className="text-offwhite font-medium">Share</p>
               <p className="text-slate-500 text-xs mt-0.5">
-                Tell a friend about MOOV
+                MOOV with someone
               </p>
             </div>
             <motion.button
