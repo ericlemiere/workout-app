@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Workout, Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
+import { ExerciseModal } from "@/components/workout/ExerciseModal";
 import { formatDuration } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { MdOutlineTimer } from "react-icons/md";
@@ -23,9 +25,11 @@ const categoryColor: Record<string, string> = {
 function ExerciseRow({
   exercise,
   index,
+  onClick,
 }: {
   exercise: Exercise;
   index: number;
+  onClick?: () => void;
 }) {
   if (exercise.isRest) {
     return (
@@ -33,7 +37,7 @@ function ExerciseRow({
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.04 }}
-        className="flex items-center justify-between gap-3 py-3 border-b border-slate-800/50 "
+        className="flex items-center justify-between gap-3 py-3 border-b border-slate-800/50"
       >
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-linear-to-br from-cat-upper/60 to-white/20 flex items-center justify-center shrink-0">
@@ -51,11 +55,13 @@ function ExerciseRow({
   }
 
   return (
-    <motion.div
+    <motion.button
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.04 }}
-      className={`flex items-center gap-3 py-3 border-b border-slate-800/50 last:border-0`}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className="w-full flex items-center gap-3 py-3 border-b border-slate-800/50 last:border-0 text-left active:bg-slate-800/30 rounded-lg"
     >
       <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
         <ExerciseImage
@@ -73,14 +79,20 @@ function ExerciseRow({
           {exercise.target}
         </p>
       </div>
-      <span className="text-slate-500 text-xs shrink-0">
-        {formatDuration(exercise.duration)}
-      </span>
-    </motion.div>
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="text-slate-500 text-xs">
+          {formatDuration(exercise.duration)}
+        </span>
+      </div>
+    </motion.button>
   );
 }
 
 export function WorkoutDetailScreen({ workout }: Props) {
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null,
+  );
+
   const totalRealExercises =
     workout.warmups.length +
     workout.exercises.filter((e) => !e.isRest).length +
@@ -88,119 +100,143 @@ export function WorkoutDetailScreen({ workout }: Props) {
   const estimatedMinutes = calculateWorkoutMinutes(workout);
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
-      {/* Hero */}
-      <div className="relative h-56">
-        <ExerciseImage
-          src={workout.coverImage ?? ""}
-          alt={workout.name}
-          className="w-full h-full"
-          category="exercise"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/50 to-transparent" />
+    <>
+      <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
+        {/* Hero */}
+        <div className="relative h-56">
+          <ExerciseImage
+            src={workout.coverImage ?? ""}
+            alt={workout.name}
+            className="w-full h-full"
+            category="exercise"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
-        {/* Back button */}
-        <Link
-          href="/"
-          className="absolute top-4 left-4 w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur-sm flex items-center justify-center"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            className="w-5 h-5 text-offwhite"
-            stroke="currentColor"
-            strokeWidth={2.5}
-            strokeLinecap="round"
+          {/* Back button */}
+          <Link
+            href="/"
+            className="absolute top-4 left-4 w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur-sm flex items-center justify-center"
           >
-            <path d="M19 12H5M12 5l-7 7 7 7" />
-          </svg>
-        </Link>
-      </div>
-
-      <div className="px-4 -mt-6 relative z-10">
-        {/* Title block */}
-        <div className="mb-5">
-          <h1 className="text-offwhite text-3xl font-bold mb-1">
-            {workout.name}
-          </h1>
-          <p className="text-slate-400 text-sm leading-relaxed">
-            {workout.description}
-          </p>
-        </div>
-
-        {/* Stats pills */}
-        <div className="flex gap-2 flex-wrap mb-6">
-          {[
-            {
-              label: `${estimatedMinutes}m`,
-              icon: <MdOutlineTimer color="#b7e63b" />,
-            },
-            {
-              label: `${totalRealExercises} moves`,
-              icon: <GrYoga color="#b7e63b" />,
-            },
-            {
-              label: workout.tags[0] ?? "general",
-              icon: <SlTarget color="#b7e63b" />,
-            },
-          ].map(({ label, icon }) => (
-            <span
-              key={label}
-              className="bg-charcoal text-slate-300 text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5"
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="w-5 h-5 text-offwhite"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              strokeLinecap="round"
             >
-              <span>{icon}</span>
-              <span className="capitalize">{label}</span>
-            </span>
-          ))}
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+          </Link>
         </div>
 
-        {/* Start button */}
-        <Link href={`/workout/${workout.id}/active`}>
-          <motion.div
-            whileTap={{ scale: 0.97 }}
-            className="bg-lime text-navy font-bold text-xl text-center py-5 rounded-2xl mb-8 active:bg-lime-dim"
-          >
-            Start Workout
-          </motion.div>
-        </Link>
+        <div className="px-4 -mt-6 relative z-10">
+          {/* Title block */}
+          <div className="mb-5">
+            <h1 className="text-offwhite text-3xl font-bold mb-1">
+              {workout.name}
+            </h1>
+            <p className="text-slate-400 text-sm leading-relaxed">
+              {workout.description}
+            </p>
+          </div>
 
-        {/* Warmup section */}
-        <div className="mb-6">
-          <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
-            Warm Up · {workout.warmups.length} exercises
-          </h2>
-          <div className="bg-charcoal/50 rounded-2xl px-4">
-            {workout.warmups.map((ex, i) => (
-              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
+          {/* Stats pills */}
+          <div className="flex gap-2 flex-wrap mb-6">
+            {[
+              {
+                label: `${estimatedMinutes}m`,
+                icon: <MdOutlineTimer color="#b7e63b" />,
+              },
+              {
+                label: `${totalRealExercises} moves`,
+                icon: <GrYoga color="#b7e63b" />,
+              },
+              {
+                label: workout.tags[0] ?? "general",
+                icon: <SlTarget color="#b7e63b" />,
+              },
+            ].map(({ label, icon }) => (
+              <span
+                key={label}
+                className="bg-charcoal text-slate-300 text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5"
+              >
+                <span>{icon}</span>
+                <span className="capitalize">{label}</span>
+              </span>
             ))}
           </div>
-        </div>
 
-        {/* Main exercises */}
-        <div className="mb-6">
-          <h2 className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
-            Exercises · {workout.exercises.filter((e) => !e.isRest).length}{" "}
-            exercises + rest
-          </h2>
-          <div className="bg-charcoal/50 rounded-2xl px-4">
-            {workout.exercises.map((ex, i) => (
-              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
-            ))}
+          {/* Start button */}
+          <Link href={`/workout/${workout.id}/active`}>
+            <motion.div
+              whileTap={{ scale: 0.97 }}
+              className="bg-lime text-navy font-bold text-xl text-center py-5 rounded-2xl mb-8 active:bg-lime-dim"
+            >
+              Start Workout
+            </motion.div>
+          </Link>
+
+          {/* Warmup section */}
+          <div className="mb-6">
+            <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
+              Warm Up · {workout.warmups.length} exercises
+            </h2>
+            <div className="bg-charcoal/50 rounded-2xl px-4">
+              {workout.warmups.map((ex, i) => (
+                <ExerciseRow
+                  key={`${ex.id}-${i}`}
+                  exercise={ex}
+                  index={i}
+                  onClick={() => setSelectedExercise(ex)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Cooldown */}
-        <div className="mb-6">
-          <h2 className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">
-            Cool Down · {workout.cooldowns.length} stretches
-          </h2>
-          <div className="bg-charcoal/50 rounded-2xl px-4">
-            {workout.cooldowns.map((ex, i) => (
-              <ExerciseRow key={`${ex.id}-${i}`} exercise={ex} index={i} />
-            ))}
+          {/* Main exercises */}
+          <div className="mb-6">
+            <h2 className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
+              Exercises · {workout.exercises.filter((e) => !e.isRest).length}{" "}
+              exercises + rest
+            </h2>
+            <div className="bg-charcoal/50 rounded-2xl px-4">
+              {workout.exercises.map((ex, i) => (
+                <ExerciseRow
+                  key={`${ex.id}-${i}`}
+                  exercise={ex}
+                  index={i}
+                  onClick={
+                    ex.isRest ? undefined : () => setSelectedExercise(ex)
+                  }
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Cooldown */}
+          <div className="mb-6">
+            <h2 className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">
+              Cool Down · {workout.cooldowns.length} stretches
+            </h2>
+            <div className="bg-charcoal/50 rounded-2xl px-4">
+              {workout.cooldowns.map((ex, i) => (
+                <ExerciseRow
+                  key={`${ex.id}-${i}`}
+                  exercise={ex}
+                  index={i}
+                  onClick={() => setSelectedExercise(ex)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <ExerciseModal
+        exercise={selectedExercise}
+        onClose={() => setSelectedExercise(null)}
+      />
+    </>
   );
 }

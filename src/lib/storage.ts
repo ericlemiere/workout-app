@@ -5,6 +5,8 @@ const KEYS = {
   streak: 'workout_streak',
   settings: 'workout_settings',
   cycleStartedAt: 'workout_cycle_start',
+  lunarCycles: 'workout_lunar_cycles',
+  cycleCompleteAcknowledged: 'workout_cycle_ack',
 } as const
 
 export function getCompletedWorkouts(): CompletedWorkout[] {
@@ -93,8 +95,27 @@ export function saveCycleStartedAt(ts: string | null): void {
   else localStorage.setItem(KEYS.cycleStartedAt, ts)
 }
 
+export function getLunarCycles(): number {
+  if (typeof window === 'undefined') return 0
+  return parseInt(localStorage.getItem(KEYS.lunarCycles) ?? '0', 10)
+}
+
+export function saveLunarCycles(count: number): void {
+  localStorage.setItem(KEYS.lunarCycles, String(count))
+}
+
+export function getCycleCompleteAcknowledged(): boolean {
+  if (typeof window === 'undefined') return false
+  return localStorage.getItem(KEYS.cycleCompleteAcknowledged) === 'true'
+}
+
+export function saveCycleCompleteAcknowledged(val: boolean): void {
+  localStorage.setItem(KEYS.cycleCompleteAcknowledged, String(val))
+}
+
 export function clearAllProgress(): void {
   localStorage.removeItem(KEYS.completed)
   localStorage.removeItem(KEYS.streak)
   localStorage.removeItem(KEYS.cycleStartedAt)
+  localStorage.removeItem(KEYS.cycleCompleteAcknowledged)
 }

@@ -12,6 +12,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/burpees.jpg"],
     category: "exercise",
     target: "full body",
+    matPosition: "floor",
     instructions:
       "Squat, jump feet back to plank, do a push-up, jump feet forward, then jump up with arms overhead.",
   },
@@ -22,6 +23,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/burpee-walk.jpg"],
     category: "exercise",
     target: "full body",
+    matPosition: "floor",
     instructions:
       "Feet shoulder-width apart. Lower into a plank position then stand up.",
   },
@@ -32,6 +34,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/push-ups.jpg"],
     category: "exercise",
     target: "chest",
+    matPosition: "floor",
     instructions:
       "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor and press up.",
   },
@@ -42,6 +45,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/kneeling-push-ups.jpg"],
     category: "exercise",
     target: "chest",
+    matPosition: "floor",
     instructions:
       "Hands shoulder-width, knees on the ground. Lower chest to floor and press up.",
   },
@@ -52,6 +56,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/airplane-push-ups.jpg"],
     category: "exercise",
     target: "chest",
+    matPosition: "floor",
     instructions:
       "Start in a push-up position. Rotate your torso and arm toward the ceiling and back. Do a push-up. Alternate sides.",
   },
@@ -62,6 +67,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/wave-push-ups.jpg"],
     category: "exercise",
     target: "chest",
+    matPosition: "floor",
     instructions:
       "Start in a push-up position. Lower yourself to the floor in a wave motion from knees to chest to shoulders. Reverse the motion to push back up.",
   },
@@ -72,6 +78,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/spider-cross-planks.jpg"],
     category: "exercise",
     target: "upper body",
+    matPosition: "floor",
     instructions:
       "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. Alternate sides.",
   },
@@ -82,6 +89,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/squats.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Feet shoulder-width, toes slightly out. Sit back and down until thighs are parallel. Drive through heels to stand.",
   },
@@ -92,6 +100,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/mountain-climbers.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Start in plank. Drive alternate knees toward chest as fast as control allows. Keep hips level.",
   },
@@ -102,6 +111,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/plank.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Forearms on floor, elbows under shoulders. Hold a straight line from head to heels. Breathe steadily.",
   },
@@ -112,6 +122,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/lunges.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Step forward, lower your back knee toward floor. Return to standing. Alternate legs. Keep torso upright.",
   },
@@ -122,6 +133,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/glute-bridges.jpg"],
     category: "exercise",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "Lie on back, knees bent. Drive hips up by squeezing glutes. Hold 1 second at top, lower slowly.",
   },
@@ -132,6 +144,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/glute-bridge-holds.jpg"],
     category: "exercise",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "Lie on back, knees bent. Drive hips up by squeezing glutes and hold.",
   },
@@ -142,6 +155,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/russian-twists.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Sit with knees bent, lean back 45°. Rotate torso to tap floor on each side. Lift feet to increase difficulty.",
   },
@@ -152,6 +166,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/jump-squats.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Perform a squat, then explode upward into a jump. Land softly, immediately descend into next squat.",
   },
@@ -162,6 +177,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/side-lunges.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Step wide to the right, bend right knee, keep left leg straight. Push back to center. Alternate sides.",
   },
@@ -172,6 +188,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/inchworms.jpg"],
     category: "exercise",
     target: "full body",
+    matPosition: "floor",
     instructions:
       "Stand, hinge forward, walk hands out to plank, do a push-up, walk hands back, stand. Repeat.",
   },
@@ -182,6 +199,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/plank-shoulder-taps.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "In high plank, tap opposite shoulder with each hand while keeping hips as still as possible.",
   },
@@ -192,6 +210,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/calf-raises.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Stand with feet hip-width. Rise onto toes as high as possible, lower slowly. Use a wall for balance if needed.",
   },
@@ -202,6 +221,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/high-knees.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Run in place, driving knees up to hip height as fast as possible. Pump arms for balance.",
   },
@@ -212,6 +232,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/jumping-jacks.jpg"],
     category: "exercise",
     target: "full body",
+    matPosition: "standing",
     instructions:
       "Jump feet out wide while raising arms overhead. Jump feet back together while lowering arms. Repeat rapidly.",
   },
@@ -222,6 +243,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/single-leg-deadlift.jpg"],
     category: "exercise",
     target: "glutes",
+    matPosition: "standing",
     instructions:
       "Stand on one leg, hinge forward at hip, extend back leg behind. Return to standing. 20 seconds each side.",
   },
@@ -232,10 +254,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/reverse-lunges.jpg"],
     category: "exercise",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Step backward and lower back knee toward floor. Drive front foot through heel to return. Alternate legs.",
   },
-
   {
     id: "dead-bug",
     name: "Dead Bug",
@@ -243,10 +265,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/dead-bug.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Lie on back, arms straight up, knees bent 90°. Slowly lower opposite arm and leg toward the floor while pressing your lower back into the ground. Return and alternate.",
   },
-  // 24
   {
     id: "bird-dog",
     name: "Bird Dog",
@@ -254,10 +276,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/bird-dog.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "On hands and knees, extend opposite arm and leg until parallel to floor. Hold 2 seconds, return, alternate. Keep hips level throughout.",
   },
-  // 25
   {
     id: "plank-rotations",
     name: "Plank Rotations",
@@ -265,10 +287,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/plank-rotations.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Start in a forearm plank. Rotate your torso and reach one arm toward the ceiling, then return to plank. Alternate sides.",
   },
-  // 28
   {
     id: "fire-hydrant",
     name: "Fire Hydrant",
@@ -276,10 +298,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/fire-hydrant.jpg"],
     category: "exercise",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "On hands and knees, lift one knee out to the side, keeping it bent at 90°. Keep hips square. Lower and repeat. Do 20 seconds each side.",
   },
-  // 29
   {
     id: "donkey-kicks",
     name: "Donkey Kicks",
@@ -287,10 +309,10 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/donkey-kicks.jpg"],
     category: "exercise",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "On hands and knees, kick one leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
   },
-  // 30
   {
     id: "pelvic-tilts",
     name: "Pelvic Tilts",
@@ -298,6 +320,7 @@ export const mainExercises: Exercise[] = [
     image: ["/images/exercises/pelvic-tilts.jpg"],
     category: "exercise",
     target: "core",
+    matPosition: "floor",
     instructions:
       "Lie on back, knees bent. Gently flatten your lower back into the floor by tightening your abs and tilting your pelvis. Hold 5 seconds, release. Repeat slowly.",
   },

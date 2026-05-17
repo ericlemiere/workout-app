@@ -27,6 +27,7 @@ export interface Exercise {
   image: string[];
   category: ExerciseCategory;
   target: MuscleTarget;
+  matPosition?: "floor" | "standing";
   audio?: string;
   instructions?: string;
   isRest?: boolean;

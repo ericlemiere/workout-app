@@ -12,6 +12,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/childs-pose.jpg"],
     category: "cool-down",
     target: "back",
+    matPosition: "floor",
     instructions:
       "Kneel, sit back on heels, reach arms forward on floor. Let chest sink toward ground. Breathe deeply.",
   },
@@ -22,6 +23,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/hip-flexor-stretch.jpg"],
     category: "cool-down",
     target: "lower body",
+    matPosition: "floor",
     instructions:
       "Kneel on one knee, lunge forward. Push hips forward gently. Hold 20 seconds each side.",
   },
@@ -32,6 +34,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/quad-stretch.jpg"],
     category: "cool-down",
     target: "lower body",
+    matPosition: "standing",
     instructions:
       "Stand on one leg, pull other foot toward glute. Keep knees together. Hold 20 seconds each side.",
   },
@@ -42,6 +45,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/seated-hamstring-stretch.jpg"],
     category: "cool-down",
     target: "lower body",
+    matPosition: "floor",
     instructions:
       "Sit with both legs extended. Reach toward toes, keeping back straight.",
   },
@@ -52,6 +56,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/figure-4-left-stretch.jpg"],
     category: "cool-down",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "Cross one ankle over opposite knee while lying on back. Pull the uncrossed leg toward chest.",
   },
@@ -62,6 +67,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/figure-4-right-stretch.jpg"],
     category: "cool-down",
     target: "glutes",
+    matPosition: "floor",
     instructions:
       "Cross one ankle over opposite knee while lying on back. Pull the uncrossed leg toward chest.",
   },
@@ -72,6 +78,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/chest-stretch.jpg"],
     category: "cool-down",
     target: "chest",
+    matPosition: "standing",
     instructions:
       "Clasp hands behind back, squeeze shoulder blades together, lift hands slightly. Feel the chest opening.",
   },
@@ -82,6 +89,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/tricep-stretch.jpg"],
     category: "cool-down",
     target: "arms",
+    matPosition: "standing",
     instructions:
       "Raise one arm overhead, bend elbow. Use other hand to gently press elbow back. Hold 20 seconds each side.",
   },
@@ -92,6 +100,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/upper-back-stretch.jpg"],
     category: "cool-down",
     target: "back",
+    matPosition: "standing",
     instructions:
       "Interlace fingers in front, push palms away. Round upper back. Hold and breathe.",
   },
@@ -102,6 +111,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/cat-cow.jpg"],
     category: "cool-down",
     target: "back",
+    matPosition: "floor",
     instructions:
       "On hands and knees, inhale and let your belly drop (Cow), then exhale and round your spine toward the ceiling (Cat). Move slowly through the full range.",
   },
@@ -112,6 +122,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/spinal-twist.jpg"],
     category: "cool-down",
     target: "back",
+    matPosition: "floor",
     instructions:
       "Lie on your back, knees bent. Drop both knees to one side while keeping shoulders flat. Hold, then switch sides.",
   },
@@ -122,6 +133,7 @@ export const cooldownExercises: Exercise[] = [
     image: ["/images/exercises/plank-to-downward-dog.jpg"],
     category: "cool-down",
     target: "full body",
+    matPosition: "floor",
     instructions:
       "Start in a plank position. Push hips up and back into a downward dog. Hold, then return to plank.",
   },
