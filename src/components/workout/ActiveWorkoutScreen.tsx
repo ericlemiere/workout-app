@@ -29,10 +29,10 @@ const sectionLabel: Record<string, string> = {
 };
 
 const sectionColor: Record<string, string> = {
-  warmup: "text-cat-lower",
+  warmup: "text-electric-cyan",
   exercise: "text-lime",
-  rest: "text-emerald-400",
-  cooldown: "text-cat-core",
+  rest: "text-electric-green",
+  cooldown: "text-electric-violet",
   intro: "text-slate-400",
   complete: "text-lime",
 };
@@ -224,7 +224,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             {isRest ? (
               <div className="w-full h-full bg-linear-to-br from-emerald-900/40 to-slate-900 flex flex-col items-center justify-center">
                 <span className="text-6xl mb-3">🧘</span>
-                <p className="text-emerald-400 font-semibold text-lg">
+                <p className="text-electric-green font-semibold text-lg">
                   Take a breath
                 </p>
               </div>
@@ -291,7 +291,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             <span className="text-slate-600">Next →</span>{" "}
             <span
               className={
-                nextExercise.isRest ? "text-emerald-400" : "text-slate-400"
+                nextExercise.isRest ? "text-electric-green" : "text-slate-400"
               }
             >
               {nextExercise.isRest ? "Rest" : nextExercise.name}

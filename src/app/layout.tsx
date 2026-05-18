@@ -4,6 +4,7 @@ import "./globals.css";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
 import { ProgressHydrator } from "@/components/layout/ProgressHydrator";
+import { SplashScreen } from "@/components/layout/SplashScreen";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -63,6 +64,7 @@ export default function RootLayout({
       <body className="h-full bg-navy text-offwhite antialiased font-sans overflow-x-hidden">
         <ServiceWorkerRegistrar />
         <ProgressHydrator />
+        <SplashScreen />
         {children}
         <BottomNav />
       </body>

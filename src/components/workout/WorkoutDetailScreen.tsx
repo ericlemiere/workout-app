@@ -17,9 +17,9 @@ interface Props {
 }
 
 const categoryColor: Record<string, string> = {
-  "warm-up": "text-lime",
-  exercise: "text-blue-400",
-  "cool-down": "text-purple-400",
+  "warm-up": "text-electric-violet",
+  exercise: "text-electric-orange",
+  "cool-down": "text-electric-cyan",
 };
 
 function ExerciseRow({
@@ -31,29 +31,6 @@ function ExerciseRow({
   index: number;
   onClick?: () => void;
 }) {
-  if (exercise.isRest) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: index * 0.04 }}
-        className="flex items-center justify-between gap-3 py-3 border-b border-slate-800/50"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-linear-to-br from-cat-upper/60 to-white/20 flex items-center justify-center shrink-0">
-            🧘
-          </div>
-          <span className="text-cat-upper opacity-80 text-sm font-medium">
-            Rest
-          </span>
-        </div>
-        <span className="text-slate-500 text-xs shrink-0">
-          {formatDuration(exercise.duration)}
-        </span>
-      </motion.div>
-    );
-  }
-
   return (
     <motion.button
       initial={{ opacity: 0, x: -10 }}
@@ -69,15 +46,22 @@ function ExerciseRow({
           alt=""
           className="w-full h-full"
           category={exercise.category}
+          isRest={exercise.isRest}
         />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-offwhite text-sm font-medium leading-snug">
+        <p
+          className={`${exercise.isRest ? "text-electric-green" : "text-offwhite"} text-sm font-medium leading-snug`}
+        >
           {exercise.name}
         </p>
-        <p className={`text-xs ${categoryColor[exercise.category]} capitalize`}>
-          {exercise.target}
-        </p>
+        {!exercise.isRest && (
+          <p
+            className={`text-xs ${categoryColor[exercise.category]} capitalize`}
+          >
+            {exercise.target}
+          </p>
+        )}
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <span className="text-slate-500 text-xs">
@@ -179,7 +163,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Warmup section */}
           <div className="mb-6">
-            <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-electric-violet text-xs font-bold uppercase tracking-widest mb-3">
               Warm Up · {workout.warmups.length} exercises
             </h2>
             <div className="bg-charcoal/50 rounded-2xl px-4">
@@ -196,7 +180,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Main exercises */}
           <div className="mb-6">
-            <h2 className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-electric-orange text-xs font-bold uppercase tracking-widest mb-3">
               Exercises · {workout.exercises.filter((e) => !e.isRest).length}{" "}
               exercises + rest
             </h2>
@@ -216,7 +200,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Cooldown */}
           <div className="mb-6">
-            <h2 className="text-purple-400 text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-electric-cyan text-xs font-bold uppercase tracking-widest mb-3">
               Cool Down · {workout.cooldowns.length} stretches
             </h2>
             <div className="bg-charcoal/50 rounded-2xl px-4">

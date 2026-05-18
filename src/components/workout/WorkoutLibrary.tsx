@@ -14,17 +14,17 @@ interface Props {
 }
 
 const tagColor: Record<string, string> = {
-  "lower body": "border-cat-lower/55",
-  "upper body": "border-cat-upper/55",
-  core: "border-cat-core/55",
-  "full body": "border-cat-full/55",
+  "lower body": "border-electric-cyan/55",
+  "upper body": "border-electric-green/55",
+  core: "border-electric-violet/55",
+  "full body": "border-lime/55",
 };
 
 const tagTextColor: Record<string, string> = {
-  "lower body": "text-cat-lower",
-  "upper body": "text-cat-upper",
-  core: "text-cat-core",
-  "full body": "text-cat-full",
+  "lower body": "text-electric-cyan",
+  "upper body": "text-electric-green",
+  core: "text-electric-violet",
+  "full body": "text-lime",
 };
 
 function focusTag(tags: string[]): string {
@@ -66,7 +66,10 @@ export function WorkoutLibrary({ workouts }: Props) {
     (s) => s.cycleCompleteAcknowledged,
   );
   const resetGrid = useProgressStore((s) => s.resetGrid);
-  const [statModal, setStatModal] = useState<{ title: string; description: string } | null>(null);
+  const [statModal, setStatModal] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
 
   const completedIds = useMemo(
     () =>
@@ -99,7 +102,12 @@ export function WorkoutLibrary({ workouts }: Props) {
       <div className="min-h-screen max-w-xl mx-auto bg-navy pb-28 safe-top">
         {/* Header */}
         <div className="py-2">
-          <div className="w-full overflow-hidden relative">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full overflow-hidden relative"
+          >
             <Image
               src="/moov-logo-transparent.png"
               alt="MOOV Logo"
@@ -108,18 +116,33 @@ export function WorkoutLibrary({ workouts }: Props) {
               className="w-full h-auto"
               loading="eager"
             />
-          </div>
-          <h1 className="sr-only">MOOV</h1>
+          </motion.div>
+          <h1 className="sr-only">MOOV Exercise App</h1>
         </div>
 
         {/* Stats row */}
         <div className="mb-5">
           <div className="border-t border-b border-lime/30 px-4 grid grid-cols-4 gap-2">
             {[
-              { key: "completed", top: "Workouts", bot: "Completed", value: completed.length },
-              { key: "streak",    top: "Current",  bot: "Streak",    value: streak.currentStreak },
-              { key: "best",      top: "Best",     bot: "Streak",    value: streak.longestStreak },
-              { key: "lunar",     top: "Lunar",    bot: "Cycles",    value: lunarCycles },
+              {
+                key: "completed",
+                top: "Workouts",
+                bot: "Completed",
+                value: completed.length,
+              },
+              {
+                key: "streak",
+                top: "Current",
+                bot: "Streak",
+                value: streak.currentStreak,
+              },
+              {
+                key: "best",
+                top: "Best",
+                bot: "Streak",
+                value: streak.longestStreak,
+              },
+              { key: "lunar", top: "Lunar", bot: "Cycles", value: lunarCycles },
             ].map(({ key, top, bot, value }) => (
               <button
                 key={key}
@@ -243,7 +266,14 @@ export function WorkoutLibrary({ workouts }: Props) {
                 className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0"
                 aria-label="Close"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" className="w-4 h-4 text-slate-300">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  className="w-4 h-4 text-slate-300"
+                >
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
               </button>

@@ -15,10 +15,17 @@
   --color-offwhite: #f5f7fa;
 
   /* ── Workout category colors ── */
-  --color-cat-lower: #00c2ff; /* lower body  — electric cyan  */
-  --color-cat-upper: #39ff14; /* upper body  — electric lime    */
-  --color-cat-core: #bf5fff; /* core        — electric violet  */
-  --color-cat-full: #b7e63b; /* full body   — brand lime       */
+  --color-electric-cyan: #00c2ff; /* lower body  — electric-cyan  */
+  --color-electric-green: #39ff14; /* upper body  — electric lime    */
+  --color-electric-violet: #bf5fff; /* core      — electric violet  */
+  /* full body   — brand lime       */
+  --color-electric-orange: #ff6700; /* cardio     — electric orange  */
+
+  /* ── Section colors ── */
+  --color-warmup: var(--color-electric-orange);
+  --color-exercise: var(--color-lime);
+  --color-rest: var(--color-electric-green);
+  --color-cooldown: var(--color-electric-violet);
 }
 
 * {
@@ -28,7 +35,12 @@
 html {
   -webkit-text-size-adjust: 100%;
   scrollbar-gutter: stable;
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    var(--font-sans),
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 body {

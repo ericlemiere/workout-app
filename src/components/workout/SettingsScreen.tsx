@@ -80,8 +80,8 @@ export function SettingsScreen() {
 
   return (
     <div className="min-h-screen max-w-xl mx-auto pb-28 safe-top">
-      <div className="px-4 pt-14 pb-6">
-        <h1 className="text-offwhite text-3xl font-bold">Settings</h1>
+      <div className="px-4 pt-8 pb-6">
+        <h1 className="text-offwhite text-3xl font-bold font-orbitron tracking-wider">Settings</h1>
       </div>
 
       {/* Preferences */}

@@ -7,13 +7,14 @@ interface Props {
   alt: string;
   className?: string;
   category?: string;
+  isRest?: boolean;
 }
 
 const categoryColors: Record<string, string> = {
-  "warm-up": "from-lime/60 to-white/20",
-  exercise: "from-cat-lower/60 to-white/20",
-  "cool-down": "from-cat-core/60 to-white/20",
-  rest: "from-slate-800/80 to-white/20",
+  "warm-up": "from-electric-violet/20 to-white/20",
+  exercise: "from-electric-orange/20 to-white/20",
+  "cool-down": "from-electric-cyan/20 to-white/20",
+  rest: "from-electric-green/20 to-white/20",
 };
 
 const categoryIcons: Record<string, string> = {
@@ -28,10 +29,15 @@ export function ExerciseImage({
   alt,
   className = "",
   category = "exercise",
+  isRest = false,
 }: Props) {
   const [failed, setFailed] = useState(false);
-  const gradient = categoryColors[category] ?? categoryColors.exercise;
-  const icon = categoryIcons[category] ?? categoryIcons.exercise;
+  const gradient = isRest
+    ? categoryColors.rest
+    : (categoryColors[category] ?? categoryColors.exercise);
+  const icon = isRest
+    ? categoryIcons.rest
+    : (categoryIcons[category] ?? categoryIcons.exercise);
 
   if (failed || !src) {
     return (
