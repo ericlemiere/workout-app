@@ -14,6 +14,8 @@ import {
   clearAllProgress,
   getLunarCycles,
   saveLunarCycles,
+  getTotalCycles,
+  saveTotalCycles,
   getCycleCompleteAcknowledged,
   saveCycleCompleteAcknowledged,
 } from '@/lib/storage'
@@ -24,6 +26,7 @@ interface ProgressState {
   settings: AppSettings
   cycleStartedAt: string | null
   lunarCycles: number
+  totalCycles: number
   cycleCompleteAcknowledged: boolean
   hydrated: boolean
 
@@ -47,6 +50,7 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
   },
   cycleStartedAt: null,
   lunarCycles: 0,
+  totalCycles: 0,
   cycleCompleteAcknowledged: false,
   hydrated: false,
 
@@ -58,6 +62,7 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       settings: getSettings(),
       cycleStartedAt: getCycleStartedAt(),
       lunarCycles: getLunarCycles(),
+      totalCycles: getTotalCycles(),
       cycleCompleteAcknowledged: getCycleCompleteAcknowledged(),
       hydrated: true,
     })
@@ -103,14 +108,14 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
   },
 
   completeCycle: (earnedLunarCycle) => {
-    const current = get().lunarCycles
-    const next = earnedLunarCycle ? current + 1 : current
-    if (earnedLunarCycle) saveLunarCycles(next)
-    // Reset the grid for the new cycle
+    const nextLunar = earnedLunarCycle ? get().lunarCycles + 1 : get().lunarCycles
+    const nextTotal = get().totalCycles + 1
+    if (earnedLunarCycle) saveLunarCycles(nextLunar)
+    saveTotalCycles(nextTotal)
     const ts = new Date().toISOString()
     saveCycleStartedAt(ts)
     saveCycleCompleteAcknowledged(false)
-    set({ lunarCycles: next, cycleStartedAt: ts, cycleCompleteAcknowledged: false })
+    set({ lunarCycles: nextLunar, totalCycles: nextTotal, cycleStartedAt: ts, cycleCompleteAcknowledged: false })
   },
 
   acknowledgeCycleComplete: () => {

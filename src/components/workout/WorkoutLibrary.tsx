@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
 import { MoonIcon } from "@/lib/moonIcon";
 import { CycleCompleteScreen } from "@/components/workout/CycleCompleteScreen";
-import { ModalFromBottom } from "@/components/workout/ModalFromBottom";
 
 interface Props {
   workouts: Workout[];
@@ -34,42 +33,14 @@ function focusTag(tags: string[]): string {
 
 const DAYS_IN_CYCLE = 28;
 
-const STAT_INFO: Record<string, { title: string; description: string }> = {
-  completed: {
-    title: "Workouts Completed 🏋️‍♀️",
-    description:
-      "The total number of workouts you've finished across your entire history, including all past cycles.",
-  },
-  streak: {
-    title: "Current Streak 🔥",
-    description:
-      "Consecutive days you've completed at least one workout. Multiple workouts in a single day still count as one. The streak resets if you miss a day.",
-  },
-  best: {
-    title: "Best Streak 🏆",
-    description:
-      "Your longest run of consecutive workout days ever recorded. Keep pushing to beat it.",
-  },
-  lunar: {
-    title: "Lunar Cycles 🌙",
-    description:
-      "The number of times you've completed all 28 workouts within a single 28-day window — one workout for each phase of the moon.",
-  },
-};
-
 export function WorkoutLibrary({ workouts }: Props) {
   const completed = useProgressStore((s) => s.completed);
   const streak = useProgressStore((s) => s.streak);
   const cycleStartedAt = useProgressStore((s) => s.cycleStartedAt);
-  const lunarCycles = useProgressStore((s) => s.lunarCycles);
   const cycleCompleteAcknowledged = useProgressStore(
     (s) => s.cycleCompleteAcknowledged,
   );
   const resetGrid = useProgressStore((s) => s.resetGrid);
-  const [statModal, setStatModal] = useState<{
-    title: string;
-    description: string;
-  } | null>(null);
 
   const completedIds = useMemo(
     () =>
@@ -120,50 +91,23 @@ export function WorkoutLibrary({ workouts }: Props) {
           <h1 className="sr-only">MOOV Exercise App</h1>
         </div>
 
-        {/* Stats row */}
+        {/* Streak + cycle controls */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="mb-5"
         >
-          <div className="border-t border-b border-lime/30 px-4 grid grid-cols-4 gap-2">
-            {[
-              {
-                key: "completed",
-                top: "Workouts",
-                bot: "Completed",
-                value: completed.length,
-              },
-              {
-                key: "streak",
-                top: "Current",
-                bot: "Streak",
-                value: streak.currentStreak,
-              },
-              {
-                key: "best",
-                top: "Best",
-                bot: "Streak",
-                value: streak.longestStreak,
-              },
-              { key: "lunar", top: "Lunar", bot: "Cycles", value: lunarCycles },
-            ].map(({ key, top, bot, value }) => (
-              <button
-                key={key}
-                onClick={() => setStatModal(STAT_INFO[key])}
-                className="text-center py-1 active:opacity-60"
-              >
-                <div className="text-slate-300 text-xs mt-0.5">{top}</div>
-                <div className="text-slate-300 text-xs -mt-0.5">{bot}</div>
-                <div className="text-offwhite font-orbitron text-xl font-bold">
-                  {value}
-                </div>
-              </button>
-            ))}
+          <div className="border-t border-b border-lime/30 px-4 py-1 flex items-center justify-center gap-2">
+            <span className="text-slate-300 text-xs">Current Streak</span>
+            <span className="text-offwhite font-orbitron text-xl font-bold">
+              {streak.currentStreak}
+            </span>
+            <span className="text-slate-300 text-xs">
+              {streak.currentStreak === 1 ? "day" : "days"}
+            </span>
           </div>
 
-          {/* Restart cycle button — only shown once all 28 are done */}
           {cycleDone && (
             <div className="px-4 pt-2">
               <button
@@ -264,36 +208,6 @@ export function WorkoutLibrary({ workouts }: Props) {
         </div>
       </div>
 
-      <ModalFromBottom open={!!statModal} onClose={() => setStatModal(null)}>
-        {statModal && (
-          <div className="px-5 pt-4 pb-10">
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <h2 className="text-offwhite text-xl font-bold leading-snug">
-                {statModal.title}
-              </h2>
-              <button
-                onClick={() => setStatModal(null)}
-                className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0"
-                aria-label="Close"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  className="w-4 h-4 text-slate-300"
-                >
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <p className="text-slate-300 text-sm leading-relaxed">
-              {statModal.description}
-            </p>
-          </div>
-        )}
-      </ModalFromBottom>
     </>
   );
 }

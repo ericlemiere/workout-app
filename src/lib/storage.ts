@@ -6,6 +6,7 @@ const KEYS = {
   settings: 'workout_settings',
   cycleStartedAt: 'workout_cycle_start',
   lunarCycles: 'workout_lunar_cycles',
+  totalCycles: 'workout_total_cycles',
   cycleCompleteAcknowledged: 'workout_cycle_ack',
 } as const
 
@@ -102,6 +103,15 @@ export function getLunarCycles(): number {
 
 export function saveLunarCycles(count: number): void {
   localStorage.setItem(KEYS.lunarCycles, String(count))
+}
+
+export function getTotalCycles(): number {
+  if (typeof window === 'undefined') return 0
+  return parseInt(localStorage.getItem(KEYS.totalCycles) ?? '0', 10)
+}
+
+export function saveTotalCycles(count: number): void {
+  localStorage.setItem(KEYS.totalCycles, String(count))
 }
 
 export function getCycleCompleteAcknowledged(): boolean {

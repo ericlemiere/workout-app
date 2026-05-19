@@ -4,18 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { IoSettingsOutline } from "react-icons/io5";
+import { RiBarChartFill } from "react-icons/ri";
 
 const navItems = [
   {
     href: "/",
     label: "Workouts",
-    icon: (active: boolean) => (
+    icon: () => (
       <svg
         viewBox="0 0 24 24"
         fill="none"
         className="w-6 h-6"
         stroke="currentColor"
-        strokeWidth={active ? 2.5 : 2}
+        strokeWidth={2}
       >
         <rect x="2" y="8" width="6" height="8" rx="1" />
         <rect x="16" y="8" width="6" height="8" rx="1" />
@@ -25,11 +26,14 @@ const navItems = [
     ),
   },
   {
+    href: "/stats",
+    label: "Stats",
+    icon: () => <RiBarChartFill size={20} />,
+  },
+  {
     href: "/settings",
     label: "Settings",
-    icon: (active: boolean) => (
-      <IoSettingsOutline size={20} strokeWidth={active ? 2.5 : 2} />
-    ),
+    icon: () => <IoSettingsOutline size={20} />,
   },
 ];
 
@@ -53,7 +57,7 @@ export function BottomNav() {
               className="flex flex-col items-center gap-0.5 min-w-16 py-2 relative"
             >
               <span className={active ? "text-lime" : "text-slate-500"}>
-                {icon(active)}
+                {icon()}
               </span>
               <span
                 className={`text-[10px] font-medium tracking-wide ${active ? "text-lime" : "text-slate-500"}`}
