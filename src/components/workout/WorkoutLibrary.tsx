@@ -91,15 +91,15 @@ export function WorkoutLibrary({ workouts }: Props) {
           <h1 className="sr-only">MOOV Exercise App</h1>
         </div>
 
-        {/* Streak + cycle controls */}
+        {/* Streak */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="mb-5"
+          className="mb-5 -mt-4 px-4.5 flex w-full justify-end"
         >
-          <div className="border-t border-b border-lime/30 px-4 py-1 flex items-center justify-center gap-2">
-            <span className="text-slate-300 text-xs">Current Streak</span>
+          <div className="w-fit border-lime/30 flex items-center justify-center gap-2">
+            <span className="text-slate-300 text-xs">Current Streak:</span>
             <span className="text-offwhite font-orbitron text-xl font-bold">
               {streak.currentStreak}
             </span>
@@ -207,7 +207,6 @@ export function WorkoutLibrary({ workouts }: Props) {
           })}
         </div>
       </div>
-
     </>
   );
 }

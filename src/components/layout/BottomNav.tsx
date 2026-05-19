@@ -5,25 +5,14 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiBarChartFill } from "react-icons/ri";
+import { CiDumbbell } from "react-icons/ci";
+import { FaDumbbell } from "react-icons/fa6";
 
 const navItems = [
   {
     href: "/",
     label: "Workouts",
-    icon: () => (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        className="w-6 h-6"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <rect x="2" y="8" width="6" height="8" rx="1" />
-        <rect x="16" y="8" width="6" height="8" rx="1" />
-        <path d="M8 12h8" strokeLinecap="round" />
-        <path d="M6 6v12M18 6v12" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: () => <FaDumbbell size={20} />,
   },
   {
     href: "/stats",
