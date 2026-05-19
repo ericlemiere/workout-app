@@ -29,10 +29,10 @@ const sectionLabel: Record<string, string> = {
 };
 
 const sectionColor: Record<string, string> = {
-  warmup: "text-electric-cyan",
-  exercise: "text-lime",
-  rest: "text-electric-green",
-  cooldown: "text-electric-violet",
+  warmup: "text-warmup",
+  exercise: "text-exercise",
+  rest: "text-rest",
+  cooldown: "text-cooldown",
   intro: "text-slate-400",
   complete: "text-lime",
 };
@@ -182,24 +182,24 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
       <div className="flex items-center justify-between px-4 pt-2 pb-1 shrink-0">
         <div className="flex items-center gap-2">
           <span
-            className={`text-sm font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}
+            className={`text-lg font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}
           >
             {sectionLabel[displaySection]}
           </span>
 
           {!isRest && section !== "cooldown" && (
-            <span className="text-lime text-sm">
+            <span className="text-lime text-lg">
               {overallNumber}/{totalCount}
             </span>
           )}
         </div>
-        <span className="text-lime text-sm tabular-nums">
+        <span className="text-lime text-lg tabular-nums">
           {formatTime(totalWorkoutElapsed)}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-0.5 bg-charcoal mx-4 rounded-full shrink-0">
+      <div className="h-1 bg-charcoal mx-4 rounded-full shrink-0">
         <motion.div
           className="h-full bg-lime rounded-full"
           style={{ width: `${(overallNumber / totalCount) * 100}%` }}
@@ -222,11 +222,9 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             className="absolute inset-0"
           >
             {isRest ? (
-              <div className="w-full h-full bg-linear-to-br from-emerald-900/40 to-slate-900 flex flex-col items-center justify-center">
+              <div className="w-full h-full bg-linear-to-br from-rest/20 to-white/20 flex flex-col items-center justify-center">
                 <span className="text-6xl mb-3">🧘</span>
-                <p className="text-electric-green font-semibold text-lg">
-                  Take a breath
-                </p>
+                <p className="text-rest font-semibold text-lg">Take a breath</p>
               </div>
             ) : (
               <ExerciseImage
@@ -250,7 +248,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           transition={{ duration: 0.25 }}
           className="px-4 mt-3 shrink-0"
         >
-          <h2 className="text-offwhite text-2xl font-bold leading-snug">
+          <h2 className="text-offwhite text-4xl font-bold leading-snug">
             {isRest ? "Rest" : (exercise?.name ?? "")}
           </h2>
         </motion.div>
@@ -274,7 +272,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             key={`get-ready-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-lime text-lg"
+            className="text-lime text-xl"
           >
             <span className="uppercase font-bold tracking-widest animate-pulse">
               Get Ready
@@ -286,9 +284,9 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             key={`next-${section}-${exerciseIndex}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-slate-500 text-lg"
+            className="text-slate-300 text-xl"
           >
-            <span className="text-slate-600">Next →</span>{" "}
+            <span className="text-slate-500">Next →</span>{" "}
             <span
               className={
                 nextExercise.isRest ? "text-electric-green" : "text-slate-400"
@@ -342,11 +340,11 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-7 h-7 text-navy"
+                    className="w-7 h-7 text-charcoal"
                   >
                     <path d="M8 5v14l11-7z" />
                   </svg>
-                  <span className="text-navy font-semibold text-lg">
+                  <span className="text-charcoal font-semibold text-lg">
                     Resume
                   </span>
                 </motion.div>
@@ -362,12 +360,12 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-7 h-7 text-navy"
+                    className="w-7 h-7 text-charcoal"
                   >
                     <rect x="6" y="4" width="4" height="16" rx="1" />
                     <rect x="14" y="4" width="4" height="16" rx="1" />
                   </svg>
-                  <span className="text-navy font-semibold text-lg">Pause</span>
+                  <span className="text-charcoal font-semibold text-lg">Pause</span>
                 </motion.div>
               )}
             </AnimatePresence>

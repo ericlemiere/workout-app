@@ -79,9 +79,16 @@ export function SettingsScreen() {
   }
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto pb-28 safe-top">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="min-h-screen max-w-xl mx-auto pb-28 safe-top"
+    >
       <div className="px-4 pt-8 pb-6">
-        <h1 className="text-offwhite text-3xl font-bold font-orbitron tracking-wider">Settings</h1>
+        <h1 className="text-offwhite text-3xl font-bold font-orbitron tracking-wider">
+          Settings
+        </h1>
       </div>
 
       {/* Preferences */}
@@ -129,9 +136,7 @@ export function SettingsScreen() {
           <div className="flex items-center justify-between gap-2 py-4">
             <div>
               <p className="text-offwhite font-medium">Share</p>
-              <p className="text-slate-500 text-xs mt-0.5">
-                MOOV with someone
-              </p>
+              <p className="text-slate-500 text-xs mt-0.5">MOOV with someone</p>
             </div>
             <motion.button
               whileTap={{ scale: 0.95 }}
@@ -243,6 +248,6 @@ export function SettingsScreen() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

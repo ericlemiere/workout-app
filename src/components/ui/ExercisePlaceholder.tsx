@@ -11,10 +11,10 @@ interface Props {
 }
 
 const categoryColors: Record<string, string> = {
-  "warm-up": "from-electric-violet/20 to-white/20",
-  exercise: "from-electric-orange/20 to-white/20",
-  "cool-down": "from-electric-cyan/20 to-white/20",
-  rest: "from-electric-green/20 to-white/20",
+  "warm-up": "from-warmup/20 to-white/20",
+  exercise: "from-exercise/20 to-white/20",
+  "cool-down": "from-cooldown/20 to-white/20",
+  rest: "from-rest/20 to-white/20",
 };
 
 const categoryIcons: Record<string, string> = {

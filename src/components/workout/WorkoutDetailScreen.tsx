@@ -17,9 +17,9 @@ interface Props {
 }
 
 const categoryColor: Record<string, string> = {
-  "warm-up": "text-electric-violet",
-  exercise: "text-electric-orange",
-  "cool-down": "text-electric-cyan",
+  "warm-up": "text-warmup",
+  exercise: "text-exercise",
+  "cool-down": "text-cooldown",
 };
 
 function ExerciseRow({
@@ -51,7 +51,7 @@ function ExerciseRow({
       </div>
       <div className="flex-1 min-w-0">
         <p
-          className={`${exercise.isRest ? "text-electric-green" : "text-offwhite"} text-sm font-medium leading-snug`}
+          className={`${exercise.isRest ? "text-rest" : "text-offwhite"} text-sm font-medium leading-snug`}
         >
           {exercise.name}
         </p>
@@ -85,7 +85,12 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
   return (
     <>
-      <div className="min-h-screen max-w-xl mx-auto pb-32 safe-top">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="min-h-screen max-w-xl mx-auto pb-32 safe-top"
+      >
         {/* Hero */}
         <div className="relative h-56">
           <ExerciseImage
@@ -163,7 +168,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Warmup section */}
           <div className="mb-6">
-            <h2 className="text-electric-violet text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-warmup text-xs font-bold uppercase tracking-widest mb-3">
               Warm Up · {workout.warmups.length} exercises
             </h2>
             <div className="bg-charcoal/50 rounded-2xl px-4">
@@ -180,7 +185,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Main exercises */}
           <div className="mb-6">
-            <h2 className="text-electric-orange text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-exercise text-xs font-bold uppercase tracking-widest mb-3">
               Exercises · {workout.exercises.filter((e) => !e.isRest).length}{" "}
               exercises + rest
             </h2>
@@ -200,7 +205,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Cooldown */}
           <div className="mb-6">
-            <h2 className="text-electric-cyan text-xs font-bold uppercase tracking-widest mb-3">
+            <h2 className="text-cooldown text-xs font-bold uppercase tracking-widest mb-3">
               Cool Down · {workout.cooldowns.length} stretches
             </h2>
             <div className="bg-charcoal/50 rounded-2xl px-4">
@@ -215,7 +220,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <ExerciseModal
         exercise={selectedExercise}

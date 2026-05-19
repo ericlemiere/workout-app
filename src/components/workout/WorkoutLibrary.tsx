@@ -121,7 +121,12 @@ export function WorkoutLibrary({ workouts }: Props) {
         </div>
 
         {/* Stats row */}
-        <div className="mb-5">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="mb-5"
+        >
           <div className="border-t border-b border-lime/30 px-4 grid grid-cols-4 gap-2">
             {[
               {
@@ -169,10 +174,15 @@ export function WorkoutLibrary({ workouts }: Props) {
               </button>
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Legend */}
-        <div className="px-4 mb-2 grid grid-cols-4 justify-center gap-2">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="px-4 mb-2 grid grid-cols-4 justify-center gap-2"
+        >
           {Object.entries(tagTextColor).map(([tag, color]) => (
             <div
               key={tag}
@@ -181,7 +191,7 @@ export function WorkoutLibrary({ workouts }: Props) {
               <span className={`text-xs capitalize ${color}`}>{tag}</span>
             </div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Workout grid */}
         <div className="px-4 grid grid-cols-4 gap-3">

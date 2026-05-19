@@ -15,15 +15,14 @@
   --color-offwhite: #f5f7fa;
 
   /* ── Workout category colors ── */
-  --color-electric-cyan: #00c2ff; /* lower body  — electric-cyan  */
-  --color-electric-green: #39ff14; /* upper body  — electric lime    */
-  --color-electric-violet: #bf5fff; /* core      — electric violet  */
-  /* full body   — brand lime       */
-  --color-electric-orange: #ff6700; /* cardio     — electric orange  */
+  --color-electric-cyan: #00c2ff;
+  --color-electric-green: #39ff14;
+  --color-electric-violet: #c84dff;
+  --color-electric-orange: #ff8a1f;
 
   /* ── Section colors ── */
-  --color-warmup: var(--color-electric-orange);
-  --color-exercise: var(--color-lime);
+  --color-warmup: var(--color-lime);
+  --color-exercise: var(--color-electric-cyan);
   --color-rest: var(--color-electric-green);
   --color-cooldown: var(--color-electric-violet);
 }

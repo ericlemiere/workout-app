@@ -170,7 +170,7 @@ export function SplashScreen() {
             key="splash"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-100 flex flex-col items-center safe-topsafe-bottom"
+            className="fixed inset-0 z-100 flex flex-col items-center bg-navy safe-topsafe-bottom"
           >
             {/* Header */}
             <div className="py-2">
@@ -192,7 +192,7 @@ export function SplashScreen() {
               <h1 className="sr-only">MOOV Exercise App</h1>
             </div>
             {/* Moon — flex-1 so it always fills the same space regardless of CTA */}
-            <div className="w-full flex-1 flex items-center justify-center bg-navy">
+            <div className="w-full flex-1 flex items-center justify-center">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -204,7 +204,7 @@ export function SplashScreen() {
             </div>
 
             {/* CTA — fixed height so moon never shifts when content appears */}
-            <div className="h-65 w-full bg-navy shrink-0 pb-10 px-8 text-center flex flex-col items-center justify-end">
+            <div className="h-65 w-full shrink-0 pb-10 px-8 text-center flex flex-col items-center justify-end">
               <AnimatePresence>
                 {ready && isFirstVisit && (
                   <motion.div

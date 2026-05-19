@@ -29,7 +29,7 @@ export function CircularTimer({
   const isUrgent = remainingMs <= 4000 && remainingMs > 0;
 
   const trackColor = isRest ? "rgba(52,211,153,0.12)" : "rgba(183,230,59,0.12)";
-  const progressColor = isRest ? "#34d399" : isUrgent ? "#f87171" : "#B7E63B";
+  const progressColor = isRest ? "#39ff14" : isUrgent ? "#ff8a1f" : "#B7E63B";
 
   return (
     <div
@@ -65,10 +65,7 @@ export function CircularTimer({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span
-          className="font-bold font-orbitron tracking-widest tabular-nums leading-none text-4xl"
-          style={{
-            color: isUrgent ? "#f87171" : "#F5F7FA",
-          }}
+          className={`font-bold font-orbitron tracking-widest tabular-nums leading-none text-4xl text-white`}
         >
           {timeStr}
         </span>
