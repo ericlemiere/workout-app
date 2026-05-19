@@ -98,19 +98,15 @@ function SplashMoon({ phase }: { phase: number }) {
 const ONE_ROTATION_MS = 28 * 80; // 2240ms
 
 export function SplashScreen() {
-  const [show, setShow] = useState(true);
+  const [visible, setVisible] = useState(true);
   const [phase, setPhase] = useState(1);
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [isFirstVisit, setIsFirstVisit] = useState(false);
+  const [slowConnection, setSlowConnection] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem("moov_splash") === "done") {
-      setShow(false);
-      return;
-    }
-
     const firstVisit = localStorage.getItem("moov_visited") !== "true";
     setIsFirstVisit(firstVisit);
 
@@ -125,25 +121,29 @@ export function SplashScreen() {
       const tryReady = () => {
         if (minDone && swDone) setReady(true);
       };
-      const timer = setTimeout(() => {
+      const minTimer = setTimeout(() => {
         minDone = true;
         tryReady();
       }, 2200);
+      const slowTimer = setTimeout(() => {
+        if (!swDone) setSlowConnection(true);
+      }, 4000);
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.ready.then(() => {
           swDone = true;
+          setSlowConnection(false);
           tryReady();
         });
       }
       return () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
-        clearTimeout(timer);
+        clearTimeout(minTimer);
+        clearTimeout(slowTimer);
       };
     } else {
       // Returning user: auto-dismiss after exactly one full rotation
       const timer = setTimeout(() => {
         if (intervalRef.current) clearInterval(intervalRef.current);
-        sessionStorage.setItem("moov_splash", "done");
         setDismissed(true);
       }, ONE_ROTATION_MS);
       return () => {
@@ -156,14 +156,13 @@ export function SplashScreen() {
   const dismiss = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     localStorage.setItem("moov_visited", "true");
-    sessionStorage.setItem("moov_splash", "done");
     setDismissed(true);
   };
 
-  if (!show) return null;
+  if (!visible) return null;
 
   return (
-    <AnimatePresence onExitComplete={() => setShow(false)}>
+    <AnimatePresence onExitComplete={() => setVisible(false)}>
       {!dismissed && (
         <>
           <motion.div
@@ -205,12 +204,13 @@ export function SplashScreen() {
 
             {/* CTA — fixed height so moon never shifts when content appears */}
             <div className="h-65 w-full shrink-0 pb-10 px-8 text-center flex flex-col items-center justify-end">
-              <AnimatePresence>
-                {ready && isFirstVisit && (
+              <AnimatePresence mode="wait">
+                {ready && isFirstVisit ? (
                   <motion.div
                     key="cta"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.65, ease: "easeOut" }}
                     className="flex flex-col items-center gap-7"
                   >
@@ -229,7 +229,23 @@ export function SplashScreen() {
                       LETS MOOV
                     </button>
                   </motion.div>
-                )}
+                ) : slowConnection && isFirstVisit ? (
+                  <motion.div
+                    key="slow"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="flex flex-col items-center gap-2"
+                  >
+                    <p className="text-slate-300 text-sm font-medium">
+                      Downloading for offline use…
+                    </p>
+                    <p className="text-slate-500 text-xs">
+                      Slow connection detected. Almost there.
+                    </p>
+                  </motion.div>
+                ) : null}
               </AnimatePresence>
             </div>
           </motion.div>

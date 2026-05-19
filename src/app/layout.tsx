@@ -62,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} ${orbitron.variable} ${spaceMono.variable} h-full`}>
       <body className="h-full bg-navy text-offwhite antialiased font-sans overflow-x-hidden">
+        <script dangerouslySetInnerHTML={{ __html: "history.scrollRestoration='manual'" }} />
         <ServiceWorkerRegistrar />
         <ProgressHydrator />
         <SplashScreen />
