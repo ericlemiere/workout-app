@@ -36,22 +36,22 @@ const DAYS_IN_CYCLE = 28;
 
 const STAT_INFO: Record<string, { title: string; description: string }> = {
   completed: {
-    title: "Workouts Completed",
+    title: "Workouts Completed 🏋️‍♀️",
     description:
       "The total number of workouts you've finished across your entire history, including all past cycles.",
   },
   streak: {
-    title: "Current Streak",
+    title: "Current Streak 🔥",
     description:
       "Consecutive days you've completed at least one workout. Multiple workouts in a single day still count as one. The streak resets if you miss a day.",
   },
   best: {
-    title: "Best Streak",
+    title: "Best Streak 🏆",
     description:
       "Your longest run of consecutive workout days ever recorded. Keep pushing to beat it.",
   },
   lunar: {
-    title: "Lunar Cycles",
+    title: "Lunar Cycles 🌙",
     description:
       "The number of times you've completed all 28 workouts within a single 28-day window — one workout for each phase of the moon.",
   },

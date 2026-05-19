@@ -170,10 +170,10 @@ export function SplashScreen() {
             key="splash"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-100 flex flex-col items-center bg-navy safe-topsafe-bottom"
+            className="fixed inset-0 z-100 bg-navy flex flex-col safe-top safe-bottom"
           >
-            {/* Header */}
-            <div className="py-2">
+            {/* Header — matches WorkoutLibrary: w-full max-w-xl mx-auto py-2 */}
+            <div className="w-full max-w-xl mx-auto py-2">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
