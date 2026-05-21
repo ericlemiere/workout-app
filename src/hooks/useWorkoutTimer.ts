@@ -27,9 +27,11 @@ export function useWorkoutTimer(onComplete?: () => void) {
     hasCompletedRef.current = false;
     lastBeepRef.current = -1;
     setRemainingMs(getRemainingMs(timer));
+    let restBeepTimeout: ReturnType<typeof setTimeout> | undefined;
     if (soundEnabled && !isGetReady && currentExercise?.isRest) {
-      playRestBeep();
+      restBeepTimeout = setTimeout(() => playRestBeep(), 500);
     }
+    return () => clearTimeout(restBeepTimeout);
   }, [timer.startTs, timer.duration]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
