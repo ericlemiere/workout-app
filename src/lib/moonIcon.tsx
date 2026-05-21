@@ -115,3 +115,77 @@ export function MoonIcon({ num }: { num: number }) {
     </svg>
   );
 }
+
+export function MoonIconSimple() {
+  const num = 5;
+  const path = getMoonPath(num - 1);
+  const id = "moonSimple";
+
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden>
+      <defs>
+        <clipPath id={`${id}k`}>
+          <circle cx="50" cy="50" r="40" />
+        </clipPath>
+        <radialGradient id={`${id}g`} cx="40%" cy="36%" r="65%">
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.4" />
+          <stop
+            offset="65%"
+            stopColor="currentColor"
+            stopOpacity="0.29"
+          />
+          <stop
+            offset="100%"
+            stopColor="currentColor"
+            stopOpacity="0.155"
+          />
+        </radialGradient>
+       
+        <filter id={`${id}glow`} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="blur" in2="SourceGraphic" operator="over" />
+        </filter>
+      </defs>
+      <g clipPath={`url(#${id}k)`}>
+        <circle cx="50" cy="50" r="40" fill="rgba(10,12,28,0.75)" />
+        {path && (
+          <path d={path} fill={`url(#${id}g)`} filter={`url(#${id}f)`} />
+        )}
+        <g opacity="0.55">
+          {CRATERS.slice(0, 7).map((c, i) => (
+            <ellipse
+              key={i}
+              cx={c.cx}
+              cy={c.cy}
+              rx={c.rx}
+              ry={c.ry}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="4"
+              strokeOpacity="1"
+            />
+          ))}
+        </g>
+      </g>
+      <circle
+        cx="50"
+        cy="50"
+        r="40"
+        fill="none"
+        stroke="currentColor"
+        strokeOpacity={1}
+        strokeWidth={4}
+        filter={`url(#${id}glow)`}
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="40"
+        fill="none"
+        stroke="white"
+        strokeOpacity={0.18}
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}

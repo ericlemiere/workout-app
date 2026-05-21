@@ -3,21 +3,20 @@
 import { useState } from "react";
 import {
   HundredIcon,
-  RocketIcon,
   CrescentMoonIcon,
   TwentyFourHoursIcon,
-  CheckeredFlagIcon,
+  SevenStarIcon,
 } from "@/lib/customIcons";
-import { MoonIcon } from "@/lib/moonIcon";
+import { MoonIconSimple } from "@/lib/moonIcon";
 import { PiPlanetFill } from "react-icons/pi";
 import { RiAliensLine } from "react-icons/ri";
+import { SiSaturn } from "react-icons/si";
 import {
   GiTriplePlier,
   GiAstronautHelmet,
   GiSpaceSuit,
   GiSpaceShuttle,
   GiMoonOrbit,
-  GiEvilMoon,
   GiOrbitalRays,
   GiGiant,
   GiExplodingPlanet,
@@ -26,16 +25,40 @@ import {
   GiStarSattelites,
   GiSattelite,
   GiStarFlag,
+  GiRobotGolem,
+  GiRobotHelmet,
+  GiStripedSun,
+  GiAura,
+  GiAtlas,
+  GiBlackHoleBolas,
+  GiBlackball,
+  GiBurningMeteor,
+  GiDeathStar,
+  GiDrippingStar,
+  GiEclipseFlare,
+  GiFinishLine,
+  GiForwardField,
+  GiJupiter,
+  GiLaurelsTrophy,
+  GiMegabot,
+  GiMountaintop,
+  GiOrbDirection,
+  GiPlanetCore,
+  GiRoad,
+  GiRocket,
+  GiSoulVessel,
+  GiSquidHead,
+  GiStrong,
+  GiWorld,
 } from "react-icons/gi";
-import { LiaCalendarWeekSolid } from "react-icons/lia";
-import { SiSaturn } from "react-icons/si";
 
 import { ModalFromBottom } from "./ModalFromBottom";
 
 interface Achievement {
   id: string;
   name: string;
-  description: string;
+  description1: string;
+  description2: string;
   icon: React.ReactNode;
 }
 
@@ -43,51 +66,111 @@ const ACHIEVEMENTS: Achievement[] = [
   {
     id: "flagship-flexer",
     name: "Flagship Flexer",
-    description:
-      "Complete your very first workout. Every legend starts somewhere.",
+    description1: "Complete your very first workout.",
+    description2: "Every legend starts somewhere.",
     icon: <GiFlyingFlag size={60} />,
   },
   {
-    id: "super-satellite",
-    name: "Super Satellite",
-    description:
-      "Share this app with a friend. Spreading the word and growing the MOOVment.",
-    icon: <GiSattelite size={60} />,
+    id: "strong-start",
+    name: "Strong Start",
+    description1: "Complete 5 total workouts.",
+    description2: "The iron has spoken, and you're listening.",
+    icon: <GiStrong size={60} />,
   },
   {
     id: "week-freak",
     name: "Week Freak",
-    description:
-      "Complete a 7-day streak. Seven days straight — the week bows to you.",
-    icon: <LiaCalendarWeekSolid size={60} />,
+    description1: "Complete a 7-day streak.",
+    description2: "Seven days straight — the week bows to you.",
+    icon: (
+      <div className="relative flex justify-center items-center w-15">
+        <SevenStarIcon />
+      </div>
+    ),
+  },
+  {
+    id: "extraterrestrial-effort",
+    name: "Extraterrestrial Effort",
+    description1: "Complete 15 workouts in a single week.",
+    description2: "An alien-level effort that's genuinely bizarre.",
+    icon: <GiSquidHead size={60} />,
+  },
+  {
+    id: "sweat-star",
+    name: "Sweat Star",
+    description1: "Complete 10 total workouts.",
+    description2: "Your dedication is starting to shine.",
+    icon: <GiDrippingStar size={60} />,
   },
   {
     id: "alien-athlete",
     name: "Alien Athlete",
-    description:
-      "Complete a 14-day streak. Two weeks of consistency that's out of this world.",
+    description1: "Complete a 14-day streak.",
+    description2: "Two weeks of consistency that's out of this world.",
     icon: <RiAliensLine size={60} />,
   },
   {
-    id: "sinister-streak",
-    name: "Sinister Streak",
-    description:
-      "Complete a 21-day streak. Three unbroken weeks — downright diabolical.",
-    icon: <GiEvilMoon size={60} />,
+    id: "road-rager",
+    name: "Road Rager",
+    description1: "Complete 25 total workouts.",
+    description2: "You're on the road to strength and flexibility.",
+    icon: <GiRoad size={60} />,
+  },
+  {
+    id: "super-satellite",
+    name: "Super Satellite",
+    description1: "Share this app with a friend.",
+    description2: "Spreading the word and growing the MOOVment.",
+    icon: <GiSattelite size={60} />,
+  },
+  {
+    id: "forward-force",
+    name: "Forward Force",
+    description1: "Complete 40 total workouts.",
+    description2: "Always forward, never looking back.",
+    icon: <GiForwardField size={60} />,
+  },
+  {
+    id: "saturn-ringer",
+    name: "Saturn Ringer",
+    description1: "Complete 50 total workouts.",
+    description2: "Your consistency is legendary, like the rings of Saturn.",
+    icon: <SiSaturn size={60} />,
   },
   {
     id: "flex-finisher",
     name: "Flex Finisher",
-    description:
-      "Complete your very first cycle. You're on your way to greatness.",
-    icon: <CheckeredFlagIcon />,
+    description1: "Complete your very first full program cycle.",
+    description2: "One lap down, the rest await.",
+    icon: <GiFinishLine size={60} />,
   },
-
+  {
+    id: "thats-no-moon",
+    name: "That's No Moon",
+    description1: "Complete a 21-day streak.",
+    description2: "You are becoming fully operational.",
+    icon: <GiDeathStar size={60} />,
+  },
+  {
+    id: "comet-crusher",
+    name: "Comet Crusher",
+    description1: "Complete 75 total workouts.",
+    description2: "Blazing through the atmosphere with unstoppable velocity.",
+    icon: <GiBurningMeteor size={60} />,
+  },
+  {
+    id: "gravity-grinder",
+    name: "Gravity Grinder",
+    description1: "Complete a 45-day streak.",
+    description2:
+      "Your gravitational pull is undeniable — everything is drawn to you.",
+    icon: <GiBlackHoleBolas size={60} />,
+  },
   {
     id: "crescent-cruncher",
     name: "Crescent Cruncher",
-    description:
-      "Complete all 28 workouts within a single 28-day lunar window.",
+    description1: "Complete all 28 workouts within a single 28-day window.",
+    description2: "One workout for every phase of the moon.",
     icon: (
       <div className="relative flex justify-center items-center w-15 rotate-45">
         <CrescentMoonIcon />
@@ -95,16 +178,10 @@ const ACHIEVEMENTS: Achievement[] = [
     ),
   },
   {
-    id: "orbit-olympian",
-    name: "Orbit Olympian",
-    description: "Complete 2 full lunar cycles. Health is on your radar.",
-    icon: <GiMoonOrbit size={60} />,
-  },
-  {
     id: "day-worker",
     name: "Day Worker",
-    description:
-      "Accumulate 24 hours of total workout time. A full day of sweat in the books.",
+    description1: "Accumulate 24 hours of total workout time.",
+    description2: "A full day of nothing but sweat.",
     icon: (
       <div className="relative flex justify-center items-center w-15">
         <TwentyFourHoursIcon />
@@ -112,17 +189,31 @@ const ACHIEVEMENTS: Achievement[] = [
     ),
   },
   {
+    id: "orbit-olympian",
+    name: "Orbit Olympian",
+    description1: "Complete 2 full lunar cycles.",
+    description2: "The moon has you firmly on its radar.",
+    icon: <GiMoonOrbit size={60} />,
+  },
+  {
+    id: "astro-aura",
+    name: "Astro Aura",
+    description1: "Complete 3 full lunar cycles.",
+    description2: "Your cosmic energy is impossible to miss.",
+    icon: <GiAura size={60} />,
+  },
+  {
     id: "tri-cycler",
     name: "Tri-Cycler",
-    description:
-      "Complete 3 total program cycles. Three times through the grid.",
+    description1: "Complete 3 total program cycles.",
+    description2: "Three times through the grid, never slowing down.",
     icon: <GiTriplePlier size={60} />,
   },
   {
     id: "100-club",
     name: "100 Club",
-    description:
-      "Complete 100 total workouts. The century mark — you've earned your badge.",
+    description1: "Complete 100 total workouts.",
+    description2: "The century mark — you've earned your place.",
     icon: (
       <div className="relative flex justify-center items-center w-15">
         <HundredIcon />
@@ -130,99 +221,193 @@ const ACHIEVEMENTS: Achievement[] = [
     ),
   },
   {
+    id: "dark-devotee",
+    name: "Dark Devotee",
+    description1: "Complete 150 total workouts.",
+    description2: "Dense, dark, and utterly unstoppable.",
+    icon: <GiBlackball size={60} />,
+  },
+  {
     id: "active-astronaut",
     name: "Active Astronaut",
-    description: "Complete 5 full lunar cycles. Mission control is impressed.",
+    description1: "Complete 5 full lunar cycles.",
+    description2: "Mission control is thoroughly impressed.",
     icon: <GiAstronautHelmet size={60} />,
   },
-
+  {
+    id: "moov-martian",
+    name: "MOOV Martian",
+    description1: "Complete 5 total program cycles.",
+    description2: "The body follows wherever the soul commands.",
+    icon: <GiSoulVessel size={60} />,
+  },
   {
     id: "planet-pumper",
     name: "Planet Pumper",
-    description:
-      "Get a streak of 60 days. Two full months of non-stop MOOVing.",
+    description1: "Complete a 60-day streak.",
+    description2: "Two months of non-stop MOOVing.",
     icon: <PiPlanetFill size={60} />,
   },
   {
     id: "ripped-robot",
     name: "Ripped Robot",
-    description: "Complete 6 total program cycles. You're a machine.",
-    icon: <GiSpaceSuit size={60} />,
+    description1: "Complete 6 total program cycles.",
+    description2: "Built different — you're a machine.",
+    icon: <GiMegabot size={60} />,
   },
   {
     id: "celestial-body",
     name: "Celestial Body",
-    description:
-      "Complete 48 hours of total workout time. Your body is out of this world.",
+    description1: "Accumulate 48 hours of total workout time.",
+    description2: "Your body is becoming something out of this world.",
     icon: <GiOrbit size={60} />,
+  },
+  {
+    id: "sun-scorcher",
+    name: "Sun Scorcher",
+    description1: "Accumulate 72 hours of total workout time.",
+    description2: "Scorching through the cosmos, one rep at a time.",
+    icon: <GiStripedSun size={60} />,
+  },
+  {
+    id: "planet-core",
+    name: "Planet Core",
+    description1: "Complete 20 total core workouts.",
+    description2: "Your core is becoming the center of something powerful.",
+    icon: <GiPlanetCore size={60} />,
+  },
+  {
+    id: "super-cyborg",
+    name: "Super Cyborg",
+    description1: "Complete 8 total program cycles.",
+    description2: "Built from stone, shaped by nothing but discipline.",
+    icon: <GiRobotGolem size={60} />,
   },
   {
     id: "gains-giant",
     name: "Gains Giant",
-    description: "Complete 200 total workouts. Growth that's genuinely giant.",
+    description1: "Complete 200 total workouts.",
+    description2: "Growth on a genuinely giant scale.",
     icon: <GiGiant size={60} />,
   },
   {
     id: "world-wrecker",
     name: "World Wrecker",
-    description:
-      "Complete 10 full lunar cycles. At this point you're just blowing up planets.",
+    description1: "Complete 10 full lunar cycles.",
+    description2: "At this point, you're just blowing up planets.",
     icon: <GiExplodingPlanet size={60} />,
-  },
-  {
-    id: "space-shuttle",
-    name: "Space Shuttle",
-    description: "Complete 20 full lunar cycles. You live among the stars.",
-    icon: <GiSpaceShuttle size={60} />,
-  },
-  {
-    id: "reps-rocketeer",
-    name: "Reps Rocketeer",
-    description:
-      "Complete 2 lunar cycles without missing a day. You are rocketing to new heights.",
-    icon: (
-      <div className="relative flex justify-center items-center w-15 rotate-12">
-        <RocketIcon />
-      </div>
-    ),
-  },
-  {
-    id: "solar-sailor",
-    name: "Solar Sailor",
-    description:
-      "Complete 500 total workouts. Brighter and hotter than the sun.",
-    icon: <GiStarSattelites size={60} />,
-  },
-  {
-    id: "yoked-year",
-    name: "Yoked Year",
-    description:
-      "Complete 365 total workouts. One for every day — a year of pure dedication.",
-    icon: <GiOrbitalRays size={60} />,
-  },
-  {
-    id: "saturn-smasher",
-    name: "Saturn Smasher",
-    description:
-      "Complete 1000 total workouts. You've crushed a thousand sessions — like smashing a planet.",
-    icon: <SiSaturn size={60} />,
   },
   {
     id: "star-slayer",
     name: "Star Slayer",
-    description:
-      "Complete 5 cycles in a single lunar window. Five times through the grid within one moon cycle.",
+    description1: "Complete 12 full lunar cycles.",
+    description2: "A full year's worth of stellar dedication.",
     icon: <GiStarFlag size={60} />,
+  },
+  {
+    id: "eclipse-elitist",
+    name: "Eclipse Elitist",
+    description1: "Complete 15 full lunar cycles.",
+    description2: "Your dedication has eclipsed all expectations.",
+    icon: <GiEclipseFlare size={60} />,
+  },
+  {
+    id: "jupiter-juggernaut",
+    name: "Jupiter Juggernaut",
+    description1: "Complete 10 total program cycles.",
+    description2: "Ten laps around the grid — like Jupiter orbiting the sun.",
+    icon: <GiJupiter size={60} />,
+  },
+  {
+    id: "chrome-champion",
+    name: "Chrome Champion",
+    description1: "Complete 15 total program cycles.",
+    description2: "Fifteen laps through the grid — more machine than mortal.",
+    icon: <GiRobotHelmet size={60} />,
+  },
+  {
+    id: "summit-seeker",
+    name: "Summit Seeker",
+    description1: "Complete a 90-day streak.",
+    description2: "You've reached a peak most will only ever see from below.",
+    icon: <GiMountaintop size={60} />,
+  },
+  {
+    id: "atlas-athlete",
+    name: "Atlas Athlete",
+    description1: "Complete 300 total workouts.",
+    description2: "You carry the weight of the world — and you thrive.",
+    icon: <GiAtlas size={60} />,
+  },
+  {
+    id: "reps-rocketeer",
+    name: "Reps Rocketeer",
+    description1: "Complete 2 lunar cycles without missing a single day.",
+    description2:
+      "Fifty-six days of perfect execution — you are rocketing to a new tier.",
+    icon: (
+      <div className="relative rotate-270">
+        <GiRocket size={60} />
+      </div>
+    ),
+  },
+  {
+    id: "space-shuttler",
+    name: "Space Shuttler",
+    description1: "Complete 20 full lunar cycles.",
+    description2: "You don't just visit space — you live here.",
+    icon: <GiSpaceShuttle size={60} />,
+  },
+  {
+    id: "orbit-oracle",
+    name: "Orbit Oracle",
+    description1: "Complete 25 full lunar cycles.",
+    description2: "Your course is set, and nothing can knock you from orbit.",
+    icon: <GiOrbDirection size={60} />,
+  },
+  {
+    id: "world-warrior",
+    name: "World Warrior",
+    description1: "Complete 30 full lunar cycles.",
+    description2: "You've taken the world on — and won.",
+    icon: <GiWorld size={60} />,
+  },
+  {
+    id: "yoked-year",
+    name: "Yoked Year",
+    description1: "Complete 365 total workouts.",
+    description2: "One for every day of the year — pure dedication.",
+    icon: <GiOrbitalRays size={60} />,
+  },
+  {
+    id: "solar-sailor",
+    name: "Solar Sailor",
+    description1: "Complete 500 total workouts.",
+    description2: "Brighter and hotter than the sun itself.",
+    icon: <GiStarSattelites size={60} />,
+  },
+  {
+    id: "trophy-taker",
+    name: "Trophy Taker",
+    description1: "Complete 1000 total workouts.",
+    description2: "The laurels are yours — you've earned every single leaf.",
+    icon: <GiLaurelsTrophy size={60} />,
+  },
+  {
+    id: "exercise-explorer",
+    name: "Exercise Explorer",
+    description1: "Complete 5 program cycles within a single lunar window.",
+    description2: "Five full grids in one moon — thoroughly unprecedented.",
+    icon: <GiSpaceSuit size={60} />,
   },
   {
     id: "lunar-legend",
     name: "Lunar Legend",
-    description:
-      "Complete 50 full lunar cycles. A true legend of the moon and the grid.",
-
+    description1: "Complete 50 full lunar cycles.",
+    description2: "You are the myth, the legacy, the MOOV.",
     icon: (
       <div className="relative flex justify-center items-center w-15 rotate-12">
-        <MoonIcon num={1} />
+        <MoonIconSimple />
       </div>
     ),
   },
@@ -230,8 +415,22 @@ const ACHIEVEMENTS: Achievement[] = [
 
 export function Achievements() {
   const [openId, setOpenId] = useState<string | null>(null);
+  const completed = false;
 
   const active = ACHIEVEMENTS.find((a) => a.id === openId) ?? null;
+
+  const renderAcievements = () => {
+    return ACHIEVEMENTS.map((a) => (
+      <button
+        key={a.id}
+        onClick={() => setOpenId(a.id)}
+        className={`${completed ? "text-lime" : "text-slate-600"} flex flex-col items-center justify-center aspect-square text-center gap-2 text-xs active:bg-white/5 rounded-2xl transition-colors`}
+      >
+        {a.icon}
+        <p>{a.name}</p>
+      </button>
+    ));
+  };
 
   return (
     <>
@@ -240,16 +439,7 @@ export function Achievements() {
           Achievements <span className="text-slate-500">[coming soon]</span>
         </h2>
         <div className="bg-charcoal/50 border border-lime/50 rounded-2xl mt-4 grid grid-cols-3 justify-center items-center">
-          {ACHIEVEMENTS.map((a) => (
-            <button
-              key={a.id}
-              onClick={() => setOpenId(a.id)}
-              className="text-slate-600 flex flex-col items-center justify-center aspect-square text-center gap-2 text-xs active:bg-white/5 rounded-2xl transition-colors"
-            >
-              {a.icon}
-              <p>{a.name}</p>
-            </button>
-          ))}
+          {renderAcievements()}
         </div>
       </div>
 
@@ -261,8 +451,11 @@ export function Achievements() {
               <p className="text-offwhite font-bold font-orbitron tracking-wider text-lg">
                 {active.name}
               </p>
-              <p className="text-slate-400 text-sm mt-3 leading-relaxed max-w-70 ">
-                {active.description}
+              <p className="text-slate-400 text-sm mt-3 leading-relaxed">
+                {active.description1}
+              </p>
+              <p className="text-slate-400 text-sm mt-1 leading-relaxed">
+                {active.description2}
               </p>
             </div>
           </div>

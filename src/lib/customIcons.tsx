@@ -128,56 +128,6 @@ export const TwentyFourHoursIcon = () => {
   );
 };
 
-export const RocketIcon = () => {
-  // a rocket ship blasting off, with some flames coming out of the bottom. The rocket should be sleek and modern, simple, with sharp edges
-  return (
-    <svg viewBox="0 0 100 100" className="w-full h-full" fill="currentColor">
-      {/* Flames */}
-      <path
-        d="M 35 75 L 30 85 L 35 80 L 32 90 L 37 82 L 35 95 L 40 85"
-        //fill="#FF6B35"
-        opacity="0.8"
-      />
-      <path
-        d="M 50 78 L 45 90 L 50 85 L 47 95 L 52 87 L 50 98 L 55 88"
-        //fill="#FFA500"
-        opacity="0.9"
-      />
-      <path
-        d="M 65 75 L 60 85 L 65 80 L 62 90 L 67 82 L 65 95 L 70 85"
-        //fill="#FF6B35"
-        opacity="0.8"
-      />
-      {/* Rocket body */}
-      <path d="M 50 5 L 65 35 L 65 70 L 35 70 L 35 35 Z" fill="currentColor" />
-      {/* Nose cone detail */}
-      <path d="M 50 5 L 60 30 L 40 30 Z" opacity="0.3" />
-      {/* Window */}
-      <circle cx="50" cy="40" r="6" fill="#050816" opacity="1" />
-      {/* Side fins */}
-      <path d="M 35 55 L 25 70 L 35 70 Z" fill="currentColor" />
-      <path d="M 65 55 L 75 70 L 65 70 Z" fill="currentColor" />
-      {/* Body details */}
-      <line
-        x1="40"
-        y1="50"
-        x2="40"
-        y2="68"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <line
-        x1="60"
-        y1="50"
-        x2="60"
-        y2="68"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
-
 export const CheckeredFlagIcon = () => {
   return (
     <svg
@@ -196,6 +146,31 @@ export const CheckeredFlagIcon = () => {
           <path d="M305.873,133.323c-5.713,15.458-11.426,30.916-17.139,46.375c17.601-1.075,34.629-1.093,52.073,1.72    c5.712-15.458,11.426-30.917,17.138-46.375C340.503,132.229,323.474,132.243,305.873,133.323z" />
         </g>
       </g>
+    </svg>
+  );
+};
+
+export const SevenStarIcon = () => {
+  // a seven pointed star, kind of like the one in the stats screen, but sharper and more angular, with a 7 in the middle.
+  return (
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="currentColor">
+      <polygon
+        points="50,5 57.3,30.2 80.9,22.4 66.5,43.5 89.7,54.5 65.8,58.6 68.2,83.6 50,68 31.8,83.6 34.2,58.6 10.3,54.5 33.5,43.5 19.1,22.4 42.7,30.2"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="currentColor"
+      />
+      <text
+        x="50"
+        y="60"
+        fontFamily="Audiowide, monospace"
+        fontSize="30"
+        fontWeight="bold"
+        textAnchor="middle"
+        fill="#050816"
+      >
+        7
+      </text>
     </svg>
   );
 };
