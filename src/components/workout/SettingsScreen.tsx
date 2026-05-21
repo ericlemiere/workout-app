@@ -126,8 +126,11 @@ export function SettingsScreen() {
         <div className="bg-charcoal/50 rounded-2xl px-4">
           <div className="py-4 border-b border-lime/50">
             <p className="text-slate-400 text-sm leading-relaxed">
-              A personal workout companion with 28 workouts, each ~20 minutes.
-              No subscriptions, no ads, no internet required after first load.
+              A complete at-home physical therapy program featuring 28 guided
+              workouts designed to improve full-body strength, mobility, and
+              flexibility. Each session takes about 20 minutes and requires
+              nothing more than your body weight and a mat. No subscriptions, no
+              ads, and no internet connection needed after the initial download.
             </p>
             <p className="text-offwhite text-xs mt-3">
               Install to home screen for the best experience.

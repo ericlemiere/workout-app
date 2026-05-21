@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { FaCalendarWeek, FaMoon } from "react-icons/fa6";
-import { FaFlagCheckered } from "react-icons/fa";
-import { MdSatelliteAlt } from "react-icons/md";
+import {
+  HundredIcon,
+  RocketIcon,
+  CrescentMoonIcon,
+  TwentyFourHoursIcon,
+  CheckeredFlagIcon,
+} from "@/lib/customIcons";
+import { MoonIcon } from "@/lib/moonIcon";
 import { PiPlanetFill } from "react-icons/pi";
 import { RiAliensLine } from "react-icons/ri";
 import {
@@ -17,12 +22,14 @@ import {
   GiGiant,
   GiExplodingPlanet,
   GiFlyingFlag,
-  GiGooeyEyedSun,
   GiOrbit,
+  GiStarSattelites,
+  GiSattelite,
+  GiStarFlag,
 } from "react-icons/gi";
-import { BsRocketTakeoffFill } from "react-icons/bs";
-import { TbClock24 } from "react-icons/tb";
-import { LiaMoneyBillSolid } from "react-icons/lia";
+import { LiaCalendarWeekSolid } from "react-icons/lia";
+import { SiSaturn } from "react-icons/si";
+
 import { ModalFromBottom } from "./ModalFromBottom";
 
 interface Achievement {
@@ -45,14 +52,14 @@ const ACHIEVEMENTS: Achievement[] = [
     name: "Super Satellite",
     description:
       "Share this app with a friend. Spreading the word and growing the MOOVment.",
-    icon: <MdSatelliteAlt size={60} />,
+    icon: <GiSattelite size={60} />,
   },
   {
     id: "week-freak",
     name: "Week Freak",
     description:
       "Complete a 7-day streak. Seven days straight — the week bows to you.",
-    icon: <FaCalendarWeek size={60} />,
+    icon: <LiaCalendarWeekSolid size={60} />,
   },
   {
     id: "alien-athlete",
@@ -73,15 +80,19 @@ const ACHIEVEMENTS: Achievement[] = [
     name: "Flex Finisher",
     description:
       "Complete your very first cycle. You're on your way to greatness.",
-    icon: <FaFlagCheckered size={60} />,
+    icon: <CheckeredFlagIcon />,
   },
 
   {
-    id: "lunar-lifter",
-    name: "Lunar Lifter",
+    id: "crescent-cruncher",
+    name: "Crescent Cruncher",
     description:
       "Complete all 28 workouts within a single 28-day lunar window.",
-    icon: <FaMoon size={60} />,
+    icon: (
+      <div className="relative flex justify-center items-center w-15 rotate-45">
+        <CrescentMoonIcon />
+      </div>
+    ),
   },
   {
     id: "orbit-olympian",
@@ -94,7 +105,11 @@ const ACHIEVEMENTS: Achievement[] = [
     name: "Day Worker",
     description:
       "Accumulate 24 hours of total workout time. A full day of sweat in the books.",
-    icon: <TbClock24 size={60} />,
+    icon: (
+      <div className="relative flex justify-center items-center w-15">
+        <TwentyFourHoursIcon />
+      </div>
+    ),
   },
   {
     id: "tri-cycler",
@@ -109,11 +124,8 @@ const ACHIEVEMENTS: Achievement[] = [
     description:
       "Complete 100 total workouts. The century mark — you've earned your badge.",
     icon: (
-      <div className="relative flex justify-center items-center">
-        <LiaMoneyBillSolid size={60} />
-        <p className="absolute bg-navy px-px py-px -mt-px text-xs w-fit text-slate-600">
-          100
-        </p>
+      <div className="relative flex justify-center items-center w-15">
+        <HundredIcon />
       </div>
     ),
   },
@@ -168,14 +180,18 @@ const ACHIEVEMENTS: Achievement[] = [
     name: "Reps Rocketeer",
     description:
       "Complete 2 lunar cycles without missing a day. You are rocketing to new heights.",
-    icon: <BsRocketTakeoffFill size={60} />,
+    icon: (
+      <div className="relative flex justify-center items-center w-15 rotate-12">
+        <RocketIcon />
+      </div>
+    ),
   },
   {
-    id: "solar-shredder",
-    name: "Solar Shredder",
+    id: "solar-sailor",
+    name: "Solar Sailor",
     description:
       "Complete 500 total workouts. Brighter and hotter than the sun.",
-    icon: <GiGooeyEyedSun size={60} />,
+    icon: <GiStarSattelites size={60} />,
   },
   {
     id: "yoked-year",
@@ -183,6 +199,32 @@ const ACHIEVEMENTS: Achievement[] = [
     description:
       "Complete 365 total workouts. One for every day — a year of pure dedication.",
     icon: <GiOrbitalRays size={60} />,
+  },
+  {
+    id: "saturn-smasher",
+    name: "Saturn Smasher",
+    description:
+      "Complete 1000 total workouts. You've crushed a thousand sessions — like smashing a planet.",
+    icon: <SiSaturn size={60} />,
+  },
+  {
+    id: "star-slayer",
+    name: "Star Slayer",
+    description:
+      "Complete 5 cycles in a single lunar window. Five times through the grid within one moon cycle.",
+    icon: <GiStarFlag size={60} />,
+  },
+  {
+    id: "lunar-legend",
+    name: "Lunar Legend",
+    description:
+      "Complete 50 full lunar cycles. A true legend of the moon and the grid.",
+
+    icon: (
+      <div className="relative flex justify-center items-center w-15 rotate-12">
+        <MoonIcon num={1} />
+      </div>
+    ),
   },
 ];
 
