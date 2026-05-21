@@ -64,17 +64,17 @@ interface Achievement {
 
 const ACHIEVEMENTS: Achievement[] = [
   {
-    id: "flagship-flexer",
-    name: "Flagship Flexer",
-    description1: "Complete your very first workout.",
-    description2: "Every legend starts somewhere.",
-    icon: <GiFlyingFlag size={60} />,
+    id: "road-rager",
+    name: "Road Rager",
+    description1: "Complete 5 total workouts.",
+    description2: "You're on the road to strength and flexibility.",
+    icon: <GiRoad size={60} />,
   },
   {
     id: "strong-start",
     name: "Strong Start",
-    description1: "Complete 5 total workouts.",
-    description2: "The iron has spoken, and you're listening.",
+    description1: "Complete a 3-day streak.",
+    description2: "A strong start leads to a strong you.",
     icon: <GiStrong size={60} />,
   },
   {
@@ -89,13 +89,6 @@ const ACHIEVEMENTS: Achievement[] = [
     ),
   },
   {
-    id: "extraterrestrial-effort",
-    name: "Extraterrestrial Effort",
-    description1: "Complete 15 workouts in a single week.",
-    description2: "An alien-level effort that's genuinely bizarre.",
-    icon: <GiSquidHead size={60} />,
-  },
-  {
     id: "sweat-star",
     name: "Sweat Star",
     description1: "Complete 10 total workouts.",
@@ -105,16 +98,23 @@ const ACHIEVEMENTS: Achievement[] = [
   {
     id: "alien-athlete",
     name: "Alien Athlete",
-    description1: "Complete a 14-day streak.",
-    description2: "Two weeks of consistency that's out of this world.",
+    description1: "Complete 15 total workouts.",
+    description2: "Your effort is out of this world.",
     icon: <RiAliensLine size={60} />,
   },
   {
-    id: "road-rager",
-    name: "Road Rager",
-    description1: "Complete 25 total workouts.",
-    description2: "You're on the road to strength and flexibility.",
-    icon: <GiRoad size={60} />,
+    id: "extraterrestrial-effort",
+    name: "Extraterrestrial Effort",
+    description1: "Complete a 14-day streak.",
+    description2: "Two weeks of otherworldly dedication.",
+    icon: <GiSquidHead size={60} />,
+  },
+  {
+    id: "flex-finisher",
+    name: "Flex Finisher",
+    description1: "Complete your very first full program cycle.",
+    description2: "One lap down, the rest await.",
+    icon: <GiFinishLine size={60} />,
   },
   {
     id: "super-satellite",
@@ -124,8 +124,8 @@ const ACHIEVEMENTS: Achievement[] = [
     icon: <GiSattelite size={60} />,
   },
   {
-    id: "forward-force",
-    name: "Forward Force",
+    id: "upward-force",
+    name: "Upward Force",
     description1: "Complete 40 total workouts.",
     description2: "Always forward, never looking back.",
     icon: <GiForwardField size={60} />,
@@ -137,13 +137,7 @@ const ACHIEVEMENTS: Achievement[] = [
     description2: "Your consistency is legendary, like the rings of Saturn.",
     icon: <SiSaturn size={60} />,
   },
-  {
-    id: "flex-finisher",
-    name: "Flex Finisher",
-    description1: "Complete your very first full program cycle.",
-    description2: "One lap down, the rest await.",
-    icon: <GiFinishLine size={60} />,
-  },
+
   {
     id: "thats-no-moon",
     name: "That's No Moon",

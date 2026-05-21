@@ -6,7 +6,7 @@ const CRATERS = [
   { cx: 35, cy: 32, rx: 2.2, ry: 2 },
   { cx: 72, cy: 60, rx: 5, ry: 4.5 },
   { cx: 50, cy: 26, rx: 1.5, ry: 1.5 },
-  { cx: 38, cy: 75, rx: 3, ry: 2.8 },
+  { cx: 38, cy: 78, rx: 3, ry: 2.8 },
   { cx: 25, cy: 40, rx: 1.8, ry: 1.6 },
 ];
 
@@ -116,6 +116,63 @@ export function MoonIcon({ num }: { num: number }) {
   );
 }
 
+export function MoonIconStats({ size = "w-full h-full" }: { size?: string }) {
+  return (
+    <svg viewBox="0 0 100 100" className={`${size}`} aria-hidden>
+      <defs>
+        <clipPath id="sm-clip">
+          <circle cx="50" cy="50" r="40" />
+        </clipPath>
+        <radialGradient id="sm-grad" cx="40%" cy="36%" r="65%">
+          <stop offset="0%" stopColor="white" stopOpacity="1" />
+          <stop offset="65%" stopColor="white" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="white" stopOpacity="0.55" />
+        </radialGradient>
+      </defs>
+      <g clipPath="url(#sm-clip)">
+        <circle cx="50" cy="50" r="40" fill="#b7e63b" />
+        <path
+          d="M 50 10 A 40 40 0 0 1 50 90 A 17.36 40 0 0 0 50 10 Z"
+          fill="rgba(0,0,0,0.7)"
+        />
+        <g opacity="0.55">
+          {CRATERS.map((c, i) => (
+            <ellipse
+              key={i}
+              cx={c.cx}
+              cy={c.cy}
+              rx={c.rx}
+              ry={c.ry}
+              fill="rgba(0,0,0,0.7)"
+              stroke="#b7e63b"
+              strokeWidth="1"
+              strokeOpacity="1"
+            />
+          ))}
+        </g>
+      </g>
+      <circle
+        cx="50"
+        cy="50"
+        r="40"
+        fill="none"
+        stroke="#b7e63b"
+        strokeOpacity={1}
+        strokeWidth={6}
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="40"
+        fill="none"
+        stroke="white"
+        strokeOpacity={0.18}
+        strokeWidth={1}
+      />
+    </svg>
+  );
+}
+
 export function MoonIconSimple() {
   const num = 5;
   const path = getMoonPath(num - 1);
@@ -129,18 +186,10 @@ export function MoonIconSimple() {
         </clipPath>
         <radialGradient id={`${id}g`} cx="40%" cy="36%" r="65%">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.4" />
-          <stop
-            offset="65%"
-            stopColor="currentColor"
-            stopOpacity="0.29"
-          />
-          <stop
-            offset="100%"
-            stopColor="currentColor"
-            stopOpacity="0.155"
-          />
+          <stop offset="65%" stopColor="currentColor" stopOpacity="0.29" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0.155" />
         </radialGradient>
-       
+
         <filter id={`${id}glow`} x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="3" result="blur" />
           <feComposite in="blur" in2="SourceGraphic" operator="over" />

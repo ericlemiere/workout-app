@@ -1,25 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
 import { FaDumbbell, FaTrophy } from "react-icons/fa6";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoFlame } from "react-icons/io5";
 import { GiCycle } from "react-icons/gi";
+import { MoonIconStats } from "@/lib/moonIcon";
 import { Achievements } from "./Achievements";
-
-const CRATERS = [
-  { cx: 44, cy: 68, rx: 7, ry: 6.5 },
-  { cx: 68, cy: 30, rx: 4.5, ry: 4 },
-  { cx: 62, cy: 50, rx: 2.5, ry: 2.5 },
-  { cx: 28, cy: 52, rx: 4, ry: 3.5 },
-  { cx: 35, cy: 32, rx: 2.2, ry: 2 },
-  { cx: 72, cy: 60, rx: 5, ry: 4.5 },
-  { cx: 50, cy: 26, rx: 1.5, ry: 1.5 },
-  { cx: 38, cy: 78, rx: 3, ry: 2.8 },
-  { cx: 25, cy: 40, rx: 1.8, ry: 1.6 },
-];
+import { ModalFromBottom } from "./ModalFromBottom";
 
 const APP_URL = "https://moov-1.vercel.app/";
 
@@ -38,6 +28,7 @@ interface StatRowProps {
   description: string;
   icon?: React.ReactNode;
   border?: boolean;
+  onClick?: () => void;
 }
 
 function StatRow({
@@ -46,9 +37,13 @@ function StatRow({
   description,
   icon,
   border = true,
+  onClick,
 }: StatRowProps) {
   return (
-    <div className={`py-4 ${border ? "border-b border-lime/50" : ""}`}>
+    <button
+      onClick={onClick}
+      className={`w-full text-left py-4 ${border ? "border-b border-lime/50" : ""} active:bg-white/5 transition-colors rounded-sm`}
+    >
       <div className="flex items-center justify-between gap-4 text-lime">
         {icon ?? <FaDumbbell size={40} />}
         <div className="flex w-full items-baseline justify-between gap-3 mb-1">
@@ -58,9 +53,15 @@ function StatRow({
           </span>
         </div>
       </div>
-      {/* <p className="text-slate-400 text-xs leading-relaxed">{description}</p> */}
-    </div>
+    </button>
   );
+}
+
+interface ActiveStat {
+  label: string;
+  value: string | number;
+  description: string;
+  icon: React.ReactNode;
 }
 
 export function StatsScreen() {
@@ -73,6 +74,8 @@ export function StatsScreen() {
     () => completed.reduce((sum, c) => sum + c.durationMs, 0),
     [completed],
   );
+
+  const [activeStat, setActiveStat] = useState<ActiveStat | null>(null);
 
   async function handleShare() {
     const text =
@@ -109,82 +112,74 @@ export function StatsScreen() {
             value={`${streak.currentStreak}d`}
             description="Consecutive days you've completed at least one workout. Multiple workouts in a single day still count as one. The streak resets if you miss a day."
             icon={<IoFlame size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Current Streak",
+                value: `${streak.currentStreak}d`,
+                description:
+                  "Consecutive days you've completed at least one workout. Multiple workouts in a single day still count as one. The streak resets if you miss a day.",
+                icon: <IoFlame size={48} />,
+              })
+            }
           />
           <StatRow
             label="Longest Streak"
             value={`${streak.longestStreak}d`}
             description="Your longest run of consecutive workout days ever recorded. Keep pushing to beat it."
             icon={<FaTrophy size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Longest Streak",
+                value: `${streak.longestStreak}d`,
+                description:
+                  "Your longest run of consecutive workout days ever recorded. Keep pushing to beat it.",
+                icon: <FaTrophy size={48} />,
+              })
+            }
           />
           <StatRow
             label="Workouts Completed"
             value={completed.length}
             description="The total number of workouts you've finished across your entire history, including all past cycles."
+            onClick={() =>
+              setActiveStat({
+                label: "Workouts Completed",
+                value: completed.length,
+                description:
+                  "The total number of workouts you've finished across your entire history, including all past cycles.",
+                icon: <FaDumbbell size={48} />,
+              })
+            }
           />
           <StatRow
             label="Cycles Completed"
             value={totalCycles}
             description="The total number of times you've completed all 28 workouts, regardless of time frame."
             icon={<GiCycle size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Cycles Completed",
+                value: totalCycles,
+                description:
+                  "The total number of times you've completed all 28 workouts, regardless of time frame.",
+                icon: <GiCycle size={48} />,
+              })
+            }
           />
           <StatRow
             label="Lunar Cycles Completed"
             value={lunarCycles}
             description="The number of times you've completed all 28 workouts within a single 28-day window — one workout for each phase of the moon."
-            icon={
-              <svg viewBox="0 0 100 100" className="w-10 h-10" aria-hidden>
-                <defs>
-                  <clipPath id="sm-clip">
-                    <circle cx="50" cy="50" r="40" />
-                  </clipPath>
-                  <radialGradient id="sm-grad" cx="40%" cy="36%" r="65%">
-                    <stop offset="0%" stopColor="white" stopOpacity="1" />
-                    <stop offset="65%" stopColor="white" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="white" stopOpacity="0.55" />
-                  </radialGradient>
-                </defs>
-                <g clipPath="url(#sm-clip)">
-                  <circle cx="50" cy="50" r="40" fill="#b7e63b" />
-                  <path
-                    d="M 50 10 A 40 40 0 0 1 50 90 A 17.36 40 0 0 0 50 10 Z"
-                    fill="rgba(0,0,0,0.7)"
-                  />
-                  <g opacity="0.55">
-                    {CRATERS.map((c, i) => (
-                      <ellipse
-                        key={i}
-                        cx={c.cx}
-                        cy={c.cy}
-                        rx={c.rx}
-                        ry={c.ry}
-                        fill="rgba(0,0,0,0.7)"
-                        stroke="#b7e63b"
-                        strokeWidth="1"
-                        strokeOpacity="1"
-                      />
-                    ))}
-                  </g>
-                </g>
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="#b7e63b"
-                  strokeOpacity={1}
-                  strokeWidth={6}
-                />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity={0.18}
-                  strokeWidth={1}
-                />
-              </svg>
+            onClick={() =>
+              setActiveStat({
+                label: "Lunar Cycles Completed",
+                value: lunarCycles,
+                description:
+                  "The number of times you've completed all 28 workouts within a single 28-day window — one workout for each phase of the moon.",
+                icon: <MoonIconStats size="w-12 h-12" />,
+              })
             }
+            icon={<MoonIconStats size="w-10 h-10" />}
           />
           <StatRow
             label="Total Workout Time"
@@ -192,10 +187,19 @@ export function StatsScreen() {
             description="The cumulative time you've spent working out across all sessions. Every second counts!"
             icon={<MdOutlineTimer size={40} />}
             border={false}
+            onClick={() =>
+              setActiveStat({
+                label: "Total Workout Time",
+                value: formatDuration(totalTimeMs),
+                description:
+                  "The cumulative time you've spent working out across all sessions. Every second counts!",
+                icon: <MdOutlineTimer size={48} />,
+              })
+            }
           />
         </div>
 
-         <Achievements />
+        <Achievements />
 
         <div className="bg-charcoal/50 rounded-2xl px-4">
           <div className="flex items-center justify-between gap-2 py-4">
@@ -227,9 +231,29 @@ export function StatsScreen() {
             </motion.button>
           </div>
         </div>
-
-       
       </div>
+
+      <ModalFromBottom
+        open={activeStat !== null}
+        onClose={() => setActiveStat(null)}
+      >
+        {activeStat && (
+          <div className="flex flex-col items-center text-center px-6 pt-4 pb-10 gap-5">
+            <div className="text-lime mt-2">{activeStat.icon}</div>
+            <div>
+              <p className="text-offwhite font-bold font-orbitron tracking-wider text-lg">
+                {activeStat.label}
+              </p>
+              <p className="text-lime font-orbitron font-bold tracking-widest text-3xl mt-2">
+                {activeStat.value}
+              </p>
+              <p className="text-slate-400 text-sm mt-4 leading-relaxed max-w-xs">
+                {activeStat.description}
+              </p>
+            </div>
+          </div>
+        )}
+      </ModalFromBottom>
     </motion.div>
   );
 }

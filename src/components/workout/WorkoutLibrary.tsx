@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
 import { MoonIcon } from "@/lib/moonIcon";
+import { IoFlame } from "react-icons/io5";
 import { CycleCompleteScreen } from "@/components/workout/CycleCompleteScreen";
 
 interface Props {
@@ -96,8 +97,9 @@ export function WorkoutLibrary({ workouts }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="mb-5 -mt-4 px-4.5 flex w-full justify-end"
+          className="flex w-full justify-center bg-charcoal/50 mb-5 px-4.5 py-1.5 border-y border-lime/30"
         >
+          <IoFlame size={24} className="text-lime mr-1" />
           <div className="w-fit border-lime/30 flex items-center justify-center gap-2">
             <span className="text-slate-300 text-xs">Current Streak:</span>
             <span className="text-offwhite font-orbitron text-xl font-bold">
