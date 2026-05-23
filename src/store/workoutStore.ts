@@ -19,6 +19,8 @@ interface WorkoutState {
   timer: TimerSnapshot
   workoutStartTs: number | null
   isPaused: boolean
+  pausedAt: number | null
+  pausedDurationMs: number
 
   startWorkout: (workout: Workout) => void
   beginSession: () => void
@@ -53,6 +55,8 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   timer: makeTimerSnapshot(0),
   workoutStartTs: null,
   isPaused: false,
+  pausedAt: null,
+  pausedDurationMs: 0,
 
   startWorkout: (workout) => {
     set({
@@ -63,6 +67,8 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       timer: makeTimerSnapshot(0),
       workoutStartTs: null,
       isPaused: false,
+      pausedAt: null,
+      pausedDurationMs: 0,
     })
   },
 
@@ -76,6 +82,8 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       timer: makeTimerSnapshot(GET_READY_SECS),
       workoutStartTs: Date.now(),
       isPaused: false,
+      pausedAt: null,
+      pausedDurationMs: 0,
     })
   },
 
@@ -90,13 +98,14 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   pauseWorkout: () => {
     const { timer, isPaused } = get()
     if (isPaused) return
-    set({ timer: pauseSnapshot(timer), isPaused: true })
+    set({ timer: pauseSnapshot(timer), isPaused: true, pausedAt: Date.now() })
   },
 
   resumeWorkout: () => {
-    const { timer, isPaused } = get()
+    const { timer, isPaused, pausedAt, pausedDurationMs } = get()
     if (!isPaused) return
-    set({ timer: resumeSnapshot(timer), isPaused: false })
+    const added = pausedAt ? Date.now() - pausedAt : 0
+    set({ timer: resumeSnapshot(timer), isPaused: false, pausedAt: null, pausedDurationMs: pausedDurationMs + added })
   },
 
   next: () => {
@@ -200,6 +209,8 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
       timer: makeTimerSnapshot(0),
       workoutStartTs: null,
       isPaused: false,
+      pausedAt: null,
+      pausedDurationMs: 0,
     })
   },
 

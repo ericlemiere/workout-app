@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
-import { MoonIconSimple, MoonIconStats } from "@/lib/moonIcon";
 
-type ConfirmMode = "grid" | "stats" | null;
+type ConfirmMode = "grid" | "stats" | "stats-final" | null;
 
 function Toggle({
   label,
@@ -33,10 +32,8 @@ function Toggle({
         className={`w-12 h-7 rounded-full transition-colors relative ${value ? "bg-lime/70" : "bg-slate-700"}`}
       >
         <span
-          className={`absolute -top-px w-7.5 h-7.5 rounded-full text-white shadow transition-transform ${value ? "-translate-x-1" : "-translate-x-6"}`}
-        >
-          <MoonIconSimple fill="white" craterColor="#05081680" />
-        </span>
+          className={`absolute top-px w-6.5 h-6.5 rounded-full bg-white shadow transition-transform ${value ? "-translate-x-0.5" : "-translate-x-6"}`}
+        ></span>
       </button>
     </div>
   );
@@ -53,8 +50,13 @@ const confirmContent: Record<
   },
   stats: {
     title: "Reset all stats?",
-    body: "Your completed count and streaks will be reset to 0, and grid checkmarks will all be cleared.",
+    body: "Your completed count and streaks will be reset to 0, all grid checkmarks will be cleared, and achievements will be lost.",
     label: "Yes, reset all",
+  },
+  "stats-final": {
+    title: "Are you absolutely sure?",
+    body: "This cannot be undone. Every workout, streak, cycle, and achievement will be permanently erased.",
+    label: "Wipe everything",
   },
 };
 
@@ -76,9 +78,17 @@ export function SettingsScreen() {
   }
 
   function handleConfirm() {
-    if (confirmMode === "grid") resetGrid();
-    if (confirmMode === "stats") resetAllStats();
-    setConfirmMode(null);
+    if (confirmMode === "grid") {
+      resetGrid();
+      setConfirmMode(null);
+    }
+    if (confirmMode === "stats") {
+      setConfirmMode("stats-final");
+    }
+    if (confirmMode === "stats-final") {
+      resetAllStats();
+      setConfirmMode(null);
+    }
   }
 
   return (
@@ -235,7 +245,9 @@ export function SettingsScreen() {
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
                 {confirmContent[confirmMode].body}
               </p>
-              <div className="flex gap-3">
+              <div
+                className={`flex ${confirmContent[confirmMode].title === "Are you absolutely sure?" ? "flex-row-reverse" : "flex-row"} gap-3`}
+              >
                 <button
                   onClick={() => setConfirmMode(null)}
                   className="flex-1 py-3.5 rounded-2xl bg-slate-700 text-slate-200 font-semibold active:bg-slate-600"

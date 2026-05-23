@@ -165,7 +165,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
             onClick={handleBegin}
             className="bg-lime text-navy font-bold text-xl px-12 py-5 rounded-2xl w-full max-w-xs active:bg-lime-dim"
           >
-            Start Workout
+            Let's MOOV!
           </motion.button>
         </motion.div>
       </div>

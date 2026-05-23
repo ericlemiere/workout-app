@@ -14,6 +14,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
   const isGetReady = useWorkoutStore((s) => s.isGetReady);
   const timer = useWorkoutStore((s) => s.timer);
   const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs);
+  const pausedDurationMs = useWorkoutStore((s) => s.pausedDurationMs);
   const soundEnabled = useProgressStore((s) => s.settings.soundEnabled);
   const autoAdvance = useProgressStore((s) => s.settings.autoAdvance);
 
@@ -70,7 +71,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
     finishGetReady,
   ]);
 
-  const totalWorkoutElapsed = workoutStartTs ? Date.now() - workoutStartTs : 0;
+  const totalWorkoutElapsed = workoutStartTs ? Date.now() - workoutStartTs - pausedDurationMs : 0;
 
   return { remainingMs, totalWorkoutElapsed };
 }
