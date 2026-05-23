@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
+import { MoonIconSimple, MoonIconStats } from "@/lib/moonIcon";
 
 type ConfirmMode = "grid" | "stats" | null;
 
@@ -32,8 +33,10 @@ function Toggle({
         className={`w-12 h-7 rounded-full transition-colors relative ${value ? "bg-lime/70" : "bg-slate-700"}`}
       >
         <span
-          className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform ${value ? "translate-x-0" : "-translate-x-6"}`}
-        />
+          className={`absolute -top-px w-7.5 h-7.5 rounded-full text-white shadow transition-transform ${value ? "-translate-x-1" : "-translate-x-6"}`}
+        >
+          <MoonIconSimple fill="white" craterColor="#05081680" />
+        </span>
       </button>
     </div>
   );

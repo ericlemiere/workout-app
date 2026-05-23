@@ -30,11 +30,27 @@ export function getStreakData(): StreakData {
     return { currentStreak: 0, longestStreak: 0, lastCompletedDate: null }
   }
   try {
-    return JSON.parse(localStorage.getItem(KEYS.streak) ?? 'null') ?? {
+    const data: StreakData = JSON.parse(localStorage.getItem(KEYS.streak) ?? 'null') ?? {
       currentStreak: 0,
       longestStreak: 0,
       lastCompletedDate: null,
     }
+
+    if (data.lastCompletedDate && data.currentStreak > 0) {
+      const now = new Date()
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+      const [y, m, d] = today.split('-').map(Number)
+      const prev = new Date(y, m - 1, d - 1)
+      const yesterday = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, '0')}-${String(prev.getDate()).padStart(2, '0')}`
+
+      if (data.lastCompletedDate !== today && data.lastCompletedDate !== yesterday) {
+        const reset = { ...data, currentStreak: 0 }
+        localStorage.setItem(KEYS.streak, JSON.stringify(reset))
+        return reset
+      }
+    }
+
+    return data
   } catch {
     return { currentStreak: 0, longestStreak: 0, lastCompletedDate: null }
   }

@@ -173,7 +173,7 @@ export function MoonIconStats({ size = "w-full h-full" }: { size?: string }) {
   );
 }
 
-export function MoonIconSimple() {
+export function MoonIconSimple({fill = "rgba(10,12,28,0.75)", craterColor = "currentColor"}: {fill?: string, craterColor?: string}) {
   const num = 5;
   const path = getMoonPath(num - 1);
   const id = "moonSimple";
@@ -196,7 +196,7 @@ export function MoonIconSimple() {
         </filter>
       </defs>
       <g clipPath={`url(#${id}k)`}>
-        <circle cx="50" cy="50" r="40" fill="rgba(10,12,28,0.75)" />
+        <circle cx="50" cy="50" r="40" fill={fill} />
         {path && (
           <path d={path} fill={`url(#${id}g)`} filter={`url(#${id}f)`} />
         )}
@@ -209,7 +209,7 @@ export function MoonIconSimple() {
               rx={c.rx}
               ry={c.ry}
               fill="none"
-              stroke="currentColor"
+              stroke={craterColor}
               strokeWidth="4"
               strokeOpacity="1"
             />

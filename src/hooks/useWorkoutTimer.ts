@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useWorkoutStore } from "@/store/workoutStore";
 import { useProgressStore } from "@/store/progressStore";
-import { playCountdownBeep, playGoBeep, playRestBeep } from "@/lib/audio";
+import { playCountdownBeep, playGoBeep } from "@/lib/audio";
 import { getRemainingMs } from "@/lib/timer";
 
 export function useWorkoutTimer(onComplete?: () => void) {
@@ -27,11 +27,6 @@ export function useWorkoutTimer(onComplete?: () => void) {
     hasCompletedRef.current = false;
     lastBeepRef.current = -1;
     setRemainingMs(getRemainingMs(timer));
-    let restBeepTimeout: ReturnType<typeof setTimeout> | undefined;
-    if (soundEnabled && !isGetReady && currentExercise?.isRest) {
-      restBeepTimeout = setTimeout(() => playRestBeep(), 500);
-    }
-    return () => clearTimeout(restBeepTimeout);
   }, [timer.startTs, timer.duration]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

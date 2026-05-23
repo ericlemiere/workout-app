@@ -52,12 +52,6 @@ export function playGoBeep(): void {
   playTone(1100, 0.15, 0.4, 'sine', 100)
 }
 
-export function playRestBeep(): void {
-  playTone(880, 0.18, 0.3)
-  playTone(660, 0.18, 0.3, 'sine', 220)
-  playTone(440, 0.25, 0.3, 'sine', 440)
-}
-
 export function playCompleteSound(): void {
   playTone(880, 0.1, 0.4)
   playTone(1100, 0.1, 0.4, 'sine', 150)
