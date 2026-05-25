@@ -1,41 +1,64 @@
 import type { Workout, Exercise } from "@/types";
-import { mainExercises as M } from "./exercises";
-import { cooldownExercises as C } from "./coolDowns";
-import { warmupExercises as W } from "./warmUps";
+import {
+  burpees,
+  burpeeWalk,
+  pushUps,
+  kneelingPushUps,
+  airplanePushUps,
+  wavePushUps,
+  spiderCrossPlanks,
+  squats,
+  mountainClimbers,
+  plank,
+  lunges,
+  gluteBridges,
+  gluteBridgeHolds,
+  russianTwists,
+  jumpSquats,
+  sideLunges,
+  inchworms,
+  plankShoulderTaps,
+  calfRaises,
+  highKnees,
+  jumpingJacks,
+  singleLegDeadlift,
+  reverseLunges,
+  deadBug,
+  birdDog,
+  plankRotations,
+  fireHydrantLeft,
+  donkeyKicksLeft,
+  pelvicTilts,
+  donkeyKicksRight,
+  fireHydrantRight,
+} from "./exercises";
+import {
+  dynamicSideBends,
+  chestOpenersWithRotation,
+  deepSideToSideLunges,
+  torsoTwists,
+  activeCalfStretch,
+  malasanaSquat,
+  rollDowns,
+  standingHipRotations,
+  shoulderRotations,
+  highKneesMarch,
+  rotatingToeTouches,
+} from "./warmUps";
+import {
+  childsPose,
+  hipFlexorStretch,
+  quadStretchLeft,
+  seatedHamstringStretch,
+  figure4Left,
+  figure4Right,
+  chestStretch,
+  tricepStretch,
+  upperBackStretch,
+  catCow,
+  quadStretchRight,
+} from "./coolDowns";
 import { REST_DURATION } from "@/lib/workout";
-
-// ─── Index reference ──────────────────────────────────────────────────────────
-//
-// warmupExercises (W)             mainExercises (M)               cooldownExercises (C)
-//  0  Dynamic Side Bends           0  Burpees          [floor]      0  Child's Pose        [floor]
-//  1  Chest Openers w/ Rotation    1  Burpee Walk      [floor]      1  Hip Flexor Stretch  [floor]
-//  2  Deep Side-to-Side Lunges     2  Push-Ups         [floor]      2  Quad Stretch        [standing]
-//  3  Torso Twists                 3  Kneeling Push-Ups[floor]      3  Seated Hamstring    [floor]
-//  4  Active Calf Stretch          4  Airplane Push-Ups[floor]      4  Figure-4 Left       [floor]
-//  5  Malasana Squat               5  Wave Push-Ups    [floor]      5  Figure-4 Right      [floor]
-//  6  Roll Downs                   6  Spider Cross Plnk[floor]      6  Chest Stretch       [standing]
-//  7  Standing Hip Rotations       7  Squats           [standing]   7  Tricep Stretch      [standing]
-//  8  Shoulder Rotations           8  Mountain Climbers[floor]      8  Upper Back Stretch  [standing]
-//  9  Pendulum Hamstring Stretch   9  Plank Hold       [floor]      9  Cat-Cow             [floor]
-// 10  Hip Marching                10  Alternating Lunges[standing]
-// 11  Rotating Toe Touches        11  Glute Bridges    [floor]
-//                                 12  Glute Bridge Holds[floor]
-//                                 13  Russian Twists   [floor]
-//                                 14  Jump Squats      [standing]
-//                                 15  Side Lunges      [standing]
-//                                 16  Inchworms        [floor]
-//                                 17  Plank Shlder Taps[floor]
-//                                 18  Calf Raises      [standing]
-//                                 19  High Knees       [standing]
-//                                 20  Jumping Jacks    [standing]
-//                                 21  Single Leg DL    [standing]
-//                                 22  Reverse Lunges   [standing]
-//                                 23  Dead Bug         [floor]
-//                                 24  Bird Dog         [floor]
-//                                 25  Plank Rotations  [floor]
-//                                 26  Fire Hydrant     [floor]
-//                                 27  Donkey Kicks     [floor]
-//                                 28  Pelvic Tilts     [floor]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -62,7 +85,7 @@ function supersetFinal(e1: Exercise, e2: Exercise, e3?: Exercise): Exercise[] {
 }
 
 // Every cooldown ends: Figure-4 Left → Figure-4 Right → Child's Pose
-const COOLDOWN_END = [C[4], C[5], C[0]];
+const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
 
 // ─── 28 workouts — cycle: Lower Body · Upper Body · Core · Full Body ─────────
 
@@ -76,13 +99,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "foundation"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[10], W[7], W[4], W[5], W[3]],
-    exercises: [
-      ...superset(M[10], M[22]), // Alternating Lunges + Reverse Lunges [standing]
-      ...superset(M[11], M[27]), // Glute Bridges + Donkey Kicks [floor]
-      ...supersetFinal(M[14], M[7]), // Jump Squats + Squats [standing]
+    warmups: [
+      highKneesMarch,
+      standingHipRotations,
+      activeCalfStretch,
+      malasanaSquat,
+      torsoTwists,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(lunges, jumpSquats),
+      ...superset(gluteBridges, donkeyKicksLeft, donkeyKicksRight),
+      ...supersetFinal(reverseLunges, squats),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 2 · Upper Body ─────────────────────────────────────────────────────────
@@ -94,13 +129,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "push", "foundation"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[0], W[1], W[3], W[8], W[6]],
-    exercises: [
-      ...superset(M[2], M[8]), // Push-Ups + Mountain Climbers [floor]
-      ...superset(M[9], M[17]), // Plank Hold + Plank Shoulder Taps [floor]
-      ...supersetFinal(M[3], M[6]), // Kneeling Push-Ups + Spider Cross Planks [floor]
+    warmups: [
+      dynamicSideBends,
+      chestOpenersWithRotation,
+      torsoTwists,
+      shoulderRotations,
+      rollDowns,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(pushUps, mountainClimbers),
+      ...superset(plank, plankShoulderTaps),
+      ...supersetFinal(kneelingPushUps, spiderCrossPlanks),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 3 · Core ───────────────────────────────────────────────────────────────
@@ -112,13 +153,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "foundation", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[10], W[6], W[0], W[3], W[4]],
-    exercises: [
-      ...superset(M[4], M[23]), // Airplane Push-Ups + Dead Bug [floor]
-      ...superset(M[24], M[25]), // Bird Dog + Plank Rotations [floor]
-      ...supersetFinal(M[26], M[28]), // Fire Hydrant + Pelvic Tilts [floor]
+    warmups: [
+      highKneesMarch,
+      rollDowns,
+      dynamicSideBends,
+      torsoTwists,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[9], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(airplanePushUps, deadBug),
+      ...superset(birdDog, plankRotations),
+      ...supersetFinal(fireHydrantLeft, fireHydrantRight, pelvicTilts),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      catCow,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 4 · Full Body ──────────────────────────────────────────────────────────
@@ -130,13 +182,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "cardio", "foundation"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[2], W[3], W[4], W[7]],
-    exercises: [
-      ...superset(M[20], M[19]), // Jumping Jacks + High Knees [standing]
-      ...superset(M[0], M[8]), // Burpees + Mountain Climbers [floor]
-      ...supersetFinal(M[10], M[22]), // Alternating Lunges + Reverse Lunges [standing]
+    warmups: [
+      dynamicSideBends,
+      deepSideToSideLunges,
+      torsoTwists,
+      activeCalfStretch,
+      standingHipRotations,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(jumpingJacks, highKnees),
+      ...superset(burpees, mountainClimbers),
+      ...supersetFinal(lunges, reverseLunges),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 5 · Lower Body ─────────────────────────────────────────────────────────
@@ -148,13 +212,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "lateral"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[7], W[2], W[5], W[4], W[3]],
-    exercises: [
-      ...superset(M[15], M[22]), // Side Lunges + Reverse Lunges [standing]
-      ...superset(M[11], M[26]), // Glute Bridges + Fire Hydrant [floor]
-      ...supersetFinal(M[12], M[27]), // Glute Bridge Holds + Donkey Kicks [floor]
+    warmups: [
+      standingHipRotations,
+      deepSideToSideLunges,
+      malasanaSquat,
+      activeCalfStretch,
+      torsoTwists,
     ],
-    cooldowns: [C[9], C[3], C[1], ...COOLDOWN_END],
+    exercises: [
+      ...superset(sideLunges, reverseLunges),
+      ...superset(gluteBridges, fireHydrantLeft, fireHydrantRight),
+      ...supersetFinal(gluteBridgeHolds, donkeyKicksLeft, donkeyKicksRight),
+    ],
+    cooldowns: [
+      catCow,
+      seatedHamstringStretch,
+      hipFlexorStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 6 · Upper Body ─────────────────────────────────────────────────────────
@@ -166,13 +241,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "push", "strength"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[0], W[8], W[1], W[3], W[6]],
-    exercises: [
-      ...superset(M[1], M[5]), // Burpee Walk + Wave Push-Ups [floor]
-      ...superset(M[8], M[9]), // Mountain Climbers + Plank Hold [floor]
-      ...supersetFinal(M[4], M[16]), // Airplane Push-Ups + Inchworms [floor]
+    warmups: [
+      dynamicSideBends,
+      shoulderRotations,
+      chestOpenersWithRotation,
+      torsoTwists,
+      rollDowns,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpeeWalk, wavePushUps),
+      ...superset(mountainClimbers, plank),
+      ...supersetFinal(airplanePushUps, inchworms),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 7 · Core ───────────────────────────────────────────────────────────────
@@ -184,13 +265,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[0], W[3], W[10], W[7], W[4]],
-    exercises: [
-      ...superset(M[23], M[24]), // Dead Bug + Bird Dog [floor]
-      ...superset(M[4], M[9]), // Airplane Push-Ups + Plank Hold [floor]
-      ...supersetFinal(M[25], M[26]), // Plank Rotations + Fire Hydrant [floor]
+    warmups: [
+      dynamicSideBends,
+      torsoTwists,
+      highKneesMarch,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(deadBug, birdDog),
+      ...superset(airplanePushUps, plank),
+      ...supersetFinal(plankRotations, fireHydrantLeft, fireHydrantRight),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 8 · Full Body ──────────────────────────────────────────────────────────
@@ -202,13 +294,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "power", "endurance"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[3], W[2], W[7], W[4]],
-    exercises: [
-      ...superset(M[12], M[8]), // Glute Bridge Holds + Mountain Climbers [floor]
-      ...superset(M[20], M[18]), // Jumping Jacks + Calf Raises [standing]
-      ...supersetFinal(M[10], M[19]), // Alternating Lunges + High Knees [standing]
+    warmups: [
+      dynamicSideBends,
+      torsoTwists,
+      deepSideToSideLunges,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(gluteBridgeHolds, mountainClimbers),
+      ...superset(jumpingJacks, calfRaises),
+      ...supersetFinal(lunges, highKnees),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 9 · Lower Body ─────────────────────────────────────────────────────────
@@ -220,13 +324,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "stability", "single-leg"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[2], W[7], W[5], W[4], W[3]],
-    exercises: [
-      ...superset(M[21], M[22]), // Single Leg Deadlift + Reverse Lunges [standing]
-      ...superset(M[7], M[10]), // Squats + Alternating Lunges [standing]
-      ...supersetFinal(M[11], M[27]), // Glute Bridges + Donkey Kicks [floor]
+    warmups: [
+      deepSideToSideLunges,
+      standingHipRotations,
+      malasanaSquat,
+      activeCalfStretch,
+      torsoTwists,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(singleLegDeadlift, reverseLunges),
+      ...superset(squats, lunges),
+      ...supersetFinal(gluteBridges, donkeyKicksLeft, donkeyKicksRight),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 10 · Upper Body ────────────────────────────────────────────────────────
@@ -238,13 +354,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "chest", "shoulders"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[1], W[0], W[3], W[6], W[8]],
-    exercises: [
-      ...superset(M[2], M[8]), // Push-Ups + Mountain Climbers [floor]
-      ...superset(M[6], M[9]), // Spider Cross Planks + Plank Hold [floor]
-      ...supersetFinal(M[1], M[5]), // Burpee Walk + Wave Push-Ups [floor]
+    warmups: [
+      chestOpenersWithRotation,
+      dynamicSideBends,
+      torsoTwists,
+      rollDowns,
+      shoulderRotations,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(pushUps, mountainClimbers),
+      ...superset(spiderCrossPlanks, plank),
+      ...supersetFinal(burpeeWalk, wavePushUps),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 11 · Core ──────────────────────────────────────────────────────────────
@@ -256,13 +378,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[3], W[0], W[10], W[7], W[4]],
-    exercises: [
-      ...superset(M[24], M[23]), // Bird Dog + Dead Bug [floor]
-      ...superset(M[25], M[26]), // Plank Rotations + Fire Hydrant [floor]
-      ...supersetFinal(M[4], M[13]), // Airplane Push-Ups + Russian Twists [floor]
+    warmups: [
+      torsoTwists,
+      dynamicSideBends,
+      highKneesMarch,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(birdDog, deadBug),
+      ...superset(plankRotations, fireHydrantLeft, fireHydrantRight),
+      ...supersetFinal(airplanePushUps, russianTwists),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 12 · Full Body ─────────────────────────────────────────────────────────
@@ -274,13 +407,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "cardio", "strength"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[2], W[0], W[3], W[7], W[4]],
-    exercises: [
-      ...superset(M[19], M[10]), // High Knees + Alternating Lunges [standing]
-      ...superset(M[20], M[18]), // Jumping Jacks + Calf Raises [standing]
-      ...supersetFinal(M[1], M[8]), // Burpee Walk + Mountain Climbers [floor]
+    warmups: [
+      deepSideToSideLunges,
+      dynamicSideBends,
+      torsoTwists,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(highKnees, lunges),
+      ...superset(jumpingJacks, calfRaises),
+      ...supersetFinal(burpeeWalk, mountainClimbers),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 13 · Lower Body ────────────────────────────────────────────────────────
@@ -292,13 +437,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "power", "glutes"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[2], W[7], W[4], W[3], W[5]],
-    exercises: [
-      ...superset(M[14], M[10]), // Jump Squats + Alternating Lunges [standing]
-      ...superset(M[12], M[27]), // Glute Bridge Holds + Donkey Kicks [floor]
-      ...supersetFinal(M[22], M[15]), // Reverse Lunges + Side Lunges [standing]
+    warmups: [
+      deepSideToSideLunges,
+      standingHipRotations,
+      activeCalfStretch,
+      torsoTwists,
+      malasanaSquat,
     ],
-    cooldowns: [C[2], C[3], C[9], ...COOLDOWN_END],
+    exercises: [
+      ...superset(jumpSquats, lunges),
+      ...superset(gluteBridgeHolds, donkeyKicksLeft, donkeyKicksRight),
+      ...supersetFinal(reverseLunges, sideLunges),
+    ],
+    cooldowns: [
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      catCow,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 14 · Upper Body ────────────────────────────────────────────────────────
@@ -310,13 +467,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "endurance", "push"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[0], W[1], W[8], W[3], W[6]],
-    exercises: [
-      ...superset(M[6], M[17]), // Spider Cross Planks + Plank Shoulder Taps [floor]
-      ...superset(M[2], M[9]), // Push-Ups + Plank Hold [floor]
-      ...supersetFinal(M[1], M[4]), // Burpee Walk + Airplane Push-Ups [floor]
+    warmups: [
+      dynamicSideBends,
+      chestOpenersWithRotation,
+      shoulderRotations,
+      torsoTwists,
+      rollDowns,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(spiderCrossPlanks, plankShoulderTaps),
+      ...superset(pushUps, plank),
+      ...supersetFinal(burpeeWalk, airplanePushUps),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 15 · Core ──────────────────────────────────────────────────────────────
@@ -328,13 +491,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "lateral strength", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[0], W[10], W[3], W[7], W[4]],
-    exercises: [
-      ...superset(M[4], M[25]), // Airplane Push-Ups + Plank Rotations [floor]
-      ...superset(M[26], M[23]), // Fire Hydrant + Dead Bug [floor]
-      ...supersetFinal(M[24], M[28]), // Bird Dog + Pelvic Tilts [floor]
+    warmups: [
+      dynamicSideBends,
+      highKneesMarch,
+      torsoTwists,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(airplanePushUps, plankRotations),
+      ...superset(fireHydrantLeft, fireHydrantRight, deadBug),
+      ...supersetFinal(birdDog, pelvicTilts),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 16 · Full Body ─────────────────────────────────────────────────────────
@@ -346,13 +520,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "conditioning", "strength"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[2], W[7], W[3], W[4]],
-    exercises: [
-      ...superset(M[12], M[4]), // Glute Bridge Holds + Airplane Push-Ups [floor]
-      ...superset(M[19], M[22]), // High Knees + Reverse Lunges [standing]
-      ...supersetFinal(M[20], M[10]), // Jumping Jacks + Alternating Lunges [standing]
+    warmups: [
+      dynamicSideBends,
+      deepSideToSideLunges,
+      standingHipRotations,
+      torsoTwists,
+      activeCalfStretch,
     ],
-    cooldowns: [C[2], C[1], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(gluteBridgeHolds, airplanePushUps),
+      ...superset(highKnees, reverseLunges),
+      ...supersetFinal(jumpingJacks, lunges),
+    ],
+    cooldowns: [
+      quadStretchLeft,
+      quadStretchRight,
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 17 · Lower Body ────────────────────────────────────────────────────────
@@ -364,13 +550,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "strength", "balance"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[7], W[2], W[4], W[5], W[3]],
-    exercises: [
-      ...superset(M[7], M[21]), // Squats + Single Leg Deadlift [standing]
-      ...superset(M[14], M[10]), // Jump Squats + Alternating Lunges [standing]
-      ...supersetFinal(M[11], M[27]), // Glute Bridges + Donkey Kicks [floor]
+    warmups: [
+      standingHipRotations,
+      deepSideToSideLunges,
+      activeCalfStretch,
+      malasanaSquat,
+      torsoTwists,
     ],
-    cooldowns: [C[1], C[2], C[9], ...COOLDOWN_END],
+    exercises: [
+      ...superset(squats, singleLegDeadlift),
+      ...superset(jumpSquats, lunges),
+      ...supersetFinal(gluteBridges, donkeyKicksLeft, donkeyKicksRight),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      catCow,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 18 · Upper Body ────────────────────────────────────────────────────────
@@ -382,13 +580,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "push", "strength"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[1], W[0], W[8], W[6], W[3]],
-    exercises: [
-      ...superset(M[1], M[2]), // Burpee Walk + Push-Ups [floor]
-      ...superset(M[6], M[8]), // Spider Cross Planks + Mountain Climbers [floor]
-      ...supersetFinal(M[5], M[9]), // Wave Push-Ups + Plank Hold [floor]
+    warmups: [
+      chestOpenersWithRotation,
+      dynamicSideBends,
+      shoulderRotations,
+      rollDowns,
+      torsoTwists,
     ],
-    cooldowns: [C[7], C[6], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpeeWalk, pushUps),
+      ...superset(spiderCrossPlanks, mountainClimbers),
+      ...supersetFinal(wavePushUps, plank),
+    ],
+    cooldowns: [tricepStretch, chestStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 19 · Core ──────────────────────────────────────────────────────────────
@@ -400,13 +604,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "strength", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[3], W[0], W[7], W[10], W[4]],
-    exercises: [
-      ...superset(M[23], M[24]), // Dead Bug + Bird Dog [floor]
-      ...superset(M[13], M[28]), // Russian Twists + Pelvic Tilts [floor]
-      ...supersetFinal(M[8], M[25]), // Mountain Climbers + Plank Rotations [floor]
+    warmups: [
+      torsoTwists,
+      dynamicSideBends,
+      standingHipRotations,
+      highKneesMarch,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(deadBug, birdDog),
+      ...superset(russianTwists, pelvicTilts),
+      ...supersetFinal(mountainClimbers, plankRotations),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 20 · Full Body ─────────────────────────────────────────────────────────
@@ -418,13 +633,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "intense", "strength"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[3], W[2], W[4], W[7]],
-    exercises: [
-      ...superset(M[0], M[8]), // Burpees + Mountain Climbers [floor]
-      ...superset(M[12], M[1]), // Glute Bridge Holds + Burpee Walk [floor]
-      ...supersetFinal(M[19], M[10]), // High Knees + Alternating Lunges [standing]
+    warmups: [
+      dynamicSideBends,
+      torsoTwists,
+      deepSideToSideLunges,
+      activeCalfStretch,
+      standingHipRotations,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpees, mountainClimbers),
+      ...superset(gluteBridgeHolds, burpeeWalk),
+      ...supersetFinal(highKnees, lunges),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 21 · Lower Body ────────────────────────────────────────────────────────
@@ -436,13 +663,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "glutes", "endurance"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[2], W[7], W[5], W[3], W[4]],
-    exercises: [
-      ...superset(M[22], M[15]), // Reverse Lunges + Side Lunges [standing]
-      ...superset(M[11], M[26]), // Glute Bridges + Fire Hydrant [floor]
-      ...supersetFinal(M[14], M[21]), // Jump Squats + Single Leg Deadlift [standing]
+    warmups: [
+      deepSideToSideLunges,
+      standingHipRotations,
+      malasanaSquat,
+      torsoTwists,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(reverseLunges, sideLunges),
+      ...superset(gluteBridges, fireHydrantLeft, fireHydrantRight),
+      ...supersetFinal(jumpSquats, singleLegDeadlift),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 22 · Upper Body ────────────────────────────────────────────────────────
@@ -454,13 +693,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "endurance", "push"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[0], W[8], W[1], W[6], W[3]],
-    exercises: [
-      ...superset(M[6], M[2]), // Spider Cross Planks + Push-Ups [floor]
-      ...superset(M[1], M[8]), // Burpee Walk + Mountain Climbers [floor]
-      ...supersetFinal(M[5], M[9]), // Wave Push-Ups + Plank Hold [floor]
+    warmups: [
+      dynamicSideBends,
+      shoulderRotations,
+      chestOpenersWithRotation,
+      rollDowns,
+      torsoTwists,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(spiderCrossPlanks, pushUps),
+      ...superset(burpeeWalk, mountainClimbers),
+      ...supersetFinal(wavePushUps, plank),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 23 · Core ──────────────────────────────────────────────────────────────
@@ -472,13 +717,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "advanced", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[0], W[3], W[7], W[10], W[4]],
-    exercises: [
-      ...superset(M[25], M[26]), // Plank Rotations + Fire Hydrant [floor]
-      ...superset(M[4], M[24]), // Airplane Push-Ups + Bird Dog [floor]
-      ...supersetFinal(M[23], M[13]), // Dead Bug + Russian Twists [floor]
+    warmups: [
+      dynamicSideBends,
+      torsoTwists,
+      standingHipRotations,
+      highKneesMarch,
+      activeCalfStretch,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(plankRotations, fireHydrantLeft, fireHydrantRight),
+      ...superset(airplanePushUps, birdDog),
+      ...supersetFinal(deadBug, russianTwists),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 24 · Full Body ─────────────────────────────────────────────────────────
@@ -490,13 +746,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "intense", "cardio"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[2], W[3], W[7], W[4]],
-    exercises: [
-      ...superset(M[0], M[3]), // Burpees + Kneeling Push-Ups [floor]
-      ...superset(M[14], M[22]), // Jump Squats + Reverse Lunges [standing]
-      ...supersetFinal(M[1], M[4]), // Burpee Walk + Airplane Push-Ups [floor]
+    warmups: [
+      dynamicSideBends,
+      deepSideToSideLunges,
+      torsoTwists,
+      standingHipRotations,
+      activeCalfStretch,
     ],
-    cooldowns: [C[2], C[3], C[9], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpees, kneelingPushUps),
+      ...superset(jumpSquats, reverseLunges),
+      ...supersetFinal(burpeeWalk, airplanePushUps),
+    ],
+    cooldowns: [
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      catCow,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 25 · Lower Body ────────────────────────────────────────────────────────
@@ -508,13 +776,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["lower body", "peak", "glutes"],
     coverImage: "/images/workouts/lower-body.png",
-    warmups: [W[7], W[2], W[5], W[4], W[3]],
-    exercises: [
-      ...superset(M[14], M[21]), // Jump Squats + Single Leg Deadlift [standing]
-      ...superset(M[12], M[27]), // Glute Bridge Holds + Donkey Kicks [floor]
-      ...supersetFinal(M[22], M[15]), // Reverse Lunges + Side Lunges [standing]
+    warmups: [
+      standingHipRotations,
+      deepSideToSideLunges,
+      malasanaSquat,
+      activeCalfStretch,
+      torsoTwists,
     ],
-    cooldowns: [C[1], C[3], C[9], ...COOLDOWN_END],
+    exercises: [
+      ...superset(jumpSquats, singleLegDeadlift),
+      ...superset(gluteBridgeHolds, donkeyKicksLeft, donkeyKicksRight),
+      ...supersetFinal(reverseLunges, sideLunges),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      catCow,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 26 · Upper Body ────────────────────────────────────────────────────────
@@ -526,13 +805,19 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["upper body", "peak", "push"],
     coverImage: "/images/workouts/upper-body.png",
-    warmups: [W[1], W[0], W[3], W[8], W[6]],
-    exercises: [
-      ...superset(M[1], M[6]), // Burpee Walk + Spider Cross Planks [floor]
-      ...superset(M[2], M[5]), // Push-Ups + Wave Push-Ups [floor]
-      ...supersetFinal(M[8], M[16]), // Mountain Climbers + Inchworms [floor]
+    warmups: [
+      chestOpenersWithRotation,
+      dynamicSideBends,
+      torsoTwists,
+      shoulderRotations,
+      rollDowns,
     ],
-    cooldowns: [C[6], C[7], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpeeWalk, spiderCrossPlanks),
+      ...superset(pushUps, wavePushUps),
+      ...supersetFinal(mountainClimbers, inchworms),
+    ],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 27 · Core ──────────────────────────────────────────────────────────────
@@ -544,13 +829,24 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["core", "peak", "back safe"],
     coverImage: "/images/workouts/core.png",
-    warmups: [W[3], W[0], W[10], W[4], W[7]],
-    exercises: [
-      ...superset(M[4], M[23]), // Airplane Push-Ups + Dead Bug [floor]
-      ...superset(M[24], M[25]), // Bird Dog + Plank Rotations [floor]
-      ...supersetFinal(M[26], M[13]), // Fire Hydrant + Russian Twists [floor]
+    warmups: [
+      torsoTwists,
+      dynamicSideBends,
+      highKneesMarch,
+      activeCalfStretch,
+      standingHipRotations,
     ],
-    cooldowns: [C[1], C[3], C[8], ...COOLDOWN_END],
+    exercises: [
+      ...superset(airplanePushUps, deadBug),
+      ...superset(birdDog, plankRotations),
+      ...supersetFinal(fireHydrantLeft, fireHydrantRight, russianTwists),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      seatedHamstringStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 28 · Full Body ─────────────────────────────────────────────────────────
@@ -562,13 +858,25 @@ export const workouts: Workout[] = [
     estimatedDuration: 20,
     tags: ["full body", "peak", "challenge"],
     coverImage: "/images/workouts/full-body.png",
-    warmups: [W[0], W[2], W[3], W[4], W[7]],
-    exercises: [
-      ...superset(M[0], M[8]), // Burpees + Mountain Climbers [floor]
-      ...superset(M[14], M[20]), // Jump Squats + Jumping Jacks [standing]
-      ...supersetFinal(M[19], M[22]), // High Knees + Reverse Lunges [standing]
+    warmups: [
+      dynamicSideBends,
+      deepSideToSideLunges,
+      torsoTwists,
+      activeCalfStretch,
+      standingHipRotations,
     ],
-    cooldowns: [C[1], C[2], C[3], ...COOLDOWN_END],
+    exercises: [
+      ...superset(burpees, mountainClimbers),
+      ...superset(jumpSquats, jumpingJacks),
+      ...supersetFinal(highKnees, reverseLunges),
+    ],
+    cooldowns: [
+      hipFlexorStretch,
+      quadStretchLeft,
+      quadStretchRight,
+      seatedHamstringStretch,
+      ...COOLDOWN_END,
+    ],
   },
 ];
 

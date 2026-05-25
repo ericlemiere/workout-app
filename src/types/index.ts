@@ -31,6 +31,7 @@ export interface Exercise {
   audio?: string;
   instructions?: string;
   level?: number; // 1-5, optional difficulty rating
+  isRest?: boolean;
 }
 
 export interface Workout {

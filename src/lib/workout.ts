@@ -1,7 +1,8 @@
 import type { Workout } from "@/types";
 
 export const REST_DURATION = 30;
-export const GET_READY_SECS = 10;
+export const GET_READY_DEFAULT = 10;
+export const GET_READY_SHORT = 8;
 
 export function calculateWorkoutMinutes(workout: Workout): number {
   const realExerciseCount =
@@ -10,7 +11,7 @@ export function calculateWorkoutMinutes(workout: Workout): number {
     workout.cooldowns.length;
 
   const totalSeconds =
-    realExerciseCount * GET_READY_SECS +
+    realExerciseCount * GET_READY_DEFAULT +
     workout.warmups.reduce((a, e) => a + e.duration, 0) +
     workout.exercises.reduce((a, e) => a + e.duration, 0) +
     workout.cooldowns.reduce((a, e) => a + e.duration, 0);

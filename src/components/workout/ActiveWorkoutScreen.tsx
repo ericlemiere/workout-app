@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWorkoutStore } from "@/store/workoutStore";
@@ -62,8 +62,6 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
   const getOverallExerciseNumber = useWorkoutStore(
     (s) => s.getOverallExerciseNumber,
   );
-  const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
-
   const recordCompletion = useProgressStore((s) => s.recordCompletion);
 
   useWakeLock(section !== "complete" && section !== "intro");
@@ -403,8 +401,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           >
             <button
               onClick={() => {
-                resetWorkout();
-                router.replace("/");
+                router.replace(`/workout/${workoutId}`);
               }}
               className="pointer-events-auto w-60 m-auto h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-lime flex items-center justify-center gap-2"
             >
@@ -419,7 +416,7 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
               >
                 <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" />
               </svg>
-              Stop Workout
+              End Workout
             </button>
           </motion.div>
         )}
