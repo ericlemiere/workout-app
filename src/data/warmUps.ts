@@ -102,7 +102,7 @@ export const warmupExercises: Exercise[] = [
     target: "shoulders",
     matPosition: "standing",
     instructions:
-      "Rotate arms forward in big circles for 10 seconds, then reverse direction for another 10 seconds. Keep movements controlled and smooth.",
+      "Rotate arms forward in big circles for 15 seconds, then reverse direction for another 15 seconds. Keep movements controlled and smooth.",
   },
   {
     id: "pendulum-hamstring-stretch",
@@ -116,10 +116,10 @@ export const warmupExercises: Exercise[] = [
       "Take a wide stance, cross arms in front of chest. Swing your torso from left knee to right knee, keeping your back straight.",
   },
   {
-    id: "hip-marching",
-    name: "Hip Marching",
+    id: "high-knees-march",
+    name: "High Knees March",
     duration: 30,
-    image: ["/images/exercises/hip-marching.jpg"],
+    image: ["/images/exercises/high-knees-march.jpg"],
     category: "warm-up",
     target: "lower body",
     matPosition: "standing",

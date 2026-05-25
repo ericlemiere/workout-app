@@ -30,7 +30,7 @@ export interface Exercise {
   matPosition?: "floor" | "standing";
   audio?: string;
   instructions?: string;
-  isRest?: boolean;
+  level?: number; // 1-5, optional difficulty rating
 }
 
 export interface Workout {
