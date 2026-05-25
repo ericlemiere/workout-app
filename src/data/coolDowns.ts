@@ -172,6 +172,18 @@ export const plankToDownwardDog: Exercise = {
     "Start in a plank position. Push hips up and back into a downward dog. Hold, then return to plank.",
 };
 
+export const seatedForwardFold: Exercise = {
+  id: "seated-forward-fold",
+  name: "Seated Forward Fold",
+  duration: 30,
+  image: ["/images/exercises/seated-forward-fold.jpg"],
+  category: "cool-down",
+  target: "lower body",
+  matPosition: "floor",
+  instructions:
+    "Sit with legs crossed. Hinge at hips and reach forward to the floor, keeping back straight.",
+};
+
 export const cooldownExercises: Exercise[] = [
   childsPose,
   hipFlexorStretch,
@@ -187,4 +199,5 @@ export const cooldownExercises: Exercise[] = [
   spinalTwistLeft,
   spinalTwistRight,
   plankToDownwardDog,
+  seatedForwardFold,
 ];

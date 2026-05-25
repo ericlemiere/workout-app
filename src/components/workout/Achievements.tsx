@@ -190,10 +190,10 @@ const ACHIEVEMENTS: Achievement[] = [
     icon: <GiMoonOrbit size={60} />,
   },
   {
-    id: "astro-aura",
-    name: "Astro Aura",
+    id: "astral-aura",
+    name: "Astral Aura",
     description1: "Complete 3 full lunar cycles.",
-    description2: "Your cosmic energy is impossible to miss.",
+    description2: "Your cosmic energy emits a powerful aura.",
     icon: <GiAura size={60} />,
   },
   {
