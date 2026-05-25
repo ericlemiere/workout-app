@@ -82,6 +82,32 @@ export const tableTopDips: Exercise = {
     "Sit with knees bent, feet flat, hands behind you on the floor. Lift hips off the ground and bend elbows to lower your body, then straighten arms to lift back up.",
 };
 
+export const shoulderTapPushUps: Exercise = {
+  id: "shoulder-tap-push-ups",
+  name: "Shoulder Tap Push-Ups",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/shoulder-tap-push-ups.jpg"],
+  category: "exercise",
+  target: "upper body",
+  matPosition: "floor",
+  instructions:
+    "Start in a push-up position. Lower yourself to the floor, then press back up. At the top, tap your left shoulder with your right hand, then tap your right shoulder with your left hand. Repeat.",
+};
+
+export const downwardDogPushUps: Exercise = {
+  id: "downward-dog-push-ups",
+  name: "Downward Dog Push-Ups",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/downward-dog-push-ups.jpg"],
+  category: "exercise",
+  target: "upper body",
+  matPosition: "floor",
+  instructions:
+    "Start in a downward dog position. Lower your head toward the floor by bending your elbows, then press back up to downward dog.",
+};
+
 // ===============================================================================
 //                                                                   Exercise list
 // ===============================================================================
@@ -93,4 +119,6 @@ export const mainExercises: Exercise[] = [
   wavePushUps,
   spiderCrossPlanks,
   tableTopDips,
+  shoulderTapPushUps,
+  downwardDogPushUps,
 ];

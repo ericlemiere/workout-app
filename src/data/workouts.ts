@@ -29,6 +29,8 @@ import {
   wavePushUps,
   spiderCrossPlanks,
   tableTopDips,
+  shoulderTapPushUps,
+  downwardDogPushUps,
 } from "./exercisesUpperBody";
 import {
   squats,
