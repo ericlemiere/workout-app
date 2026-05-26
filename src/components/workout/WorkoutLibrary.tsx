@@ -1,16 +1,18 @@
 "use client";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Workout } from "@/types";
+import type { WorkoutTemplate } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
+import { useUserStore } from "@/store/userStore";
 import { MoonIcon } from "@/lib/moonIcon";
 import { IoFlame } from "react-icons/io5";
 import { CycleCompleteScreen } from "@/components/workout/CycleCompleteScreen";
+import { LevelSelectModal } from "@/components/workout/LevelSelectModal";
 
 interface Props {
-  workouts: Workout[];
+  workouts: WorkoutTemplate[];
 }
 
 const tagColor: Record<string, string> = {
@@ -41,7 +43,8 @@ export function WorkoutLibrary({ workouts }: Props) {
   const cycleCompleteAcknowledged = useProgressStore(
     (s) => s.cycleCompleteAcknowledged,
   );
-  const resetGrid = useProgressStore((s) => s.resetGrid);
+  const level = useUserStore((s) => s.level);
+  const [levelModalOpen, setLevelModalOpen] = useState(false);
 
   const completedIds = useMemo(
     () =>
@@ -92,34 +95,41 @@ export function WorkoutLibrary({ workouts }: Props) {
           <h1 className="sr-only">MOOV Exercise App</h1>
         </div>
 
-        {/* Streak */}
+        {/* Streak + Level */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
-          className="flex w-full justify-center bg-charcoal/50 mb-5 px-4.5 py-1.5 border-y border-lime/30"
+          className="flex w-full items-center justify-between mt-1 mb-5 px-4.5"
         >
-          <IoFlame size={24} className="text-lime mr-1" />
-          <div className="w-fit border-lime/30 flex items-center justify-center gap-2">
-            <span className="text-slate-300 text-xs">Current Streak:</span>
-            <span className="text-offwhite font-orbitron text-xl font-bold">
+          {/* Level indicator */}
+          <button
+            onClick={() => setLevelModalOpen(true)}
+            className="flex items-center gap-1.5 pt-1 pb-1 border border-lime/55 rounded px-3 bg-charcoal text-slate-300 text-xs"
+          >
+            <span className="text-slate-300 text-xs font-semibold tracking-widest uppercase">
+              Level
+            </span>
+            <div className="w-2 h-2 bg-lime rounded-full" />
+            <div
+              className={`w-2 h-2 ${level >= 2 ? "bg-lime" : "bg-slate-700/85"} rounded-full`}
+            />
+            <div
+              className={`w-2 h-2 ${level >= 3 ? "bg-lime" : "bg-slate-700/85"} rounded-full`}
+            />
+          </button>
+
+          {/* Streak */}
+          <div className="flex items-center gap-2 -mt-0.5">
+            <IoFlame size={24} className="text-lime -mr-1 mb-0.5" />
+            <span className="text-slate-300 text-xs">Streak:</span>
+            <span className="text-offwhite font-orbitron text-xl mb-px font-bold">
               {streak.currentStreak}
             </span>
             <span className="text-slate-300 text-xs">
               {streak.currentStreak === 1 ? "day" : "days"}
             </span>
           </div>
-
-          {cycleDone && (
-            <div className="px-4 pt-2">
-              <button
-                onClick={resetGrid}
-                className="w-full py-2 rounded-xl bg-slate-800/60 border border-slate-700/50 text-slate-400 text-xs font-medium active:bg-slate-700/60"
-              >
-                Restart Cycle
-              </button>
-            </div>
-          )}
         </motion.div>
 
         {/* Legend */}
@@ -209,6 +219,11 @@ export function WorkoutLibrary({ workouts }: Props) {
           })}
         </div>
       </div>
+
+      <LevelSelectModal
+        open={levelModalOpen}
+        onClose={() => setLevelModalOpen(false)}
+      />
     </>
   );
 }

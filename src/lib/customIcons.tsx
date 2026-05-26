@@ -149,28 +149,3 @@ export const CheckeredFlagIcon = () => {
     </svg>
   );
 };
-
-export const SevenStarIcon = () => {
-  // a seven pointed star, kind of like the one in the stats screen, but sharper and more angular, with a 7 in the middle.
-  return (
-    <svg viewBox="0 0 100 100" className="w-full h-full" fill="currentColor">
-      <polygon
-        points="50,5 57.3,30.2 80.9,22.4 66.5,43.5 89.7,54.5 65.8,58.6 68.2,83.6 50,68 31.8,83.6 34.2,58.6 10.3,54.5 33.5,43.5 19.1,22.4 42.7,30.2"
-        stroke="currentColor"
-        strokeWidth="2"
-        fill="currentColor"
-      />
-      <text
-        x="50"
-        y="60"
-        fontFamily="Audiowide, monospace"
-        fontSize="30"
-        fontWeight="bold"
-        textAnchor="middle"
-        fill="#050816"
-      >
-        7
-      </text>
-    </svg>
-  );
-};

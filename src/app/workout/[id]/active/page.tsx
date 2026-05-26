@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { getWorkoutById } from '@/data/workouts'
+import { getWorkoutTemplateById } from '@/data/workouts'
 import { ActiveWorkoutScreen } from '@/components/workout/ActiveWorkoutScreen'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 export default async function ActiveWorkoutPage({ params }: Props) {
   const { id } = await params
-  const workout = getWorkoutById(id)
-  if (!workout) notFound()
-  return <ActiveWorkoutScreen workoutId={id} workout={workout} />
+  const template = getWorkoutTemplateById(id)
+  if (!template) notFound()
+  return <ActiveWorkoutScreen workoutId={id} template={template} />
 }

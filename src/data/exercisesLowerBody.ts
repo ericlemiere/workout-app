@@ -43,19 +43,6 @@ export const sumoSquats: Exercise = {
     "Feet wider than shoulder-width with toes pointed out and hands together in front of chest. Sit back and down until thighs are parallel. Drive through heels to stand.",
 };
 
-export const jumpSquats: Exercise = {
-  id: "jump-squats",
-  name: "Jump Squats",
-  duration: 30,
-  level: 3,
-  image: ["/images/exercises/jump-squats.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Perform a squat, then explode upward into a jump. Land softly, immediately descend into next squat.",
-};
-
 export const squatJumps: Exercise = {
   id: "squat-jumps",
   name: "Squat Jumps",
@@ -337,7 +324,6 @@ export const mainExercises: Exercise[] = [
   squats,
   prisonerSquats,
   sumoSquats,
-  jumpSquats,
   squatJumps,
   squatsToCalfRaises,
   lunges,

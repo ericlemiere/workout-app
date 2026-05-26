@@ -5,12 +5,13 @@ import {
   HundredIcon,
   CrescentMoonIcon,
   TwentyFourHoursIcon,
-  SevenStarIcon,
 } from "@/lib/customIcons";
 import { MoonIconSimple } from "@/lib/moonIcon";
 import { PiPlanetFill } from "react-icons/pi";
 import { RiAliensLine } from "react-icons/ri";
 import { SiSaturn } from "react-icons/si";
+import { LiaBattleNet } from "react-icons/lia";
+
 import {
   GiTriplePlier,
   GiAstronautHelmet,
@@ -21,6 +22,16 @@ import {
   GiGiant,
   GiExplodingPlanet,
   GiFlyingFlag,
+  GiKnockedOutStars,
+  GiStarCycle,
+  GiFlexibleStar,
+  GiStarSwirl,
+  GiStarfighter,
+  GiStarGate,
+  GiStarKey,
+  GiStarProminences,
+  GiStarStruck,
+  GiSevenPointedStar,
   GiOrbit,
   GiStarSattelites,
   GiSattelite,
@@ -50,6 +61,14 @@ import {
   GiSquidHead,
   GiStrong,
   GiWorld,
+  GiThreeBurningBalls,
+  GiFireRing,
+  GiFireZone,
+  GiFireSilhouette,
+  GiFireShield,
+  GiFireDash,
+  GiDiceFire,
+  GiMadScientist,
 } from "react-icons/gi";
 
 import { ModalFromBottom } from "./ModalFromBottom";
@@ -64,8 +83,8 @@ interface Achievement {
 
 const ACHIEVEMENTS: Achievement[] = [
   {
-    id: "road-rager",
-    name: "Road Rager",
+    id: "road-warrior",
+    name: "Road Warrior",
     description1: "Complete 5 total workouts.",
     description2: "You're on the road to strength and flexibility.",
     icon: <GiRoad size={60} />,
@@ -84,7 +103,10 @@ const ACHIEVEMENTS: Achievement[] = [
     description2: "Seven days straight — the week bows to you.",
     icon: (
       <div className="relative flex justify-center items-center w-15">
-        <SevenStarIcon />
+        <GiSevenPointedStar size={60} />
+        <p className="absolute inset-0 flex justify-center items-center text-navy font-bold text-xl mt-1 font-space-mono tracking-tighter">
+          VII
+        </p>
       </div>
     ),
   },
@@ -146,10 +168,10 @@ const ACHIEVEMENTS: Achievement[] = [
     icon: <GiDeathStar size={60} />,
   },
   {
-    id: "comet-crusher",
-    name: "Comet Crusher",
+    id: "meteor-melter",
+    name: "Meteor Melter",
     description1: "Complete 75 total workouts.",
-    description2: "Blazing through the atmosphere with unstoppable velocity.",
+    description2: "Incinerating rock with the heat you bring.",
     icon: <GiBurningMeteor size={60} />,
   },
   {
@@ -215,8 +237,8 @@ const ACHIEVEMENTS: Achievement[] = [
     ),
   },
   {
-    id: "dark-devotee",
-    name: "Dark Devotee",
+    id: "crater-crusher",
+    name: "Crater Crusher",
     description1: "Complete 150 total workouts.",
     description2: "Dense, dark, and utterly unstoppable.",
     icon: <GiBlackball size={60} />,

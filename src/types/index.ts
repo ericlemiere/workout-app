@@ -71,3 +71,21 @@ export interface AppSettings {
   autoAdvance: boolean;
   defaultRestDuration: number; // seconds
 }
+
+export type UserLevel = 1 | 2 | 3;
+
+// A slot is either a single exercise (same at all levels) or [L1, L2?, L3?].
+// The resolver picks the highest available variant up to the user's level.
+export type ExerciseSlot = Exercise | [Exercise, Exercise?, Exercise?];
+
+export interface SupersetDef {
+  e1: ExerciseSlot;
+  e2: ExerciseSlot;
+  e3?: ExerciseSlot;
+}
+
+export interface WorkoutTemplate extends Omit<Workout, "exercises"> {
+  supersets: [SupersetDef, SupersetDef, SupersetDef];
+  lvl2Extra: SupersetDef;
+  lvl3Extra: SupersetDef;
+}

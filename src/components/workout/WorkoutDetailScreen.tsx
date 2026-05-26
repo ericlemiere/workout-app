@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { Workout, Exercise } from "@/types";
+import type { WorkoutTemplate, Exercise, UserLevel } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { ExerciseModal } from "@/components/workout/ExerciseModal";
 import { formatDuration } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
+import { buildWorkout } from "@/lib/difficulty";
+import { useUserStore } from "@/store/userStore";
 import { MdOutlineTimer } from "react-icons/md";
 import { SlTarget } from "react-icons/sl";
 import { GrYoga } from "react-icons/gr";
 
 interface Props {
-  workout: Workout;
+  template: WorkoutTemplate;
 }
 
 const categoryColor: Record<string, string> = {
@@ -72,9 +74,15 @@ function ExerciseRow({
   );
 }
 
-export function WorkoutDetailScreen({ workout }: Props) {
+export function WorkoutDetailScreen({ template }: Props) {
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null,
+  );
+  const level = useUserStore((s) => s.level);
+  const setLevel = useUserStore((s) => s.setLevel);
+  const workout = useMemo(
+    () => buildWorkout(template, level),
+    [template, level],
   );
 
   const totalRealExercises =
@@ -132,6 +140,14 @@ export function WorkoutDetailScreen({ workout }: Props) {
 
           {/* Stats pills */}
           <div className="flex gap-2 flex-wrap mb-6">
+            {/* Level */}
+            <div className="bg-charcoal text-slate-300 text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5">
+              <span className="tracking-widest text-xs text-lime font-bold mt-px">
+                LVL
+              </span>
+              <span className="">{level}</span>
+            </div>
+
             {[
               {
                 label: `${estimatedMinutes}m`,
@@ -148,7 +164,7 @@ export function WorkoutDetailScreen({ workout }: Props) {
             ].map(({ label, icon }) => (
               <span
                 key={label}
-                className="bg-charcoal text-slate-300 text-sm px-3 py-1.5 rounded-full flex items-center gap-1.5"
+                className="bg-charcoal text-slate-300 text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5"
               >
                 <span>{icon}</span>
                 <span className="capitalize">{label}</span>

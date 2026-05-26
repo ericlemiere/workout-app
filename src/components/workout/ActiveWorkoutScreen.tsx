@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useCallback, useRef, useState } from "react";
+import { useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWorkoutStore } from "@/store/workoutStore";
 import { useProgressStore } from "@/store/progressStore";
+import { useUserStore } from "@/store/userStore";
 import { useWorkoutTimer, useVibration } from "@/hooks/useWorkoutTimer";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import { CircularTimer } from "@/components/ui/CircularTimer";
@@ -12,11 +13,12 @@ import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
-import type { Workout } from "@/types";
+import { buildWorkout } from "@/lib/difficulty";
+import type { WorkoutTemplate } from "@/types";
 
 interface Props {
   workoutId: string;
-  workout: Workout;
+  template: WorkoutTemplate;
 }
 
 const sectionLabel: Record<string, string> = {
@@ -37,9 +39,11 @@ const sectionColor: Record<string, string> = {
   complete: "text-lime",
 };
 
-export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
+export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const router = useRouter();
   const vibrate = useVibration();
+  const level = useUserStore((s) => s.level);
+  const builtWorkout = useMemo(() => buildWorkout(template, level), [template, level]);
   const hasStartedRef = useRef(false);
 
   const section = useWorkoutStore((s) => s.section);
@@ -66,13 +70,13 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
 
   useWakeLock(section !== "complete" && section !== "intro");
 
-  // Initialize workout on mount
+  // Initialize workout on mount — build from template + user level
   useEffect(() => {
     if (!hasStartedRef.current) {
       hasStartedRef.current = true;
-      startWorkout(workout);
+      startWorkout(buildWorkout(template, level));
     }
-  }, [workout, startWorkout]);
+  }, [template, level, startWorkout]);
 
   // Navigate to complete page when done
   useEffect(() => {
@@ -143,20 +147,20 @@ export function ActiveWorkoutScreen({ workoutId, workout }: Props) {
           className="text-center"
         >
           <img
-            src={workout.coverImage}
-            alt={workout.name}
+            src={template.coverImage}
+            alt={template.name}
             className="w-24 h-24 rounded-2xl object-cover mb-6 mx-auto"
           />
           <h1 className="text-offwhite text-3xl font-bold mb-2">
-            {workout.name}
+            {template.name}
           </h1>
           <p className="text-slate-400 mb-2">
-            {workout.warmups.length} warmups ·{" "}
-            {workout.exercises.filter((e) => !e.isRest).length} exercises ·{" "}
-            {workout.cooldowns.length} stretches
+            {template.warmups.length} warmups ·{" "}
+            {builtWorkout.exercises.filter((e) => !e.isRest).length} exercises ·{" "}
+            {template.cooldowns.length} stretches
           </p>
           <p className="text-slate-500 text-sm mb-10">
-            {calculateWorkoutMinutes(workout)} minutes
+            {calculateWorkoutMinutes(builtWorkout)} minutes
           </p>
           <motion.button
             whileTap={{ scale: 0.96 }}

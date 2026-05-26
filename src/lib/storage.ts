@@ -1,4 +1,4 @@
-import type { CompletedWorkout, StreakData, AppSettings } from '@/types'
+import type { CompletedWorkout, StreakData, AppSettings, UserLevel } from '@/types'
 
 const KEYS = {
   completed: 'workout_completed',
@@ -137,6 +137,16 @@ export function getCycleCompleteAcknowledged(): boolean {
 
 export function saveCycleCompleteAcknowledged(val: boolean): void {
   localStorage.setItem(KEYS.cycleCompleteAcknowledged, String(val))
+}
+
+export function getLevel(): UserLevel {
+  if (typeof window === 'undefined') return 1
+  const v = parseInt(localStorage.getItem('workout_level') ?? '1', 10)
+  return (v === 2 || v === 3) ? v : 1
+}
+
+export function saveLevel(level: UserLevel): void {
+  localStorage.setItem('workout_level', String(level))
 }
 
 export function clearAllProgress(): void {
