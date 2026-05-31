@@ -9,7 +9,6 @@ import { MdOutlineTimer } from "react-icons/md";
 import { IoFlame } from "react-icons/io5";
 import { GiCycle } from "react-icons/gi";
 import { MoonIconStats } from "@/lib/moonIcon";
-import { SignalIcon } from "@/lib/customIcons";
 import { Achievements } from "./Achievements";
 import { ModalFromBottom } from "./ModalFromBottom";
 
@@ -64,10 +63,6 @@ export function StatsScreen() {
   const streak = useProgressStore((s) => s.streak);
   const lunarCycles = useProgressStore((s) => s.lunarCycles);
   const totalCycles = useProgressStore((s) => s.totalCycles);
-  const levelCycles = useProgressStore((s) => s.levelCycles);
-  const level1Cycles = levelCycles[1];
-  const level2Cycles = levelCycles[2];
-  const level3Cycles = levelCycles[3];
 
   const totalTimeMs = useMemo(
     () => completed.reduce((sum, c) => sum + c.durationMs, 0),
@@ -170,51 +165,6 @@ export function StatsScreen() {
                 icon: <FaDumbbell size={48} />,
               })
             }
-          />
-          <StatRow
-            label="Level 1 Cycles Completed"
-            value={level1Cycles}
-            description="The total number of times you've completed all 28 workouts at Level 1."
-            onClick={() =>
-              setActiveStat({
-                label: "Level 1 Cycles Completed",
-                value: level1Cycles,
-                description:
-                  "The total number of times you've completed all 28 workouts at Level 1.",
-                icon: <SignalIcon bars={1} size={12} />,
-              })
-            }
-            icon={<SignalIcon bars={1} size={10} />}
-          />
-          <StatRow
-            label="Level 2 Cycles Completed"
-            value={level2Cycles}
-            description="The total number of times you've completed all 28 workouts at Level 2."
-            onClick={() =>
-              setActiveStat({
-                label: "Level 2 Cycles Completed",
-                value: level2Cycles,
-                description:
-                  "The total number of times you've completed all 28 workouts at Level 2.",
-                icon: <SignalIcon bars={2} size={12} />,
-              })
-            }
-            icon={<SignalIcon bars={2} size={10} />}
-          />
-          <StatRow
-            label="Level 3 Cycles Completed"
-            value={level3Cycles}
-            description="The total number of times you've completed all 28 workouts at Level 3."
-            onClick={() =>
-              setActiveStat({
-                label: "Level 3 Cycles Completed",
-                value: level3Cycles,
-                description:
-                  "The total number of times you've completed all 28 workouts at Level 3.",
-                icon: <SignalIcon bars={3} size={12} />,
-              })
-            }
-            icon={<SignalIcon bars={3} size={10} />}
           />
           <StatRow
             label="Total Cycles Completed"
