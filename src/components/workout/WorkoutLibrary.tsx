@@ -51,9 +51,10 @@ export function WorkoutLibrary({ workouts }: Props) {
       new Set(
         completed
           .filter((c) => !cycleStartedAt || c.completedAt >= cycleStartedAt)
+          .filter((c) => (c.level ?? 1) === level)
           .map((c) => c.workoutId),
       ),
-    [completed, cycleStartedAt],
+    [completed, cycleStartedAt, level],
   );
 
   const cycleDone = completedIds.size >= workouts.length && workouts.length > 0;

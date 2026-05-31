@@ -100,7 +100,7 @@ export function SettingsScreen() {
     >
       <div className="px-4 pt-8 pb-6">
         <h1 className="text-offwhite text-3xl font-bold font-orbitron tracking-wider">
-          Settings
+          Settings + More
         </h1>
       </div>
 
@@ -122,42 +122,42 @@ export function SettingsScreen() {
             onChange={(v) => updateSettings({ voiceCuesEnabled: v })}
             description="Audible cues for exercises"
           />
-          <Toggle
-            label="Auto Advance"
-            value={settings.autoAdvance}
-            onChange={(v) => updateSettings({ autoAdvance: v })}
-            description="Automatically move to next exercise when timer ends"
-          />
         </div>
       </div>
 
-      {/* About */}
+      {/* Info */}
       <div className="px-4 mb-6">
         <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
-          About
+          Info
         </h2>
         <div className="bg-charcoal/50 rounded-2xl px-4">
           <div className="py-4 border-b border-lime/50">
+            <p className="text-offwhite font-medium">About</p>
             <p className="text-slate-400 text-sm leading-relaxed">
-              A complete at-home physical therapy program featuring 28 guided
-              workouts designed to improve full-body strength, mobility, and
-              flexibility. Each session takes about 20 minutes and requires
-              nothing more than your body weight and a mat. No subscriptions, no
-              ads, and no internet connection needed after the initial download.
+              A complete at-home physical therapy program featuring three levels
+              of 28 guided workouts designed to improve full-body strength,
+              mobility, and flexibility. Each session takes about 20-27 minutes,
+              depending on the level, and requires nothing more than your body
+              weight and an optional mat. No subscriptions, no ads, and no
+              internet connection needed after the initial download.
             </p>
             <p className="text-offwhite text-xs mt-3">
-              Install to home screen for the best experience.
+              Install to the home screen of your phone for the best experience
             </p>
           </div>
-          <div className="flex items-center justify-between gap-2 py-4">
+
+          {/* Share */}
+          <div className="flex items-center justify-between gap-2 py-4 border-b border-lime/50">
             <div>
-              <p className="text-offwhite font-medium">Share</p>
-              <p className="text-slate-500 text-xs mt-0.5">MOOV with someone</p>
+              <p className="text-offwhite font-medium">Share this app</p>
+              <p className="text-slate-500 text-xs mt-0.5">
+                And MOOV with someone
+              </p>
             </div>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={handleShare}
-              className="bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600 flex items-center gap-1.5"
+              className="w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center gap-1.5"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -175,17 +175,35 @@ export function SettingsScreen() {
               Share
             </motion.button>
           </div>
+
+          {/* Contact */}
+          <div className="flex items-center justify-between gap-2 py-4">
+            <div>
+              <p className="text-offwhite font-medium">Send MOOV a message</p>
+              <p className="text-slate-500 text-xs mt-0.5">
+                Have a suggestion? Find a bug?
+              </p>
+              <p className="text-slate-500 text-xs mt-0.5">Please reach out.</p>
+            </div>
+            <motion.a
+              whileTap={{ scale: 0.95 }}
+              href="mailto:hello@ericlemiere.com"
+              className="w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center gap-1.5"
+            >
+              Contact
+            </motion.a>
+          </div>
         </div>
       </div>
 
       {/* Reset */}
       <div className="px-4">
-        <h2 className="text-lime text-xs font-bold uppercase tracking-widest mb-3">
+        <h2 className="text-electric-orange text-xs font-bold uppercase tracking-widest mb-3">
           Reset
         </h2>
         <div className="bg-charcoal/50 rounded-2xl px-4">
           {/* Reset Grid */}
-          <div className="flex items-center justify-between gap-2 py-4 border-b border-lime/50">
+          <div className="flex items-center justify-between gap-2 py-4 border-b border-electric-orange/50">
             <div>
               <p className="text-offwhite font-medium">Reset Grid</p>
               <p className="text-slate-500 text-xs mt-0.5">
@@ -195,7 +213,7 @@ export function SettingsScreen() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setConfirmMode("grid")}
-              className="bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600"
+              className="bg-slate-700 text-electric-orange text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600"
             >
               Reset
             </motion.button>
@@ -213,7 +231,7 @@ export function SettingsScreen() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setConfirmMode("stats")}
-              className="bg-slate-700 text-slate-200  text-sm font-semibold px-4 py-2 rounded-xl active:bg-red-500/30"
+              className="bg-slate-700 text-electric-orange text-sm font-semibold px-4 py-2 rounded-xl active:bg-red-500/30"
             >
               Reset
             </motion.button>

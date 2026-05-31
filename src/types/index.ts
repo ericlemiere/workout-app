@@ -57,6 +57,7 @@ export interface CompletedWorkout {
   workoutId: string;
   completedAt: string; // ISO string
   durationMs: number;
+  level?: UserLevel;
 }
 
 export interface StreakData {

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
+import { useUserStore } from "@/store/userStore";
 
 interface Props {
   isLunarCycle: boolean;
@@ -10,6 +11,7 @@ interface Props {
 export function CycleCompleteScreen({ isLunarCycle }: Props) {
   const completeCycle = useProgressStore((s) => s.completeCycle);
   const acknowledgeCycleComplete = useProgressStore((s) => s.acknowledgeCycleComplete);
+  const level = useUserStore((s) => s.level);
 
   return (
     <motion.div
@@ -68,10 +70,10 @@ export function CycleCompleteScreen({ isLunarCycle }: Props) {
         className="w-full max-w-xs flex flex-col gap-3"
       >
         <button
-          onClick={() => completeCycle(isLunarCycle)}
+          onClick={() => completeCycle(isLunarCycle, level)}
           className="bg-lime text-navy font-bold text-lg py-4 rounded-2xl active:opacity-80"
         >
-          Start New Cycle
+          Reset Level {level}
         </button>
         <button
           onClick={acknowledgeCycleComplete}

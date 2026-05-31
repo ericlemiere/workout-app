@@ -2,13 +2,14 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
 import { useWorkoutStore } from "@/store/workoutStore";
 import { playCompleteSound } from "@/lib/audio";
 import { formatTime } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
+import { ACHIEVEMENTS } from "@/components/workout/Achievements";
 import { GiPartyPopper } from "react-icons/gi";
 
 interface Props {
@@ -20,7 +21,13 @@ const APP_URL = "https://moov-1.vercel.app/";
 export function CompletionScreen({ workout }: Props) {
   const streak = useProgressStore((s) => s.streak);
   const completed = useProgressStore((s) => s.completed);
+  const pendingAchievements = useProgressStore((s) => s.pendingAchievements);
+  const dismissPendingAchievement = useProgressStore((s) => s.dismissPendingAchievement);
   const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
+
+  const pendingAchievement = pendingAchievements.length > 0
+    ? ACHIEVEMENTS.find(a => a.id === pendingAchievements[0]) ?? null
+    : null;
 
   async function handleShare() {
     const streakText = `🔥 ${streak.currentStreak} day streak!`;
@@ -146,6 +153,60 @@ export function CompletionScreen({ workout }: Props) {
           Share
         </motion.button>
       </motion.div>
+      {/* Achievement unlocked overlay */}
+      <AnimatePresence>
+        {pendingAchievement && (
+          <motion.div
+            key={pendingAchievement.id}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            transition={{ type: "spring", stiffness: 220, damping: 20, delay: 0.3 }}
+            className="fixed inset-0 z-50 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom"
+          >
+            <p className="text-lime text-xs font-bold uppercase tracking-[0.2em] mb-8">
+              Achievement Unlocked
+            </p>
+
+            <motion.div
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.45 }}
+              className="text-lime mb-6 [&_svg]:w-20 [&_svg]:h-20"
+            >
+              {pendingAchievement.icon}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55 }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-offwhite font-bold font-orbitron tracking-wider text-2xl mb-3">
+                {pendingAchievement.name}
+              </h2>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                {pendingAchievement.description1}
+              </p>
+              <p className="text-slate-400 text-sm leading-relaxed mt-1">
+                {pendingAchievement.description2}
+              </p>
+            </motion.div>
+
+            <motion.button
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.65 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={dismissPendingAchievement}
+              className="bg-lime text-navy font-bold text-lg w-full max-w-xs py-4 rounded-2xl active:opacity-80"
+            >
+              {pendingAchievements.length > 1 ? "Next →" : "Claim!"}
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

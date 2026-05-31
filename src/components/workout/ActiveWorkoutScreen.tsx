@@ -82,7 +82,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   useEffect(() => {
     if (section === "complete") {
       const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0;
-      recordCompletion(workoutId, durationMs);
+      recordCompletion(workoutId, durationMs, level);
       router.replace(`/workout/${workoutId}/complete`);
     }
   }, [section, workoutId, workoutStartTs, recordCompletion, router]);

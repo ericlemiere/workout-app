@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { IoSettingsOutline } from "react-icons/io5";
 import { RiBarChartFill } from "react-icons/ri";
-import { CiDumbbell } from "react-icons/ci";
+import { TbGridDots } from "react-icons/tb";
 import { FaDumbbell } from "react-icons/fa6";
 
 const navItems = [
@@ -21,8 +20,8 @@ const navItems = [
   },
   {
     href: "/settings",
-    label: "Settings",
-    icon: () => <IoSettingsOutline size={20} />,
+    label: "More",
+    icon: () => <TbGridDots size={20} />,
   },
 ];
 
@@ -32,36 +31,50 @@ export function BottomNav() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
   const isWorkoutActive = pathname.startsWith("/workout/");
 
+  // Find active index for indicator position
+  const activeIndex = navItems.findIndex(({ href }) => isActive(href));
+
   if (isWorkoutActive) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
-      <div className="flex items-center justify-around h-16 max-w-sm mx-auto px-4">
-        {navItems.map(({ href, label, icon }) => {
-          const active = isActive(href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              className="flex flex-col items-center gap-0.5 min-w-16 py-2 relative"
-            >
-              <span className={active ? "text-lime" : "text-slate-500"}>
-                {icon()}
-              </span>
-              <span
-                className={`text-[10px] font-medium tracking-wide ${active ? "text-lime" : "text-slate-500"}`}
+      <div className="h-16 max-w-sm mx-auto px-4">
+        <div className="flex items-center justify-around h-full relative">
+          {/* Sliding indicator */}
+          {activeIndex !== -1 && (
+            <motion.div
+              className="absolute -top-px h-0.5 w-12 bg-lime rounded-full left-0"
+              animate={{
+                left: `calc(${((activeIndex * 2 + 1) / (navItems.length * 2)) * 100}% - 1.5rem)`,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+              }}
+            />
+          )}
+
+          {navItems.map(({ href, label, icon }) => {
+            const active = isActive(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="flex flex-col items-center gap-0.5 min-w-16 py-2 relative z-10"
               >
-                {label}
-              </span>
-              {active && (
-                <motion.div
-                  layoutId="nav-indicator"
-                  className="absolute -top-px left-1/2 -translate-x-1/2 w-12 h-0.5 bg-lime rounded-full"
-                />
-              )}
-            </Link>
-          );
-        })}
+                <span className={active ? "text-lime" : "text-slate-500"}>
+                  {icon()}
+                </span>
+                <span
+                  className={`text-[10px] font-medium tracking-wide ${active ? "text-lime" : "text-slate-500"}`}
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

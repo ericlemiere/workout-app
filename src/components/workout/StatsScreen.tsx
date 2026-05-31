@@ -4,10 +4,12 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
 import { FaDumbbell, FaTrophy } from "react-icons/fa6";
+import { RiCalendarCheckLine } from "react-icons/ri";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoFlame } from "react-icons/io5";
 import { GiCycle } from "react-icons/gi";
 import { MoonIconStats } from "@/lib/moonIcon";
+import { SignalIcon } from "@/lib/customIcons";
 import { Achievements } from "./Achievements";
 import { ModalFromBottom } from "./ModalFromBottom";
 
@@ -31,18 +33,11 @@ interface StatRowProps {
   onClick?: () => void;
 }
 
-function StatRow({
-  label,
-  value,
-  description,
-  icon,
-  border = true,
-  onClick,
-}: StatRowProps) {
+function StatRow({ label, value, icon, border = true, onClick }: StatRowProps) {
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left py-4 ${border ? "border-b border-lime/50" : ""} active:bg-white/5 transition-colors rounded-sm`}
+      className={`w-full text-left py-4 ${border ? "border-b border-lime/50" : ""} active:bg-white/5 transition-colors`}
     >
       <div className="flex items-center justify-between gap-4 text-lime">
         {icon ?? <FaDumbbell size={40} />}
@@ -69,9 +64,18 @@ export function StatsScreen() {
   const streak = useProgressStore((s) => s.streak);
   const lunarCycles = useProgressStore((s) => s.lunarCycles);
   const totalCycles = useProgressStore((s) => s.totalCycles);
+  const levelCycles = useProgressStore((s) => s.levelCycles);
+  const level1Cycles = levelCycles[1];
+  const level2Cycles = levelCycles[2];
+  const level3Cycles = levelCycles[3];
 
   const totalTimeMs = useMemo(
     () => completed.reduce((sum, c) => sum + c.durationMs, 0),
+    [completed],
+  );
+
+  const daysWithWorkout = useMemo(
+    () => new Set(completed.map((c) => c.completedAt.slice(0, 10))).size,
     [completed],
   );
 
@@ -82,6 +86,7 @@ export function StatsScreen() {
       `My MOOV stats 🌕\n` +
       `🔥 Current Streak: ${streak.currentStreak} day${streak.currentStreak !== 1 ? "s" : ""}\n` +
       `🏆 Longest Streak: ${streak.longestStreak} day${streak.longestStreak !== 1 ? "s" : ""}\n` +
+      `📅 Days With A Workout: ${daysWithWorkout}\n` +
       `🏋️‍♀️ Workouts Completed: ${completed.length}\n` +
       `🔄 Cycles Completed: ${totalCycles} cycle${totalCycles !== 1 ? "s" : ""}\n` +
       `🌒 Lunar Cycles: ${lunarCycles} lunar cycle${lunarCycles !== 1 ? "s" : ""}\n` +
@@ -138,6 +143,21 @@ export function StatsScreen() {
             }
           />
           <StatRow
+            label="Days With A Workout"
+            value={daysWithWorkout}
+            description="The total number of calendar days on which you completed at least one workout. Unlike streaks, this keeps counting even after a miss."
+            icon={<RiCalendarCheckLine size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Days With A Workout",
+                value: daysWithWorkout,
+                description:
+                  "The total number of calendar days on which you completed at least one workout. Unlike streaks, this keeps counting even after a miss.",
+                icon: <RiCalendarCheckLine size={48} />,
+              })
+            }
+          />
+          <StatRow
             label="Workouts Completed"
             value={completed.length}
             description="The total number of workouts you've finished across your entire history, including all past cycles."
@@ -152,13 +172,58 @@ export function StatsScreen() {
             }
           />
           <StatRow
-            label="Cycles Completed"
+            label="Level 1 Cycles Completed"
+            value={level1Cycles}
+            description="The total number of times you've completed all 28 workouts at Level 1."
+            onClick={() =>
+              setActiveStat({
+                label: "Level 1 Cycles Completed",
+                value: level1Cycles,
+                description:
+                  "The total number of times you've completed all 28 workouts at Level 1.",
+                icon: <SignalIcon bars={1} size={12} />,
+              })
+            }
+            icon={<SignalIcon bars={1} size={10} />}
+          />
+          <StatRow
+            label="Level 2 Cycles Completed"
+            value={level2Cycles}
+            description="The total number of times you've completed all 28 workouts at Level 2."
+            onClick={() =>
+              setActiveStat({
+                label: "Level 2 Cycles Completed",
+                value: level2Cycles,
+                description:
+                  "The total number of times you've completed all 28 workouts at Level 2.",
+                icon: <SignalIcon bars={2} size={12} />,
+              })
+            }
+            icon={<SignalIcon bars={2} size={10} />}
+          />
+          <StatRow
+            label="Level 3 Cycles Completed"
+            value={level3Cycles}
+            description="The total number of times you've completed all 28 workouts at Level 3."
+            onClick={() =>
+              setActiveStat({
+                label: "Level 3 Cycles Completed",
+                value: level3Cycles,
+                description:
+                  "The total number of times you've completed all 28 workouts at Level 3.",
+                icon: <SignalIcon bars={3} size={12} />,
+              })
+            }
+            icon={<SignalIcon bars={3} size={10} />}
+          />
+          <StatRow
+            label="Total Cycles Completed"
             value={totalCycles}
             description="The total number of times you've completed all 28 workouts, regardless of time frame."
             icon={<GiCycle size={40} />}
             onClick={() =>
               setActiveStat({
-                label: "Cycles Completed",
+                label: "Total Cycles Completed",
                 value: totalCycles,
                 description:
                   "The total number of times you've completed all 28 workouts, regardless of time frame.",
@@ -166,6 +231,7 @@ export function StatsScreen() {
               })
             }
           />
+
           <StatRow
             label="Lunar Cycles Completed"
             value={lunarCycles}

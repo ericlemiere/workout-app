@@ -8,6 +8,9 @@ const KEYS = {
   lunarCycles: 'workout_lunar_cycles',
   totalCycles: 'workout_total_cycles',
   cycleCompleteAcknowledged: 'workout_cycle_ack',
+  earnedAchievements: 'workout_earned_achievements',
+  levelCycles: 'workout_level_cycles',
+  levelLunarCycles: 'workout_level_lunar_cycles',
 } as const
 
 export function getCompletedWorkouts(): CompletedWorkout[] {
@@ -149,9 +152,48 @@ export function saveLevel(level: UserLevel): void {
   localStorage.setItem('workout_level', String(level))
 }
 
+export function getEarnedAchievements(): Set<string> {
+  if (typeof window === 'undefined') return new Set()
+  try {
+    const arr: string[] = JSON.parse(localStorage.getItem(KEYS.earnedAchievements) ?? '[]')
+    return new Set(arr)
+  } catch { return new Set() }
+}
+
+export function saveEarnedAchievements(ids: Set<string>): void {
+  localStorage.setItem(KEYS.earnedAchievements, JSON.stringify(Array.from(ids)))
+}
+
+export function getLevelCycles(): Record<1 | 2 | 3, number> {
+  if (typeof window === 'undefined') return { 1: 0, 2: 0, 3: 0 }
+  try {
+    return { 1: 0, 2: 0, 3: 0, ...JSON.parse(localStorage.getItem(KEYS.levelCycles) ?? '{}') }
+  } catch { return { 1: 0, 2: 0, 3: 0 } }
+}
+
+export function saveLevelCycles(v: Record<1 | 2 | 3, number>): void {
+  localStorage.setItem(KEYS.levelCycles, JSON.stringify(v))
+}
+
+export function getLevelLunarCycles(): Record<2 | 3, number> {
+  if (typeof window === 'undefined') return { 2: 0, 3: 0 }
+  try {
+    return { 2: 0, 3: 0, ...JSON.parse(localStorage.getItem(KEYS.levelLunarCycles) ?? '{}') }
+  } catch { return { 2: 0, 3: 0 } }
+}
+
+export function saveLevelLunarCycles(v: Record<2 | 3, number>): void {
+  localStorage.setItem(KEYS.levelLunarCycles, JSON.stringify(v))
+}
+
 export function clearAllProgress(): void {
   localStorage.removeItem(KEYS.completed)
   localStorage.removeItem(KEYS.streak)
   localStorage.removeItem(KEYS.cycleStartedAt)
   localStorage.removeItem(KEYS.cycleCompleteAcknowledged)
+  localStorage.removeItem(KEYS.lunarCycles)
+  localStorage.removeItem(KEYS.totalCycles)
+  localStorage.removeItem(KEYS.earnedAchievements)
+  localStorage.removeItem(KEYS.levelCycles)
+  localStorage.removeItem(KEYS.levelLunarCycles)
 }

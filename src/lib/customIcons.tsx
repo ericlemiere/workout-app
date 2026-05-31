@@ -149,3 +149,40 @@ export const CheckeredFlagIcon = () => {
     </svg>
   );
 };
+
+export const SignalIcon = ({ bars, size }: { bars: number; size?: number }) => {
+  // a cell phone signal icon with the specified number of bars filled in, out of 3 total bars. So if bars=2, the first 2 bars are filled in and the other 2 are just outlines.
+  const sizeString =
+    size === 10 ? "w-10 h-10" : size === 12 ? "w-12 h-12" : "w-full h-full";
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={sizeString}>
+      <rect
+        x="0"
+        y="15"
+        width="6"
+        height="6"
+        fill={bars >= 1 ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1"
+      />
+      <rect
+        x="9"
+        y="9"
+        width="6"
+        height="12"
+        fill={bars >= 2 ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1"
+      />
+      <rect
+        x="18"
+        y="3"
+        width="6"
+        height="18"
+        fill={bars >= 3 ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+};
