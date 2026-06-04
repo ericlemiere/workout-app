@@ -51,7 +51,7 @@ export function LoginScreen() {
   }
 
   return (
-    <div className="min-h-screen bg-navy flex flex-col safe-top safe-bottom">
+    <div className="min-h-screen max-w-xl mx-auto bg-navy flex flex-col safe-top safe-bottom">
       {/* Logo and Tagline at Top */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}

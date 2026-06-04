@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { syncOnLogin } from '@/lib/sync'
+import { syncOnLogin, pushProgress } from '@/lib/sync'
 import { useProgressStore } from '@/store/progressStore'
 import { useUserStore } from '@/store/userStore'
 import { ProgressHydrator } from './ProgressHydrator'
@@ -56,7 +56,16 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       }
     })
 
-    return () => subscription.unsubscribe()
+    // Push any offline progress the moment connectivity is restored
+    function handleOnline() {
+      pushProgress().catch(() => {})
+    }
+    window.addEventListener('online', handleOnline)
+
+    return () => {
+      subscription.unsubscribe()
+      window.removeEventListener('online', handleOnline)
+    }
   }, [])
 
   if (loading) return null

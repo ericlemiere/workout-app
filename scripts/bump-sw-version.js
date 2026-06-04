@@ -5,10 +5,11 @@ const version = `workout-${Date.now()}`
 
 const content = `const CACHE = '${version}'
 
-// All routes pre-fetched and cached at install time so the full app
-// works offline without requiring the user to visit every page first.
+// Pages and assets to cache on install so the app works offline immediately.
 const PRECACHE = [
   '/',
+  '/login',
+  '/stats',
   '/settings',
   '/workout/workout-01',
   '/workout/workout-02',
@@ -66,6 +67,15 @@ const PRECACHE = [
   '/workout/workout-26/active',
   '/workout/workout-27/active',
   '/workout/workout-28/active',
+  '/moov-logo-transparent.png',
+  '/moov-horizontal-logo.png',
+  '/lunar-transparent.png',
+  '/header-image.png',
+  '/icons/apple-touch-icon.png',
+  '/images/workouts/core.png',
+  '/images/workouts/full-body.png',
+  '/images/workouts/lower-body.png',
+  '/images/workouts/upper-body.png',
 ]
 
 self.addEventListener('install', (e) => {
@@ -86,12 +96,29 @@ self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return
   if (!e.request.url.startsWith(self.location.origin)) return
 
+  // Navigation requests use network-first so users always get fresh content
+  // when online. The proxy never redirects, so the response is always a 200
+  // and Safari won't complain. When offline, fall back to the cached page.
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request)
+        .then((response) => {
+          if (response.ok) {
+            caches.open(CACHE).then((cache) => cache.put(e.request, response.clone()))
+          }
+          return response
+        })
+        .catch(() => caches.match(e.request).then((cached) => cached || caches.match('/')))
+    )
+    return
+  }
+
+  // Static assets: cache-first with network fallback
   e.respondWith(
     caches.match(e.request).then((cached) => {
       const networkFetch = fetch(e.request).then((response) => {
         if (response.ok) {
-          const clone = response.clone()
-          caches.open(CACHE).then((cache) => cache.put(e.request, clone))
+          caches.open(CACHE).then((cache) => cache.put(e.request, response.clone()))
         }
         return response
       })

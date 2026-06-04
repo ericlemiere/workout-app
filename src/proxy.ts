@@ -23,24 +23,11 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const pathname = request.nextUrl.pathname
-  const isPublic = pathname.startsWith('/login') || pathname.startsWith('/auth/')
-  const isGuest = request.cookies.get('moov_guest')?.value === '1'
-
-  if (!user && !isGuest && !isPublic) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
-  if (user && isPublic && !pathname.startsWith('/auth/')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    return NextResponse.redirect(url)
-  }
+  // Refresh the session cookie if it's close to expiring.
+  // No redirects here — auth routing is handled client-side by AuthGuard
+  // so the service worker never receives a redirect response and offline
+  // caching works correctly.
+  await supabase.auth.getUser()
 
   return supabaseResponse
 }
