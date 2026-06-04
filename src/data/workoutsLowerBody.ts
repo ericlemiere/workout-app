@@ -7,9 +7,8 @@ import {
   squatsToCalfRaises,
   lunges,
   reverseLunges,
-  sideLunges,
-  lateralSquatsLeft,
-  lateralSquatsRight,
+  sideLungesLeft,
+  sideLungesRight,
   singleLegSquatsLeft,
   singleLegSquatsRight,
   calfRaises,
@@ -18,11 +17,16 @@ import {
   gluteBridgeHolds,
   singleLegGluteBridgeLeft,
   singleLegGluteBridgeRight,
-  singleLegDeadlift,
   fireHydrantLeft,
   fireHydrantRight,
   donkeyKicksLeft,
   donkeyKicksRight,
+  forwardLungeLeft,
+  forwardLungeRight,
+  reverseLungesLeft,
+  reverseLungesRight,
+  singleLegDeadliftLeft,
+  singleLegDeadliftRight,
 } from "./exercisesLowerBody";
 import {
   highKneesMarch,
@@ -67,10 +71,10 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: lunges, e2: [squats, squatJumps] },
-      { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
+      { e1: gluteBridges, e2: forwardLungeLeft, e3: forwardLungeRight },
       { e1: reverseLunges, e2: squats },
     ],
-    lvl2Extra: { e1: calfRaises, e2: sideLunges },
+    lvl2Extra: { e1: calfRaises, e2: sideLungesLeft, e3: sideLungesRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       hipFlexorStretch,
@@ -98,11 +102,11 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       torsoTwists,
     ],
     supersets: [
-      { e1: sideLunges, e2: reverseLunges, e3: squatsToCalfRaises },
+      { e1: squatsToCalfRaises, e2: reverseLunges },
       { e1: gluteBridges, e2: fireHydrantLeft, e3: fireHydrantRight },
       { e1: gluteBridgeHolds, e2: donkeyKicksLeft, e3: donkeyKicksRight },
     ],
-    lvl2Extra: { e1: lateralSquatsLeft, e2: lateralSquatsRight },
+    lvl2Extra: { e1: sideLungesLeft, e2: sideLungesRight },
     lvl3Extra: { e1: singleLegGluteBridgeLeft, e2: singleLegGluteBridgeRight },
     cooldowns: [
       seatedForwardFold,
@@ -129,11 +133,11 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       torsoTwists,
     ],
     supersets: [
-      { e1: singleLegDeadlift, e2: reverseLunges },
+      { e1: reverseLungesLeft, e2: reverseLungesRight },
       { e1: squats, e2: lunges, e3: prisonerSquats },
-      { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
+      { e1: gluteBridges, e2: reverseLungesLeft, e3: reverseLungesRight },
     ],
-    lvl2Extra: { e1: lateralSquatsLeft, e2: lateralSquatsRight },
+    lvl2Extra: { e1: singleLegDeadliftLeft, e2: singleLegDeadliftRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       hipFlexorStretch,
@@ -163,9 +167,9 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: [squats, squatJumps], e2: lunges },
       { e1: gluteBridgeHolds, e2: donkeyKicksLeft, e3: donkeyKicksRight },
-      { e1: reverseLunges, e2: sideLunges },
+      { e1: reverseLunges, e2: sideLungesLeft, e3: sideLungesRight },
     ],
-    lvl2Extra: { e1: lateralSquatsLeft, e2: lateralSquatsRight },
+    lvl2Extra: { e1: sideLungesLeft, e2: sideLungesRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       quadStretchLeft,
@@ -193,11 +197,11 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       torsoTwists,
     ],
     supersets: [
-      { e1: squats, e2: singleLegDeadlift },
+      { e1: squats, e2: sideLungesLeft, e3: sideLungesRight },
       { e1: [sumoSquats, squatJumps], e2: lunges },
       { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
     ],
-    lvl2Extra: { e1: lateralSquatsLeft, e2: lateralSquatsRight },
+    lvl2Extra: { e1: sideLungesLeft, e2: sideLungesRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       hipFlexorStretch,
@@ -225,9 +229,9 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       activeCalfStretch,
     ],
     supersets: [
-      { e1: reverseLunges, e2: sideLunges },
+      { e1: sideLungesRight, e2: sideLungesLeft },
       { e1: gluteBridges, e2: fireHydrantLeft, e3: fireHydrantRight },
-      { e1: [squats, squatJumps], e2: singleLegDeadlift },
+      { e1: [squats, squatJumps], e2: reverseLunges },
     ],
     lvl2Extra: { e1: singleLegGluteBridgeLeft, e2: singleLegGluteBridgeRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
@@ -257,9 +261,13 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       pendulumHamstringStretch,
     ],
     supersets: [
-      { e1: [squats, squatJumps], e2: singleLegDeadlift },
+      {
+        e1: [squats, squatJumps],
+        e2: singleLegDeadliftLeft,
+        e3: singleLegDeadliftRight,
+      },
       { e1: gluteBridgeHolds, e2: donkeyKicksLeft, e3: donkeyKicksRight },
-      { e1: reverseLunges, e2: sideLunges },
+      { e1: reverseLunges, e2: lunges },
     ],
     lvl2Extra: { e1: singleLegGluteBridgeLeft, e2: singleLegGluteBridgeRight },
     lvl3Extra: {

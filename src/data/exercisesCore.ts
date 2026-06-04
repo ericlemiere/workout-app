@@ -1,8 +1,8 @@
 import type { Exercise } from "@/types";
 
-// ===============================================================================
-//                                                                 Core exercises
-// ===============================================================================
+// ============================================
+//                                     Level 1
+// ============================================
 
 export const mountainClimberWalks: Exercise = {
   id: "mountain-climber-walks",
@@ -15,19 +15,6 @@ export const mountainClimberWalks: Exercise = {
   matPosition: "floor",
   instructions:
     "Start in plank. Bring one knee toward your chest, then return to plank. Alternate sides. Keep hips level.",
-};
-
-export const mountainClimbers: Exercise = {
-  id: "mountain-climbers",
-  name: "Mountain Climbers",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/mountain-climbers.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Start in plank. Drive alternate knees toward chest as fast as control allows. Keep hips level.",
 };
 
 export const plank: Exercise = {
@@ -54,19 +41,6 @@ export const legRaises: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back with your legs straight and hands under your butt. Lift legs toward ceiling while keeping lower back pressed into floor. Lower slowly without touching floor.",
-};
-
-export const russianTwists: Exercise = {
-  id: "russian-twists",
-  name: "Russian Twists",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/russian-twists.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Sit with knees bent, hands together in front of your chest. Lean back 45°. Rotate torso so your elbows tap floor on each side. Lift feet to increase difficulty.",
 };
 
 export const plankShoulderTaps: Exercise = {
@@ -144,7 +118,7 @@ export const standingSideCrunchLeft: Exercise = {
   target: "core",
   matPosition: "standing",
   instructions:
-    "Stand with feet shoulder-width. Place hands behind head. Crunch left elbow toward left knee while lifting it. Alternate sides.",
+    "Stand with feet shoulder-width. Place hands behind head. Crunch left elbow toward left knee while lifting it. Repeat on left side.",
 };
 
 export const standingSideCrunchRight: Exercise = {
@@ -157,7 +131,7 @@ export const standingSideCrunchRight: Exercise = {
   target: "core",
   matPosition: "standing",
   instructions:
-    "Stand with feet shoulder-width. Place hands behind head. Crunch right elbow toward right knee while lifting it. Alternate sides.",
+    "Stand with feet shoulder-width. Place hands behind head. Crunch right elbow toward right knee while lifting it. Repeat on right side.",
 };
 
 export const heelTaps: Exercise = {
@@ -171,32 +145,6 @@ export const heelTaps: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, knees bent, feet flat. Crunch up and tap your heel on one side, then the other. Keep your lower back pressed into the floor.",
-};
-
-export const highPlankToElbowPlank: Exercise = {
-  id: "high-plank-to-elbow-plank",
-  name: "High Plank to Elbow Plank",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/high-plank-to-elbow-plank.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Start in a high plank. Lower down onto your forearms one at a time, then press back up to high plank. Alternate the arm you lead with.",
-};
-
-export const plankWalkOuts: Exercise = {
-  id: "plank-walk-outs",
-  name: "Plank Walk-Outs",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/plank-walk-outs.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Start in a high plank. Slowly walk your hands out as far as you can while keeping your core engaged and hips level. Walk hands back to plank. Repeat.",
 };
 
 export const sidePlankLeft: Exercise = {
@@ -225,32 +173,6 @@ export const sidePlankRight: Exercise = {
     "Lie on your right side, prop up on your right forearm, stack your feet. Hold a straight line from head to heels. Breathe steadily.",
 };
 
-export const windshieldWipers: Exercise = {
-  id: "windshield-wipers",
-  name: "Windshield Wipers",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/windshield-wipers.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Lie on back, arms out to sides, legs straight up. Lower legs to one side while keeping shoulders on the floor. Return to center and alternate.",
-};
-
-export const sitUps: Exercise = {
-  id: "sit-ups",
-  name: "Sit-Ups",
-  duration: 30,
-  level: 1,
-  image: ["/images/exercises/sit-ups.jpg"],
-  category: "exercise",
-  target: "core",
-  matPosition: "floor",
-  instructions:
-    "Lie on back, knees bent, feet flat. Place hands behind head or across chest. Engage core to lift upper body toward knees, then lower back down.",
-};
-
 export const scissorKicks: Exercise = {
   id: "scissor-kicks",
   name: "Scissor Kicks",
@@ -277,15 +199,101 @@ export const flutterKicks: Exercise = {
     "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and alternate kicking them up and down in a fluttering motion.",
 };
 
+// ============================================
+//                                     Level 2
+// ============================================
+
+export const russianTwists: Exercise = {
+  id: "russian-twists",
+  name: "Russian Twists",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/russian-twists.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Sit with knees bent, hands together in front of your chest. Lean back 45°. Rotate torso so your elbows tap floor on each side. Lift feet to increase difficulty.",
+};
+
+export const highPlankToElbowPlank: Exercise = {
+  id: "high-plank-to-elbow-plank",
+  name: "High Plank to Elbow Plank",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/high-plank-to-elbow-plank.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Start in a high plank. Lower down onto your forearms one at a time, then press back up to high plank. Alternate the arm you lead with.",
+};
+
+export const windshieldWipers: Exercise = {
+  id: "windshield-wipers",
+  name: "Windshield Wipers",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/windshield-wipers.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Lie on back, arms out to sides, legs straight up. Lower legs to one side while keeping shoulders on the floor. Return to center and alternate.",
+};
+
+// ============================================
+//                                     Level 3
+// ============================================
+
+export const mountainClimbers: Exercise = {
+  id: "mountain-climbers",
+  name: "Mountain Climbers",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/mountain-climbers.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Start in plank. Drive alternate knees toward chest as fast as control allows. Keep hips level.",
+};
+
+export const plankWalkOuts: Exercise = {
+  id: "plank-walk-outs",
+  name: "Plank Walk-Outs",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/plank-walk-outs.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Start in a high plank. Slowly walk your hands out as far as you can while keeping your core engaged and hips level. Walk hands back to plank. Repeat.",
+};
+
+export const sitUps: Exercise = {
+  id: "sit-ups",
+  name: "Sit-Ups",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/sit-ups.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Lie on back, knees bent, feet flat. Place hands behind head or across chest. Engage core to lift upper body toward knees, then lower back down.",
+};
+
 // ===============================================================================
 //                                                                   Exercise list
 // ===============================================================================
 
 export const mainExercises: Exercise[] = [
+  // Level 1
   mountainClimberWalks,
-  mountainClimbers,
   plank,
-  russianTwists,
+  legRaises,
   plankShoulderTaps,
   deadBug,
   birdDog,
@@ -293,13 +301,19 @@ export const mainExercises: Exercise[] = [
   pelvicTilts,
   standingSideCrunchLeft,
   standingSideCrunchRight,
+  heelTaps,
   sidePlankLeft,
   sidePlankRight,
-  windshieldWipers,
-  sitUps,
   scissorKicks,
   flutterKicks,
-  plankWalkOuts,
+
+  // Level 2
+  russianTwists,
   highPlankToElbowPlank,
-  heelTaps,
+  windshieldWipers,
+
+  // Level 3
+  mountainClimbers,
+  plankWalkOuts,
+  sitUps,
 ];

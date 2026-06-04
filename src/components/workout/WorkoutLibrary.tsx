@@ -10,6 +10,7 @@ import { MoonIcon } from "@/lib/moonIcon";
 import { IoFlame } from "react-icons/io5";
 import { CycleCompleteScreen } from "@/components/workout/CycleCompleteScreen";
 import { LevelSelectModal } from "@/components/workout/LevelSelectModal";
+import { AchievementUnlockedOverlay } from "@/components/workout/AchievementUnlockedOverlay";
 
 interface Props {
   workouts: WorkoutTemplate[];
@@ -69,6 +70,7 @@ export function WorkoutLibrary({ workouts }: Props) {
 
   return (
     <>
+      <AchievementUnlockedOverlay />
       <AnimatePresence>
         {showCycleComplete && (
           <CycleCompleteScreen isLunarCycle={isLunarCycle} />

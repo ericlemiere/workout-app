@@ -1,21 +1,8 @@
 import type { Exercise } from "@/types";
 
-// ===============================================================================
-//                                                           Upper Body exercises
-// ===============================================================================
-
-export const pushUps: Exercise = {
-  id: "push-ups",
-  name: "Push-Ups",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/push-ups.jpg"],
-  category: "exercise",
-  target: "chest",
-  matPosition: "floor",
-  instructions:
-    "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor and press up.",
-};
+// ============================================
+//                                     Level 1
+// ============================================
 
 export const kneelingPushUps: Exercise = {
   id: "kneeling-push-ups",
@@ -69,6 +56,23 @@ export const spiderCrossPlanks: Exercise = {
     "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. Alternate sides.",
 };
 
+// ============================================
+//                                     Level 2
+// ============================================
+
+export const pushUps: Exercise = {
+  id: "push-ups",
+  name: "Push-Ups",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/push-ups.jpg"],
+  category: "exercise",
+  target: "chest",
+  matPosition: "floor",
+  instructions:
+    "Hands shoulder-width, body in a straight line from head to heels. Lower chest to floor and press up.",
+};
+
 export const tableTopDips: Exercise = {
   id: "table-top-dips",
   name: "Table Top Dips",
@@ -113,11 +117,14 @@ export const downwardDogPushUps: Exercise = {
 // ===============================================================================
 
 export const mainExercises: Exercise[] = [
-  pushUps,
+  // Level 1
   kneelingPushUps,
   airplanePushUps,
   wavePushUps,
   spiderCrossPlanks,
+
+  // Level 2
+  pushUps,
   tableTopDips,
   shoulderTapPushUps,
   downwardDogPushUps,

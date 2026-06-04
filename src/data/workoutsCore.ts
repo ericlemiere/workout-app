@@ -93,11 +93,11 @@ export const coreTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: deadBug, e2: birdDog },
-      { e1: airplanePushUps, e2: plank, e3: sitUps },
+      { e1: airplanePushUps, e2: plank },
       { e1: plankRotations, e2: fireHydrantLeft, e3: fireHydrantRight },
     ],
     lvl2Extra: { e1: sidePlankLeft, e2: sidePlankRight },
-    lvl3Extra: { e1: [heelTaps, russianTwists], e2: windshieldWipers },
+    lvl3Extra: { e1: sitUps, e2: windshieldWipers },
     cooldowns: [
       hipFlexorStretch,
       seatedHamstringStretch,
@@ -217,8 +217,8 @@ export const coreTemplates: WorkoutTemplate[] = [
       activeCalfStretch,
     ],
     supersets: [
-      { e1: plankRotations, e2: fireHydrantLeft, e3: fireHydrantRight },
-      { e1: airplanePushUps, e2: standingSideCrunchLeft, e3: standingSideCrunchRight },
+      { e1: standingSideCrunchLeft, e2: standingSideCrunchRight },
+      { e1: airplanePushUps, e2: plankRotations },
       { e1: deadBug, e2: [heelTaps, russianTwists], e3: legRaises },
     ],
     lvl2Extra: { e1: sidePlankLeft, e2: sidePlankRight },

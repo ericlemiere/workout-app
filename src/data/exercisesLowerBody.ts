@@ -1,8 +1,8 @@
 import type { Exercise } from "@/types";
 
-// ===============================================================================
-//                                                           Lower Body exercises
-// ===============================================================================
+// ============================================
+//                                     Level 1
+// ============================================
 
 export const squats: Exercise = {
   id: "squats",
@@ -41,19 +41,6 @@ export const sumoSquats: Exercise = {
   matPosition: "standing",
   instructions:
     "Feet wider than shoulder-width with toes pointed out and hands together in front of chest. Sit back and down until thighs are parallel. Drive through heels to stand.",
-};
-
-export const squatJumps: Exercise = {
-  id: "squat-jumps",
-  name: "Squat Jumps",
-  duration: 30,
-  level: 3,
-  image: ["/images/exercises/squat-jumps.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Perform a squat, then explode upward into a jump. Land softly, immediately descend into next squat.",
 };
 
 export const squatsToCalfRaises: Exercise = {
@@ -95,69 +82,30 @@ export const reverseLunges: Exercise = {
     "Step backward and lower back knee toward floor. Drive front foot through heel to return. Alternate legs.",
 };
 
-export const sideLunges: Exercise = {
-  id: "side-lunges",
-  name: "Side Lunges",
+export const sideLungesLeft: Exercise = {
+  id: "side-lunges-left",
+  name: "Side Lunges Left",
   duration: 30,
   level: 1,
-  image: ["/images/exercises/side-lunges.jpg"],
+  image: ["/images/exercises/side-lunges-left.jpg"],
   category: "exercise",
   target: "lower body",
   matPosition: "standing",
   instructions:
-    "Step wide to the right, bend right knee, keep left leg straight. Push back to center. Alternate sides.",
+    "Step wide to the left, bend left knee, keep right leg straight. Push back to center. Repeat.",
 };
 
-export const lateralSquatsLeft: Exercise = {
-  id: "lateral-squats-left",
-  name: "Lateral Squats Left",
+export const sideLungesRight: Exercise = {
+  id: "side-lunges-right",
+  name: "Side Lunges Right",
   duration: 30,
   level: 1,
-  image: ["/images/exercises/lateral-squats-left.jpg"],
+  image: ["/images/exercises/side-lunges-right.jpg"],
   category: "exercise",
   target: "lower body",
   matPosition: "standing",
   instructions:
-    "Step wide to the left, bend left knee, keep right leg straight. Push back to center.",
-};
-
-export const lateralSquatsRight: Exercise = {
-  id: "lateral-squats-right",
-  name: "Lateral Squats Right",
-  duration: 30,
-  level: 1,
-  image: ["/images/exercises/lateral-squats-right.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Step wide to the right, bend right knee, keep left leg straight. Push back to center.",
-};
-
-export const singleLegSquatsLeft: Exercise = {
-  id: "single-leg-squats-left",
-  name: "Single Leg Squats Left",
-  duration: 30,
-  level: 3,
-  image: ["/images/exercises/single-leg-squats-left.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Stand on your left leg, extend your right leg in front of you. Sit back and down on your left leg while keeping your right leg off the floor. Drive through your left heel to return to standing.",
-};
-
-export const singleLegSquatsRight: Exercise = {
-  id: "single-leg-squats-right",
-  name: "Single Leg Squats Right",
-  duration: 30,
-  level: 3,
-  image: ["/images/exercises/single-leg-squats-right.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Stand on your right leg, extend your left leg in front of you. Sit back and down on your right leg while keeping your left leg off the floor. Drive through your right heel to return to standing.",
+    "Step wide to the right, bend right knee, keep left leg straight. Push back to center. Repeat.",
 };
 
 export const calfRaises: Exercise = {
@@ -171,32 +119,6 @@ export const calfRaises: Exercise = {
   matPosition: "standing",
   instructions:
     "Stand with feet hip-width. Rise onto toes as high as possible, lower slowly. Use a wall for balance if needed.",
-};
-
-export const highKnees: Exercise = {
-  id: "high-knees",
-  name: "High Knees",
-  duration: 30,
-  level: 2,
-  image: ["/images/exercises/high-knees.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Run in place, driving knees up to hip height as fast as possible. Pump arms for balance.",
-};
-
-export const buttKicks: Exercise = {
-  id: "butt-kicks",
-  name: "Butt Kicks",
-  duration: 30,
-  level: 3,
-  image: ["/images/exercises/butt-kicks.jpg"],
-  category: "exercise",
-  target: "lower body",
-  matPosition: "standing",
-  instructions:
-    "Run in place, kicking your heels up toward your glutes as fast as possible. Pump arms for balance.",
 };
 
 export const gluteBridges: Exercise = {
@@ -223,45 +145,6 @@ export const gluteBridgeHolds: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, knees bent. Drive hips up by squeezing glutes and hold.",
-};
-
-export const singleLegGluteBridgeLeft: Exercise = {
-  id: "single-leg-glute-bridge-left",
-  name: "Single-Leg Glute Bridge Left",
-  duration: 30,
-  level: 1,
-  image: ["/images/exercises/single-leg-glute-bridge-left.jpg"],
-  category: "exercise",
-  target: "glutes",
-  matPosition: "floor",
-  instructions:
-    "Lie on back, knees bent. Extend left leg, drive hips up by squeezing left glute. Hold 1 second at top, lower slowly.",
-};
-
-export const singleLegGluteBridgeRight: Exercise = {
-  id: "single-leg-glute-bridge-right",
-  name: "Single-Leg Glute Bridge Right",
-  duration: 30,
-  level: 1,
-  image: ["/images/exercises/single-leg-glute-bridge-right.jpg"],
-  category: "exercise",
-  target: "glutes",
-  matPosition: "floor",
-  instructions:
-    "Lie on back, knees bent. Extend right leg, drive hips up by squeezing right glute. Hold 1 second at top, lower slowly.",
-};
-
-export const singleLegDeadlift: Exercise = {
-  id: "single-leg-deadlift",
-  name: "Single Leg Deadlift",
-  duration: 40,
-  level: 1,
-  image: ["/images/exercises/single-leg-deadlift.jpg"],
-  category: "exercise",
-  target: "glutes",
-  matPosition: "standing",
-  instructions:
-    "Stand on one leg, hinge forward at hip, extend back leg behind. Return to standing. 20 seconds each side.",
 };
 
 export const fireHydrantLeft: Exercise = {
@@ -315,6 +198,7 @@ export const donkeyKicksRight: Exercise = {
   instructions:
     "On hands and knees, kick your right leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
 };
+
 export const forwardLungeLeft: Exercise = {
   id: "forward-lunge-left",
   name: "Forward Lunge Left",
@@ -327,6 +211,7 @@ export const forwardLungeLeft: Exercise = {
   instructions:
     "Step forward with your left leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
 };
+
 export const forwardLungeRight: Exercise = {
   id: "forward-lunge-right",
   name: "Forward Lunge Right",
@@ -339,7 +224,8 @@ export const forwardLungeRight: Exercise = {
   instructions:
     "Step forward with your right leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
 };
-export const reverseLungeLeft: Exercise = {
+
+export const reverseLungesLeft: Exercise = {
   id: "reverse-lunge-left",
   name: "Reverse Lunge Left",
   duration: 30,
@@ -351,7 +237,8 @@ export const reverseLungeLeft: Exercise = {
   instructions:
     "Step backward with your left leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
 };
-export const reverseLungeRight: Exercise = {
+
+export const reverseLungesRight: Exercise = {
   id: "reverse-lunge-right",
   name: "Reverse Lunge Right",
   duration: 30,
@@ -364,33 +251,167 @@ export const reverseLungeRight: Exercise = {
     "Step backward with your right leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
 };
 
+// ============================================
+//                                     Level 2
+// ============================================
+
+export const highKnees: Exercise = {
+  id: "high-knees",
+  name: "High Knees",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/high-knees.jpg"],
+  category: "exercise",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Run in place, driving knees up to hip height as fast as possible. Pump arms for balance.",
+};
+
+export const singleLegGluteBridgeLeft: Exercise = {
+  id: "single-leg-glute-bridge-left",
+  name: "Single-Leg Glute Bridge Left",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/single-leg-glute-bridge-left.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Lie on back, knees bent. Extend left leg, drive hips up by squeezing left glute. Hold 1 second at top, lower slowly.",
+};
+
+export const singleLegGluteBridgeRight: Exercise = {
+  id: "single-leg-glute-bridge-right",
+  name: "Single-Leg Glute Bridge Right",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/single-leg-glute-bridge-right.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Lie on back, knees bent. Extend right leg, drive hips up by squeezing right glute. Hold 1 second at top, lower slowly.",
+};
+
+export const singleLegDeadliftLeft: Exercise = {
+  id: "single-leg-deadlift-left",
+  name: "Single Leg Deadlift Left",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/single-leg-deadlift-left.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "standing",
+  instructions:
+    "Stand on your left leg, hinge forward at hip, extend your right leg behind. Return to standing. Repeat.",
+};
+
+export const singleLegDeadliftRight: Exercise = {
+  id: "single-leg-deadlift-right",
+  name: "Single Leg Deadlift Right",
+  duration: 30,
+  level: 2,
+  image: ["/images/exercises/single-leg-deadlift-right.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "standing",
+  instructions:
+    "Stand on your right leg, hinge forward at hip, extend your left leg behind. Return to standing. Repeat.",
+};
+
+// ============================================
+//                                     Level 3
+// ============================================
+
+export const squatJumps: Exercise = {
+  id: "squat-jumps",
+  name: "Squat Jumps",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/squat-jumps.jpg"],
+  category: "exercise",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Perform a squat, then explode upward into a jump. Land softly, immediately descend into next squat.",
+};
+
+export const singleLegSquatsLeft: Exercise = {
+  id: "single-leg-squats-left",
+  name: "Single Leg Squats Left",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/single-leg-squats-left.jpg"],
+  category: "exercise",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Stand on your left leg, extend your right leg in front of you. Sit back and down on your left leg while keeping your right leg off the floor. Drive through your left heel to return to standing.",
+};
+
+export const singleLegSquatsRight: Exercise = {
+  id: "single-leg-squats-right",
+  name: "Single Leg Squats Right",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/single-leg-squats-right.jpg"],
+  category: "exercise",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Stand on your right leg, extend your left leg in front of you. Sit back and down on your right leg while keeping your left leg off the floor. Drive through your right heel to return to standing.",
+};
+
+export const buttKicks: Exercise = {
+  id: "butt-kicks",
+  name: "Butt Kicks",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/butt-kicks.jpg"],
+  category: "exercise",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Run in place, kicking your heels up toward your glutes as fast as possible. Pump arms for balance.",
+};
+
 // ===============================================================================
 //                                                                   Exercise list
 // ===============================================================================
 
 export const mainExercises: Exercise[] = [
+  // Level 1
   squats,
   prisonerSquats,
   sumoSquats,
-  squatJumps,
   squatsToCalfRaises,
   lunges,
   reverseLunges,
-  sideLunges,
-  lateralSquatsLeft,
-  lateralSquatsRight,
-  singleLegSquatsLeft,
-  singleLegSquatsRight,
+  sideLungesLeft,
+  sideLungesRight,
   calfRaises,
-  highKnees,
-  buttKicks,
   gluteBridges,
   gluteBridgeHolds,
-  singleLegGluteBridgeLeft,
-  singleLegGluteBridgeRight,
-  singleLegDeadlift,
   fireHydrantLeft,
   fireHydrantRight,
   donkeyKicksLeft,
   donkeyKicksRight,
+  forwardLungeLeft,
+  forwardLungeRight,
+  reverseLungesLeft,
+  reverseLungesRight,
+
+  // Level 2
+  highKnees,
+  singleLegGluteBridgeLeft,
+  singleLegGluteBridgeRight,
+  singleLegDeadliftLeft,
+  singleLegDeadliftRight,
+
+  // Level 3
+  squatJumps,
+  singleLegSquatsLeft,
+  singleLegSquatsRight,
+  buttKicks,
 ];
