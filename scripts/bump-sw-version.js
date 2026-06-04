@@ -1,4 +1,9 @@
-const CACHE = 'workout-v2'
+const fs = require('fs')
+const path = require('path')
+
+const version = `workout-${Date.now()}`
+
+const content = `const CACHE = '${version}'
 
 // All routes pre-fetched and cached at install time so the full app
 // works offline without requiring the user to visit every page first.
@@ -94,3 +99,7 @@ self.addEventListener('fetch', (e) => {
     })
   )
 })
+`
+
+fs.writeFileSync(path.join(__dirname, '..', 'public', 'sw.js'), content)
+console.log(`SW cache version bumped to: ${version}`)

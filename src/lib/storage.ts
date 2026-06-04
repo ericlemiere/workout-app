@@ -28,6 +28,14 @@ export function addCompletedWorkout(entry: CompletedWorkout): void {
   localStorage.setItem(KEYS.completed, JSON.stringify(existing))
 }
 
+export function saveCompletedWorkouts(workouts: CompletedWorkout[]): void {
+  localStorage.setItem(KEYS.completed, JSON.stringify(workouts))
+}
+
+export function saveStreakData(streak: StreakData): void {
+  localStorage.setItem(KEYS.streak, JSON.stringify(streak))
+}
+
 export function getStreakData(): StreakData {
   if (typeof window === 'undefined') {
     return { currentStreak: 0, longestStreak: 0, lastCompletedDate: null }

@@ -315,6 +315,54 @@ export const donkeyKicksRight: Exercise = {
   instructions:
     "On hands and knees, kick your right leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
 };
+export const forwardLungeLeft: Exercise = {
+  id: "forward-lunge-left",
+  name: "Forward Lunge Left",
+  duration: 30,
+  level: 1,
+  image: ["/images/exercises/forward-lunge-left.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Step forward with your left leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
+};
+export const forwardLungeRight: Exercise = {
+  id: "forward-lunge-right",
+  name: "Forward Lunge Right",
+  duration: 30,
+  level: 1,
+  image: ["/images/exercises/forward-lunge-right.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Step forward with your right leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
+};
+export const reverseLungeLeft: Exercise = {
+  id: "reverse-lunge-left",
+  name: "Reverse Lunge Left",
+  duration: 30,
+  level: 1,
+  image: ["/images/exercises/reverse-lunge-left.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Step backward with your left leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
+};
+export const reverseLungeRight: Exercise = {
+  id: "reverse-lunge-right",
+  name: "Reverse Lunge Right",
+  duration: 30,
+  level: 1,
+  image: ["/images/exercises/reverse-lunge-right.jpg"],
+  category: "exercise",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Step backward with your right leg, lowering your hips until both knees are bent at about 90 degrees. Push back to starting position.",
+};
 
 // ===============================================================================
 //                                                                   Exercise list

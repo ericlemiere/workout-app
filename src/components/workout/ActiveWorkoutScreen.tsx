@@ -43,7 +43,10 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const router = useRouter();
   const vibrate = useVibration();
   const level = useUserStore((s) => s.level);
-  const builtWorkout = useMemo(() => buildWorkout(template, level), [template, level]);
+  const builtWorkout = useMemo(
+    () => buildWorkout(template, level),
+    [template, level],
+  );
   const hasStartedRef = useRef(false);
 
   const section = useWorkoutStore((s) => s.section);
@@ -182,22 +185,23 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     <div className="fixed max-w-xl mx-auto inset-0 bg-navy flex flex-col safe-top safe-bottom">
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 pt-2 pb-1 shrink-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-20">
+          <span className="text-lime text-lg tabular-nums">
+            {overallNumber}/{totalCount}
+          </span>
+        </div>
+        <div className="flex items-center justify-center flex-1">
           <span
             className={`text-lg font-bold uppercase tracking-widest ${sectionColor[displaySection]}`}
           >
             {sectionLabel[displaySection]}
           </span>
-
-          {!isRest && section !== "cooldown" && (
-            <span className="text-lime text-lg">
-              {overallNumber}/{totalCount}
-            </span>
-          )}
         </div>
-        <span className="text-lime text-lg tabular-nums">
-          {formatTime(totalWorkoutElapsed)}
-        </span>
+        <div className="flex items-center justify-end w-20">
+          <span className="text-lime text-lg tabular-nums">
+            {formatTime(totalWorkoutElapsed)}
+          </span>
+        </div>
       </div>
 
       {/* Progress bar */}
@@ -367,7 +371,9 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
                     <rect x="6" y="4" width="4" height="16" rx="1" />
                     <rect x="14" y="4" width="4" height="16" rx="1" />
                   </svg>
-                  <span className="text-charcoal font-semibold text-lg">Pause</span>
+                  <span className="text-charcoal font-semibold text-lg">
+                    Pause
+                  </span>
                 </motion.div>
               )}
             </AnimatePresence>

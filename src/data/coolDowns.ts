@@ -31,7 +31,7 @@ export const hipFlexorStretch: Exercise = {
 export const quadStretchLeft: Exercise = {
   id: "quad-stretch-left",
   name: "Quad Stretch Left",
-  duration: 30,
+  duration: 20,
   image: ["/images/exercises/quad-stretch-left.jpg"],
   category: "cool-down",
   target: "lower body",
@@ -43,7 +43,7 @@ export const quadStretchLeft: Exercise = {
 export const quadStretchRight: Exercise = {
   id: "quad-stretch-right",
   name: "Quad Stretch Right",
-  duration: 30,
+  duration: 20,
   image: ["/images/exercises/quad-stretch-right.jpg"],
   category: "cool-down",
   target: "lower body",

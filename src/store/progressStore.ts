@@ -26,6 +26,7 @@ import {
   saveLevelLunarCycles,
 } from '@/lib/storage'
 import { evaluateAchievements } from '@/lib/achievements'
+import { pushProgress } from '@/lib/sync'
 
 interface ProgressState {
   completed: CompletedWorkout[]
@@ -42,6 +43,7 @@ interface ProgressState {
   hydrated: boolean
 
   hydrate: () => void
+  rehydrate: () => void
   recordCompletion: (workoutId: string, durationMs: number, level?: UserLevel) => void
   updateSettings: (partial: Partial<AppSettings>) => void
   resetGrid: () => void
@@ -115,6 +117,24 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
     })
   },
 
+  rehydrate: () => {
+    const totalCycles = getTotalCycles()
+    const levelCycles = getLevelCycles()
+    set({
+      completed: getCompletedWorkouts(),
+      streak: getStreakData(),
+      settings: getSettings(),
+      cycleStartedAt: getCycleStartedAt(),
+      lunarCycles: getLunarCycles(),
+      totalCycles,
+      levelCycles,
+      levelLunarCycles: getLevelLunarCycles(),
+      cycleCompleteAcknowledged: getCycleCompleteAcknowledged(),
+      earnedAchievements: getEarnedAchievements(),
+      hydrated: true,
+    })
+  },
+
   recordCompletion: (workoutId, durationMs, level = 1) => {
     const now = new Date()
     const entry: CompletedWorkout = {
@@ -136,6 +156,7 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       const award = checkAndAward(next)
       return award ? { ...next, ...award } : next
     })
+    pushProgress().catch(() => {})
   },
 
   updateSettings: (partial) => {
@@ -200,6 +221,7 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
     }
     const award = checkAndAward(next)
     set(award ? { ...next, ...award } : next)
+    pushProgress().catch(() => {})
   },
 
   acknowledgeCycleComplete: () => {

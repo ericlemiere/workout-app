@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Orbitron, Space_Mono } from "next/font/google";
 import "./globals.css";
-import { BottomNav } from "@/components/layout/BottomNav";
 import { ServiceWorkerRegistrar } from "@/components/layout/ServiceWorkerRegistrar";
-import { ProgressHydrator } from "@/components/layout/ProgressHydrator";
 import { SplashScreen } from "@/components/layout/SplashScreen";
+import { AuthGuard } from "@/components/layout/AuthGuard";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -64,10 +63,10 @@ export default function RootLayout({
       <body className="h-full bg-navy text-offwhite antialiased font-sans overflow-x-hidden">
         <script dangerouslySetInnerHTML={{ __html: "history.scrollRestoration='manual'" }} />
         <ServiceWorkerRegistrar />
-        <ProgressHydrator />
         <SplashScreen />
-        {children}
-        <BottomNav />
+        <AuthGuard>
+          {children}
+        </AuthGuard>
       </body>
     </html>
   );

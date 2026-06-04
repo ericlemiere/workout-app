@@ -8,6 +8,7 @@ interface UserState {
   level: UserLevel
   hydrated: boolean
   hydrate: () => void
+  rehydrate: () => void
   setLevel: (level: UserLevel) => void
 }
 
@@ -16,6 +17,9 @@ export const useUserStore = create<UserState>((set, get) => ({
   hydrated: false,
   hydrate: () => {
     if (get().hydrated) return
+    set({ level: getLevel(), hydrated: true })
+  },
+  rehydrate: () => {
     set({ level: getLevel(), hydrated: true })
   },
   setLevel: (level) => {
