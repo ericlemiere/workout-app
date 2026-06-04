@@ -108,7 +108,7 @@ self.addEventListener('fetch', (e) => {
           }
           return response
         })
-        .catch(() => caches.match(e.request).then((cached) => cached || caches.match('/')))
+        .catch(() => caches.match(e.request).then((cached) => cached || caches.match(new URL('/', self.location).href)))
     )
     return
   }
