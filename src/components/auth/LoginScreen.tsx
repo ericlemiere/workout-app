@@ -210,12 +210,12 @@ export function LoginScreen() {
                 Data saved locally only
               </h2>
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                Your stats, achievements, and progress will be stored on this
-                device only. If you clear your browser data, reinstall the app,
-                or switch devices, your progress will be permanently lost.
+                Sign in to securely back up your stats, achievements, and
+                workout progress. Your data will sync across devices, making it
+                easy to track your MOOVments wherever you are.
                 <br />
                 <br />
-                You can always sign in later to enable cloud backup.
+                You can always sign in later to secure your data.
               </p>
               <div className="flex flex-col gap-3">
                 <motion.button
@@ -223,7 +223,7 @@ export function LoginScreen() {
                   onClick={handleContinueAsGuest}
                   className="w-full py-3.5 rounded-2xl bg-slate-700 text-slate-200 font-semibold active:bg-slate-600"
                 >
-                  Continue anyway
+                  Continue without signing in
                 </motion.button>
                 <button
                   onClick={() => setShowGuestWarning(false)}
