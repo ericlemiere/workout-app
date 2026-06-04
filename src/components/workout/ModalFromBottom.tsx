@@ -37,12 +37,12 @@ export function ModalFromBottom({ open, onClose, children }: Props) {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 320, damping: 30 }}
-            className="fixed bottom-0 left-0 right-0 z-50 max-w-xl mx-auto bg-charcoal rounded-t-3xl overflow-hidden safe-bottom"
+            className="fixed bottom-0 left-0 right-0 z-50 max-w-xl mx-auto bg-charcoal rounded-t-3xl overflow-hidden safe-bottom flex flex-col max-h-[90dvh]"
           >
             <button
               onClick={onClose}
               aria-label="Close"
-              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center"
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -55,7 +55,9 @@ export function ModalFromBottom({ open, onClose, children }: Props) {
                 <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
-            {children}
+            <div className="overflow-y-auto flex-1">
+              {children}
+            </div>
           </motion.div>
         </>
       )}

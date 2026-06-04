@@ -68,6 +68,19 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  // Re-check guest cookie whenever the route changes — handles the case where
+  // the user sets the cookie on /login then router.replace('/') fires before
+  // onAuthStateChange has a chance to see the cookie.
+  useEffect(() => {
+    if (!loading && !authed && !isPublic) {
+      if (document.cookie.includes('moov_guest=1')) {
+        rehydrate()
+        rehydrateUser()
+        setAuthed(true)
+      }
+    }
+  }, [pathname, loading])
+
   if (loading) return null
 
   if (!authed && !isPublic) return null
@@ -76,7 +89,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     <>
       {authed && <ProgressHydrator />}
       {children}
-      {authed && <BottomNav />}
+      {authed && !isPublic && <BottomNav />}
     </>
   )
 }

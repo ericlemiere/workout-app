@@ -290,9 +290,9 @@ export function SettingsScreen() {
           </div>
 
           <div className="flex items-center py-4">
-            <p className="text-slate-400 text-xs flex items-baseline gap-1">
+            <p className="text-slate-400 text-xs">
               <span className="text-slate-400 font-semibold">Add</span>{" "}
-              <span className="text-white drop-shadow-[1px_1px_0px_rgb(190,242,100)] font-orbitron tracking-widest">
+              <span className="text-white mx-0.5 drop-shadow-[1px_1px_0px_rgb(190,242,100)] font-orbitron tracking-widest">
                 MOOV
               </span>{" "}
               <span className="text-slate-400 font-semibold">

@@ -13,6 +13,7 @@ export function LoginScreen() {
   const [step, setStep] = useState<Step>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [showGuestWarning, setShowGuestWarning] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
   const router = useRouter();
 
   const supabase = createClient();
@@ -22,6 +23,7 @@ export function LoginScreen() {
       : "/auth/callback";
 
   async function handleGoogle() {
+    setGoogleBusy(true);
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo },
@@ -88,10 +90,11 @@ export function LoginScreen() {
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={handleGoogle}
-            className="w-full flex items-center justify-center gap-3 bg-white text-gray-800 font-semibold py-3.5 rounded-2xl active:bg-gray-100"
+            disabled={googleBusy}
+            className="w-full flex items-center justify-center gap-3 bg-white text-gray-800 font-semibold py-3.5 rounded-2xl active:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed transition-opacity"
           >
             <GoogleIcon />
-            Continue with Google
+            {googleBusy ? "Redirecting…" : "Continue with Google"}
           </motion.button>
 
           {/* Divider */}
