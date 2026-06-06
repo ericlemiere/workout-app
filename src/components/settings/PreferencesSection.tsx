@@ -10,7 +10,7 @@ function Toggle({
   onChange,
   description,
 }: {
-  label: string;
+  label: React.ReactNode;
   value: boolean;
   onChange: (v: boolean) => void;
   description?: string;
@@ -18,7 +18,7 @@ function Toggle({
   return (
     <div className="flex items-center justify-between gap-2 py-4 border-b border-lime/50 last:border-0">
       <div>
-        <p className="text-offwhite font-medium">{label}</p>
+        {label}
         {description && (
           <p className="text-slate-500 text-xs mt-0.5">{description}</p>
         )}
@@ -46,13 +46,18 @@ export function PreferencesSection() {
       <SectionHeader label="Preferences" icon={<FaGear size={20} />} />
       <div className="bg-charcoal/50 rounded-2xl px-4">
         <Toggle
-          label="Sound Effects"
+          label={<p className="text-offwhite font-medium">Sound Effects</p>}
           value={settings.soundEnabled}
           onChange={(v) => updateSettings({ soundEnabled: v })}
           description="Countdown beeps and completion sounds"
         />
         <Toggle
-          label="Voice Cues [Coming Soon]"
+          label={
+            <p className="text-offwhite font-medium">
+              Voice Cues
+              <span className="text-slate-500">&nbsp;[Coming Soon]</span>
+            </p>
+          }
           value={settings.voiceCuesEnabled}
           onChange={(v) => updateSettings({ voiceCuesEnabled: v })}
           description="Audible cues for exercises"

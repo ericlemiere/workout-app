@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { useUserStore } from "@/store/userStore";
 import { motion, AnimatePresence } from "framer-motion";
 
 function getMoonPath(n: number): string {
@@ -95,67 +96,44 @@ function SplashMoon({ phase }: { phase: number }) {
   );
 }
 
-const ONE_ROTATION_MS = 28 * 80; // 2240ms
-
 export function SplashScreen() {
   const [visible, setVisible] = useState(true);
   const [phase, setPhase] = useState(1);
   const [ready, setReady] = useState(false);
   const [dismissed, setDismissed] = useState(false);
-  const [isFirstVisit, setIsFirstVisit] = useState(false);
   const [slowConnection, setSlowConnection] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const authReady = useUserStore(s => s.authReady);
+  const setSplashDone = useUserStore(s => s.setSplashDone);
 
   useEffect(() => {
-    const firstVisit = localStorage.getItem("moov_visited") !== "true";
-    setIsFirstVisit(firstVisit);
-
     intervalRef.current = setInterval(() => {
       setPhase((p) => (p === 28 ? 1 : p + 1));
     }, 80);
 
-    if (firstVisit) {
-      // First open: show CTA once SW is ready and 2.2s have passed
-      let minDone = false;
-      let swDone = !("serviceWorker" in navigator);
-      const tryReady = () => {
-        if (minDone && swDone) setReady(true);
-      };
-      const minTimer = setTimeout(() => {
-        minDone = true;
-        tryReady();
-      }, 2200);
-      const slowTimer = setTimeout(() => {
-        if (!swDone) setSlowConnection(true);
-      }, 4000);
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.ready.then(() => {
-          swDone = true;
-          setSlowConnection(false);
-          tryReady();
-        });
-      }
+    // Show CTA once SW is ready (ensures assets are cached before entering the app)
+    if ("serviceWorker" in navigator) {
+      const slowTimer = setTimeout(() => setSlowConnection(true), 4000);
+      navigator.serviceWorker.ready.then(() => {
+        clearTimeout(slowTimer);
+        setSlowConnection(false);
+        setReady(true);
+      });
       return () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
-        clearTimeout(minTimer);
         clearTimeout(slowTimer);
       };
     } else {
-      // Returning user: auto-dismiss after exactly one full rotation
-      const timer = setTimeout(() => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-        setDismissed(true);
-      }, ONE_ROTATION_MS);
+      setReady(true);
       return () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
-        clearTimeout(timer);
       };
     }
   }, []);
 
   const dismiss = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    localStorage.setItem("moov_visited", "true");
+    setSplashDone();
     setDismissed(true);
   };
 
@@ -205,7 +183,7 @@ export function SplashScreen() {
             {/* CTA — fixed height so moon never shifts when content appears */}
             <div className="h-65 w-full shrink-0 pb-10 px-8 text-center flex flex-col items-center justify-end">
               <AnimatePresence mode="wait">
-                {ready && isFirstVisit ? (
+                {ready && authReady ? (
                   <motion.div
                     key="cta"
                     initial={{ opacity: 0 }}
@@ -215,11 +193,11 @@ export function SplashScreen() {
                     className="flex flex-col items-center gap-7"
                   >
                     <h1 className="flex flex-col items-center gap-4">
-                      <p className="text-slate-300 text-3xl font-orbitron tracking-wider leading-relaxed text-shadow-lime text-shadow-sm">
-                        Welcome to MOOV
-                      </p>
-                      <p className="text-slate-300 text-base leading-relaxed w-60 max-w-xs">
+                      <p className="text-slate-300 text-xl font-orbitron tracking-wider leading-relaxed drop-shadow-[1px_1px_0px_rgb(190,242,100)]">
                         A personal workout plan that follows the lunar cycle.
+                      </p>
+                      <p className="text-slate-300 text-base leading-relaxed w-60 max-w-xs drop-shadow-[1px_1px_0px_rgb(190,242,100)]">
+                        Your celestial body awaits.
                       </p>
                     </h1>
                     <button
@@ -229,7 +207,7 @@ export function SplashScreen() {
                       LETS MOOV
                     </button>
                   </motion.div>
-                ) : slowConnection && isFirstVisit ? (
+                ) : slowConnection ? (
                   <motion.div
                     key="slow"
                     initial={{ opacity: 0 }}

@@ -207,15 +207,16 @@ export function LoginScreen() {
               className="w-full max-w-sm bg-charcoal rounded-3xl p-6"
             >
               <h2 className="text-offwhite text-xl font-bold mb-2">
-                Data saved locally only
+                Continue as a guest?
               </h2>
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                Sign in to securely back up your stats, achievements, and
-                workout progress. Your data will sync across devices, making it
-                easy to track your MOOVments wherever you are.
+                Guest mode stores your workout progress, achievements, and stats
+                only on this device. If you switch devices or remove the app,
+                your data will be lost.
                 <br />
                 <br />
-                You can always sign in later to secure your data.
+                Creating an account securely backs up your profile and lets you
+                access your progress from any device when you sign in.
               </p>
               <div className="flex flex-col gap-3">
                 <motion.button

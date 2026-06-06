@@ -45,6 +45,7 @@ export function WorkoutLibrary({ workouts }: Props) {
     (s) => s.cycleCompleteAcknowledged,
   );
   const level = useUserStore((s) => s.level);
+  const splashDone = useUserStore((s) => s.splashDone);
   const [levelModalOpen, setLevelModalOpen] = useState(false);
 
   const completedIds = useMemo(
@@ -164,7 +165,7 @@ export function WorkoutLibrary({ workouts }: Props) {
               <motion.div
                 key={workout.id}
                 initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={splashDone ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
                 transition={{ delay: i * 0.02, duration: 0.25 }}
                 whileTap={{ scale: 0.93 }}
               >

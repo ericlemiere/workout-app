@@ -10,14 +10,17 @@ import { ProgressHydrator } from './ProgressHydrator'
 import { BottomNav } from './BottomNav'
 
 const PUBLIC_PATHS = ['/login', '/auth/']
+const WAS_AUTHED_KEY = 'moov_was_authed'
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [authed, setAuthed] = useState(false)
+  const [isOffline, setIsOffline] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const rehydrate = useProgressStore(s => s.rehydrate)
   const rehydrateUser = useUserStore(s => s.rehydrate)
+  const setAuthReady = useUserStore(s => s.setAuthReady)
 
   const isPublic = PUBLIC_PATHS.some(p => pathname.startsWith(p))
 
@@ -28,13 +31,14 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     // INITIAL_SESSION fires on every page load (with or without a session).
     // SIGNED_IN fires after a fresh OAuth/magic-link sign-in.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         if (session?.user) {
-          // Clear guest flag when a real session is established
+          localStorage.setItem(WAS_AUTHED_KEY, '1')
           document.cookie = 'moov_guest=; path=/; max-age=0'
           rehydrate()
           rehydrateUser()
           setAuthed(true)
+          setIsOffline(false)
           if (isPublic) router.replace('/')
           syncOnLogin().then(() => { rehydrate(); rehydrateUser() }).catch(() => {})
         } else {
@@ -43,28 +47,41 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
             rehydrate()
             rehydrateUser()
             setAuthed(true)
+          } else if (!navigator.onLine && localStorage.getItem(WAS_AUTHED_KEY) === '1') {
+            // Offline but previously authenticated — keep user in the app
+            rehydrate()
+            rehydrateUser()
+            setAuthed(true)
+            setIsOffline(true)
           } else {
             setAuthed(false)
             if (!isPublic) router.replace('/login')
           }
         }
         setLoading(false)
+        setAuthReady()
       }
       if (event === 'SIGNED_OUT') {
+        localStorage.removeItem(WAS_AUTHED_KEY)
         setAuthed(false)
         router.replace('/login')
       }
     })
 
-    // Push any offline progress the moment connectivity is restored
     function handleOnline() {
+      setIsOffline(false)
       pushProgress().catch(() => {})
     }
+    function handleOffline() {
+      setIsOffline(true)
+    }
     window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
 
     return () => {
       subscription.unsubscribe()
       window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
     }
   }, [])
 
@@ -90,6 +107,13 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       {authed && <ProgressHydrator />}
       {children}
       {authed && !isPublic && <BottomNav />}
+      {isOffline && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <span className="bg-slate-800 border border-slate-600 text-slate-400 text-xs font-medium px-3 py-1 rounded-full">
+            Offline
+          </span>
+        </div>
+      )}
     </>
   )
 }

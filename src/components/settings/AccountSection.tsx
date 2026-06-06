@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaUserAstronaut } from "react-icons/fa6";
 import { createClient } from "@/lib/supabase/client";
@@ -11,14 +12,27 @@ export function AccountSection() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
+    setIsOffline(!navigator.onLine);
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
     createClient()
       .auth.getUser()
       .then(({ data: { user } }) => {
         setUserEmail(user?.email ?? null);
         setLoaded(true);
       });
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   async function handleSignOut() {
@@ -34,18 +48,32 @@ export function AccountSection() {
           {!loaded ? (
             <>
               <div>
-                <p className="text-slate-500 font-medium">Finding account</p>
-                <p className="text-slate-500 text-xs mt-0.5">Loading...</p>
+                <p className="account_section_title text-slate-500 font-medium">Finding account</p>
+                <p className="account_section_subtitle text-slate-500 text-xs mt-0.5">Loading...</p>
               </div>
               <div className="w-22 text-center shrink-0 bg-slate-700 text-slate-400 text-sm font-semibold px-0 py-2 rounded-xl">
                 Loading
               </div>
             </>
+          ) : isOffline ? (
+            <>
+              <div>
+                <p className="account_section_title text-offwhite font-medium">You appear to be offline</p>
+                <p className="account_section_subtitle text-slate-500 text-xs mt-0.5">
+                  {localStorage.getItem('moov_was_authed') === '1'
+                    ? 'Your progress is saved locally and will sync when you\'re back online.'
+                    : 'Your progress is saved locally. Sign in when back online to sync it across devices.'}
+                </p>
+              </div>
+              <div className="w-22 text-center shrink-0 bg-slate-700 text-slate-400 text-sm font-semibold px-0 py-2 rounded-xl">
+                Offline
+              </div>
+            </>
           ) : userEmail ? (
             <>
               <div>
-                <p className="text-offwhite font-medium">Signed in</p>
-                <p className="text-slate-500 text-xs mt-0.5">{userEmail}</p>
+                <p className="account_section_title text-offwhite font-medium">You are signed in</p>
+                <p className="account_section_subtitle text-slate-500 text-xs mt-0.5">{userEmail}</p>
               </div>
               <motion.button
                 whileTap={{ scale: 0.95 }}
@@ -58,18 +86,21 @@ export function AccountSection() {
           ) : (
             <>
               <div>
-                <p className="text-offwhite font-medium">Not signed in</p>
-                <p className="text-slate-500 text-xs mt-0.5">
+                <p className="account_section_title text-offwhite font-medium">You are not signed in</p>
+                <p className="account_section_subtitle text-slate-500 text-xs mt-0.5">
                   Sign in to save and sync your progress across devices.
                 </p>
               </div>
-              <motion.a
+              <motion.button
                 whileTap={{ scale: 0.95 }}
-                href="/login"
+                onClick={() => {
+                  document.cookie = 'moov_guest=; path=/; max-age=0'
+                  router.push('/login')
+                }}
                 className="w-22 text-center shrink-0 bg-lime/20 text-lime border border-lime/40 whitespace-nowrap text-sm font-semibold px-0 py-2 rounded-xl active:bg-lime/30"
               >
                 Sign in
-              </motion.a>
+              </motion.button>
             </>
           )}
         </div>
