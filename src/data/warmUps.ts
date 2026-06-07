@@ -13,7 +13,7 @@ export const dynamicSideBends: Exercise = {
   target: "shoulders",
   matPosition: "standing",
   instructions:
-    "Stand with feet shoulder-width. Reach one arm overhead, bend to the opposite side. Alternate sides in a fluid motion.",
+    "Stand with feet shoulder-width apart and hands on hips. Reach one arm overhead, bend to the opposite side. Alternate sides in a fluid motion.",
 };
 
 export const chestOpenersWithRotation: Exercise = {
@@ -64,11 +64,11 @@ export const activeCalfStretch: Exercise = {
     "Step one foot forward, flex toes up, lean forward slightly to feel the stretch. Hold 3 seconds, switch legs. Alternate.",
 };
 
-export const malasanaSquat: Exercise = {
-  id: "malasana-squat",
-  name: "Malasana Squat",
+export const deepHoldSquatWithElbowPry: Exercise = {
+  id: "deep-hold-squat-with-elbow-pry",
+  name: "Deep Squat Hold with Elbow Pry",
   duration: 30,
-  image: ["/images/exercises/malasana-squat.jpg"],
+  image: ["/images/exercises/deep-hold-squat-with-elbow-pry.jpg"],
   category: "warm-up",
   target: "lower body",
   matPosition: "standing",
@@ -154,7 +154,7 @@ export const warmupExercises: Exercise[] = [
   deepSideToSideLunges,
   torsoTwists,
   activeCalfStretch,
-  malasanaSquat,
+  deepHoldSquatWithElbowPry,
   rollDowns,
   standingHipRotations,
   shoulderRotations,

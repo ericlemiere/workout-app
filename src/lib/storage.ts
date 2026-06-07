@@ -95,7 +95,9 @@ export function updateStreakData(completedDate: string): StreakData {
 
 const defaultSettings: AppSettings = {
   soundEnabled: true,
-  voiceCuesEnabled: false,
+  voiceCuesEnabled: true,
+  musicEnabled: false,
+  musicTrack: 'track-1',
 }
 
 export function getSettings(): AppSettings {

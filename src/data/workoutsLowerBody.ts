@@ -32,7 +32,7 @@ import {
   highKneesMarch,
   standingHipRotations,
   activeCalfStretch,
-  malasanaSquat,
+  deepHoldSquatWithElbowPry,
   torsoTwists,
   deepSideToSideLunges,
   rotatingToeTouches,
@@ -66,7 +66,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       highKneesMarch,
       standingHipRotations,
       activeCalfStretch,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       torsoTwists,
     ],
     supersets: [
@@ -97,7 +97,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     warmups: [
       standingHipRotations,
       deepSideToSideLunges,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       activeCalfStretch,
       torsoTwists,
     ],
@@ -128,7 +128,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     warmups: [
       deepSideToSideLunges,
       standingHipRotations,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       activeCalfStretch,
       torsoTwists,
     ],
@@ -162,7 +162,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       standingHipRotations,
       activeCalfStretch,
       torsoTwists,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
     ],
     supersets: [
       { e1: [squats, squatJumps], e2: lunges },
@@ -193,7 +193,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       standingHipRotations,
       deepSideToSideLunges,
       activeCalfStretch,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       torsoTwists,
     ],
     supersets: [
@@ -224,7 +224,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     warmups: [
       deepSideToSideLunges,
       standingHipRotations,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       rotatingToeTouches,
       activeCalfStretch,
     ],
@@ -256,7 +256,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     warmups: [
       standingHipRotations,
       deepSideToSideLunges,
-      malasanaSquat,
+      deepHoldSquatWithElbowPry,
       activeCalfStretch,
       pendulumHamstringStretch,
     ],

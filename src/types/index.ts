@@ -69,6 +69,8 @@ export interface StreakData {
 export interface AppSettings {
   soundEnabled: boolean;
   voiceCuesEnabled: boolean;
+  musicEnabled: boolean;
+  musicTrack: string;
 }
 
 export type UserLevel = 1 | 2 | 3;

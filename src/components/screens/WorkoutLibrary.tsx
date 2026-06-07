@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { WorkoutTemplate } from "@/types";
@@ -47,6 +47,7 @@ export function WorkoutLibrary({ workouts }: Props) {
   const level = useUserStore((s) => s.level);
   const splashDone = useUserStore((s) => s.splashDone);
   const [levelModalOpen, setLevelModalOpen] = useState(false);
+  const mountedWithSplashDone = useRef(splashDone);
 
   const completedIds = useMemo(
     () =>
@@ -166,7 +167,7 @@ export function WorkoutLibrary({ workouts }: Props) {
                 key={workout.id}
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={
-                  splashDone
+                  mountedWithSplashDone.current || splashDone
                     ? { opacity: 1, scale: 1 }
                     : { opacity: 0, scale: 0.85 }
                 }

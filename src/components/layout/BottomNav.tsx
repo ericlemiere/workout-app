@@ -77,7 +77,7 @@ export function BottomNav() {
           {/* Sliding indicator */}
           {activeIndex !== -1 && (
             <motion.div
-              className="absolute top-1/2 left-0 h-14 w-16 bg-lime/10 rounded-md"
+              className="absolute top-1/2 left-0 h-13 w-16 bg-lime/10 rounded-md"
               animate={{
                 left: `${((activeIndex * 2 + 1) / (navItems.length * 2)) * 100}%`,
                 x: "-50%",

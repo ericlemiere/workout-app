@@ -8,6 +8,7 @@ import { useProgressStore } from "@/store/progressStore";
 import { useUserStore } from "@/store/userStore";
 import { useWorkoutTimer } from "@/hooks/useWorkoutTimer";
 import { useWakeLock } from "@/hooks/useWakeLock";
+import { useWorkoutSpeech } from "@/hooks/useWorkoutSpeech";
 import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { formatTime, getProgress } from "@/lib/timer";
@@ -69,6 +70,9 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     (s) => s.getOverallExerciseNumber,
   );
   const recordCompletion = useProgressStore((s) => s.recordCompletion);
+  const voiceCuesEnabled = useProgressStore((s) => s.settings.voiceCuesEnabled);
+
+  const { unlock, speak, cancel } = useWorkoutSpeech();
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -89,6 +93,30 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     }
   }, [section, workoutId, workoutStartTs, recordCompletion, router]);
 
+  // Voice cues: split across get-ready start vs exercise start
+  useEffect(() => {
+    if (!voiceCuesEnabled) return;
+    if (section === "intro" || section === "complete") return;
+
+    const exercise = getCurrentExercise();
+    if (!exercise) return;
+
+    let t: ReturnType<typeof setTimeout>;
+
+    if (isGetReady && !exercise.isRest) {
+      t = setTimeout(() => speak(exercise.name), 700);
+    } else if (!isGetReady && exercise.isRest) {
+      t = setTimeout(() => speak("Rest"), 700);
+    } else if (!isGetReady && !exercise.isRest && exercise.instructions) {
+      t = setTimeout(() => speak(exercise.instructions!), 700);
+    }
+
+    return () => clearTimeout(t);
+  }, [section, exerciseIndex, isGetReady]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cancel speech on unmount
+  useEffect(() => cancel, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const { remainingMs, totalWorkoutElapsed } = useWorkoutTimer();
   const progress = getProgress(timer);
 
@@ -104,17 +132,20 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   }, [isPaused, pauseWorkout, resumeWorkout]);
 
   const handleSkip = useCallback(() => {
+    cancel();
     skip();
-  }, [skip]);
+  }, [skip, cancel]);
 
   const handlePrev = useCallback(() => {
+    cancel();
     prev();
-  }, [prev]);
+  }, [prev, cancel]);
 
   const handleBegin = useCallback(async () => {
+    unlock(); // must be synchronous in gesture handler to unlock iOS speech audio
     await ensureAudioContextResumed();
     beginSession();
-  }, [beginSession]);
+  }, [beginSession, unlock]);
 
   // ─── Intro Screen ──────────────────────────────────────────────────────────
   if (section === "intro") {
