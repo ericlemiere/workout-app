@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { RiBarChartFill } from "react-icons/ri";
 import {
   FaDumbbell,
@@ -55,21 +55,33 @@ export function BottomNav() {
   const isHome = pathname === "/";
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
-      {isHome && displayName !== "Guest" && (
-        <p className="text-xs text-slate-400 flex gap-1 justify-center items-center py-1.5 border-b border-slate-800/50">
-          Logged in as{" "}
-          <span className="text-offwhite font-medium">{displayName}</span>
-        </p>
-      )}
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-lime/50 safe-bottom">
+      <AnimatePresence initial={false}>
+        {isHome && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <p className="text-xs text-slate-400 flex gap-1 justify-center items-center py-1.5">
+              Hello,
+              <span className="text-offwhite font-medium">{displayName}</span>
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="h-16 mx-auto max-w-xl px-4">
         <div className="grid grid-cols-5 justify-items-center items-center h-full relative">
           {/* Sliding indicator */}
           {activeIndex !== -1 && (
             <motion.div
-              className="absolute -top-px h-0.5 w-12 bg-lime rounded-full left-0"
+              className="absolute top-1/2 left-0 h-14 w-16 bg-lime/10 rounded-md"
               animate={{
-                left: `calc(${((activeIndex * 2 + 1) / (navItems.length * 2)) * 100}% - 1.5rem)`,
+                left: `${((activeIndex * 2 + 1) / (navItems.length * 2)) * 100}%`,
+                x: "-50%",
+                y: "-50%",
               }}
               transition={{
                 type: "spring",
@@ -85,7 +97,7 @@ export function BottomNav() {
               <Link
                 key={href}
                 href={href}
-                className="flex flex-col items-center gap-0.5 min-w-16 py-2 relative z-10"
+                className="flex flex-col items-center justify-center gap-0.5 mt-1 w-14 h-14 relative z-10"
               >
                 <span className={active ? "text-lime" : "text-slate-500"}>
                   {icon()}

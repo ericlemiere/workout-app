@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useWorkoutStore } from "@/store/workoutStore";
 import { useProgressStore } from "@/store/progressStore";
 import { useUserStore } from "@/store/userStore";
-import { useWorkoutTimer, useVibration } from "@/hooks/useWorkoutTimer";
+import { useWorkoutTimer } from "@/hooks/useWorkoutTimer";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
@@ -41,7 +41,6 @@ const sectionColor: Record<string, string> = {
 
 export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const router = useRouter();
-  const vibrate = useVibration();
   const level = useUserStore((s) => s.level);
   const builtWorkout = useMemo(
     () => buildWorkout(template, level),
@@ -100,26 +99,22 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
 
   const handlePauseResume = useCallback(async () => {
     await ensureAudioContextResumed();
-    vibrate(30);
     if (isPaused) resumeWorkout();
     else pauseWorkout();
-  }, [isPaused, pauseWorkout, resumeWorkout, vibrate]);
+  }, [isPaused, pauseWorkout, resumeWorkout]);
 
   const handleSkip = useCallback(() => {
-    vibrate(40);
     skip();
-  }, [skip, vibrate]);
+  }, [skip]);
 
   const handlePrev = useCallback(() => {
-    vibrate(40);
     prev();
-  }, [prev, vibrate]);
+  }, [prev]);
 
   const handleBegin = useCallback(async () => {
     await ensureAudioContextResumed();
-    vibrate([50, 30, 50]);
     beginSession();
-  }, [beginSession, vibrate]);
+  }, [beginSession]);
 
   // ─── Intro Screen ──────────────────────────────────────────────────────────
   if (section === "intro") {

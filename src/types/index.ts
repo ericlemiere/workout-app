@@ -68,7 +68,6 @@ export interface StreakData {
 
 export interface AppSettings {
   soundEnabled: boolean;
-  hapticsEnabled: boolean;
   voiceCuesEnabled: boolean;
 }
 

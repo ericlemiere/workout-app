@@ -1,16 +1,27 @@
 const fs = require('fs')
 const path = require('path')
+const { execSync } = require('child_process')
 
-const version = `workout-${Date.now()}`
+// Use git short hash so the version only changes when code actually changes.
+// Falls back to a timestamp if git isn't available (e.g. some CI environments).
+let version
+try {
+  const hash = execSync('git rev-parse --short HEAD', { stdio: ['pipe', 'pipe', 'ignore'] })
+    .toString()
+    .trim()
+  version = `workout-${hash}`
+} catch {
+  version = `workout-${Date.now()}`
+}
 
 const content = `const CACHE = '${version}'
 
-// Pages and assets to cache on install so the app works offline immediately.
 const PRECACHE = [
   '/',
-  '/login',
-  '/stats',
   '/settings',
+  '/stats',
+  '/info',
+  '/profile',
   '/workout/workout-01',
   '/workout/workout-02',
   '/workout/workout-03',
@@ -79,26 +90,39 @@ const PRECACHE = [
 ]
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
-  )
+  // Skip waiting immediately — don't block on precache
+  e.waitUntil(self.skipWaiting())
 })
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   )
+  // Background precache after activation — doesn't block, failures are silently skipped
+  backgroundPrecache()
 })
+
+async function backgroundPrecache() {
+  const cache = await caches.open(CACHE)
+  for (const url of PRECACHE) {
+    try {
+      if (!(await cache.match(url))) {
+        await cache.add(url)
+      }
+    } catch {
+      // Skip URLs that fail — runtime caching will fill gaps as user navigates
+    }
+  }
+}
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return
   if (!e.request.url.startsWith(self.location.origin)) return
 
-  // Navigation requests use network-first so users always get fresh content
-  // when online. The proxy never redirects, so the response is always a 200
-  // and Safari won't complain. When offline, fall back to the cached page.
+  // Navigation: network-first so users get fresh content when online,
+  // fall back to cache when offline
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request)
@@ -108,7 +132,11 @@ self.addEventListener('fetch', (e) => {
           }
           return response
         })
-        .catch(() => caches.match(e.request).then((cached) => cached || caches.match(new URL('/', self.location).href)))
+        .catch(() =>
+          caches.match(e.request).then((cached) =>
+            cached || caches.match(new URL('/', self.location).href)
+          )
+        )
     )
     return
   }
@@ -129,4 +157,4 @@ self.addEventListener('fetch', (e) => {
 `
 
 fs.writeFileSync(path.join(__dirname, '..', 'public', 'sw.js'), content)
-console.log(`SW cache version bumped to: ${version}`)
+console.log(`SW cache version: ${version}`)

@@ -95,7 +95,6 @@ export function updateStreakData(completedDate: string): StreakData {
 
 const defaultSettings: AppSettings = {
   soundEnabled: true,
-  hapticsEnabled: false,
   voiceCuesEnabled: false,
 }
 

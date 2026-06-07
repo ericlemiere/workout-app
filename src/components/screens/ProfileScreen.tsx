@@ -10,8 +10,6 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 export function ProfileScreen() {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
 
@@ -24,6 +22,8 @@ export function ProfileScreen() {
   const setShowLogin = useUserStore((s) => s.setShowLogin);
   const displayName = useUserStore((s) => s.displayName);
   const setDisplayName = useUserStore((s) => s.setDisplayName);
+  const userEmail = useUserStore((s) => s.userEmail);
+  const authReady = useUserStore((s) => s.authReady);
 
   useEffect(() => {
     setIsOffline(!navigator.onLine);
@@ -31,29 +31,7 @@ export function ProfileScreen() {
     const handleOffline = () => setIsOffline(true);
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
-
-    const supabase = createClient();
-
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUserEmail(user?.email ?? null);
-      setLoaded(true);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
-        setUserEmail(session?.user?.email ?? null);
-        setLoaded(true);
-      }
-      if (event === "SIGNED_OUT") {
-        setUserEmail(null);
-        setLoaded(true);
-      }
-    });
-
     return () => {
-      subscription.unsubscribe();
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
@@ -103,7 +81,7 @@ export function ProfileScreen() {
     await createClient().auth.signOut();
   }
 
-  const isSignedIn = loaded && !isOffline && !!userEmail;
+  const isSignedIn = authReady && !isOffline && !!userEmail;
 
   return (
     <motion.div
@@ -118,17 +96,7 @@ export function ProfileScreen() {
         <div className="bg-charcoal/50 rounded-2xl px-4">
           {/* Account row */}
           <div className="flex items-center justify-between gap-4 py-4 border-b border-lime/50">
-            {!loaded ? (
-              <>
-                <div>
-                  <p className="text-slate-500 font-medium">Finding account</p>
-                  <p className="text-slate-500 text-xs mt-0.5">Loading...</p>
-                </div>
-                <div className="w-22 text-center shrink-0 bg-slate-700 text-slate-400 text-sm font-semibold px-0 py-2 rounded-xl">
-                  Loading
-                </div>
-              </>
-            ) : isOffline ? (
+            {isOffline ? (
               <>
                 <div>
                   <p className="text-offwhite font-medium">

@@ -5,6 +5,7 @@ import { FaGear } from "react-icons/fa6";
 import { useProgressStore } from "@/store/progressStore";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { HomeScreenTip } from "@/components/ui/HomeScreenTip";
+import { OfflineStatus } from "@/components/ui/OfflineStatus";
 
 function Toggle({
   label,
@@ -60,12 +61,6 @@ export function SettingsScreen() {
             description="Countdown beeps and completion sounds"
           />
           <Toggle
-            label={<p className="text-offwhite font-medium">Haptics</p>}
-            value={settings.hapticsEnabled}
-            onChange={(v) => updateSettings({ hapticsEnabled: v })}
-            description="Vibration on transitions and button taps. Supported on most iPhones and Android devices."
-          />
-          <Toggle
             label={
               <p className="text-offwhite font-medium">
                 Voice Cues
@@ -78,6 +73,7 @@ export function SettingsScreen() {
           />
         </div>
       <HomeScreenTip />
+      <OfflineStatus />
       </div>
 
     </motion.div>
