@@ -6,11 +6,14 @@ import { FaUserAstronaut } from "react-icons/fa6";
 import { createClient } from "@/lib/supabase/client";
 import { pushProgress } from "@/lib/sync";
 import { useUserStore } from "@/store/userStore";
+import { useProgressStore } from "@/store/progressStore";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
 
 export function ProfileScreen() {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showSyncModal, setShowSyncModal] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
 
   const [editingName, setEditingName] = useState(false);
@@ -24,6 +27,7 @@ export function ProfileScreen() {
   const setDisplayName = useUserStore((s) => s.setDisplayName);
   const userEmail = useUserStore((s) => s.userEmail);
   const authReady = useUserStore((s) => s.authReady);
+  const completed = useProgressStore((s) => s.completed);
 
   useEffect(() => {
     setIsOffline(!navigator.onLine);
@@ -82,6 +86,27 @@ export function ProfileScreen() {
   }
 
   const isSignedIn = authReady && !isOffline && !!userEmail;
+  const hasGuestProgress = !userEmail && completed.length > 0;
+
+  function handleSignInClick() {
+    document.cookie = "moov_guest=; path=/; max-age=0";
+    if (hasGuestProgress) {
+      setShowSyncModal(true);
+    } else {
+      localStorage.removeItem("moov_merge_guest");
+      setShowLogin(true);
+    }
+  }
+
+  function proceedWithSignIn(merge: boolean) {
+    if (merge) {
+      localStorage.setItem("moov_merge_guest", "1");
+    } else {
+      localStorage.removeItem("moov_merge_guest");
+    }
+    setShowSyncModal(false);
+    setShowLogin(true);
+  }
 
   return (
     <motion.div
@@ -138,10 +163,7 @@ export function ProfileScreen() {
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    document.cookie = "moov_guest=; path=/; max-age=0";
-                    setShowLogin(true);
-                  }}
+                  onClick={handleSignInClick}
                   className="w-22 text-center shrink-0 bg-lime/20 text-lime border border-lime/40 whitespace-nowrap text-sm font-semibold px-0 py-2 rounded-xl active:bg-lime/30"
                 >
                   Sign in
@@ -215,6 +237,35 @@ export function ProfileScreen() {
           body="Your progress is saved and will sync back when you sign in again."
           confirmLabel="Sign out"
         />
+
+        <ModalFromBottom open={showSyncModal} onClose={() => setShowSyncModal(false)}>
+          <div className="px-6 pt-8 pb-10 space-y-5">
+            <div className="space-y-1">
+              <h2 className="text-offwhite text-xl font-bold font-orbitron">
+                Save your progress?
+              </h2>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                You have {completed.length} completed workout{completed.length !== 1 ? "s" : ""} as a guest. Would you like to keep them when you sign in?
+              </p>
+            </div>
+            <div className="space-y-3">
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => proceedWithSignIn(true)}
+                className="w-full py-4 rounded-2xl bg-lime text-navy font-bold text-base active:bg-lime/80"
+              >
+                Keep my progress
+              </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                onClick={() => proceedWithSignIn(false)}
+                className="w-full py-4 rounded-2xl bg-slate-700 text-slate-200 font-semibold text-base active:bg-slate-600"
+              >
+                Start fresh
+              </motion.button>
+            </div>
+          </div>
+        </ModalFromBottom>
       </div>
     </motion.div>
   );

@@ -29,7 +29,7 @@ export function LoginScreen({ onContinueAsGuest }: Props) {
     sessionStorage.setItem('moov_oauth_pending', '1');
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo },
+      options: { redirectTo, queryParams: { prompt: "select_account" } },
     });
   }
 

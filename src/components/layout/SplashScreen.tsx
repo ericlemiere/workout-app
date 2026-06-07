@@ -201,7 +201,7 @@ export function SplashScreen() {
                     className="flex flex-col items-center gap-7"
                   >
                     <h1 className="flex flex-col items-center gap-4">
-                      <p className="text-slate-300 text-xl font-orbitron tracking-wider leading-relaxed drop-shadow-[1px_1px_0px_rgb(190,242,100)]">
+                      <p className="text-slate-300 text-lg font-orbitron tracking-wider leading-relaxed drop-shadow-[1px_1px_0px_rgb(190,242,100)]">
                         A personal workout plan that follows the lunar cycle.
                       </p>
                       <p className="text-slate-300 text-base leading-relaxed w-60 max-w-xs drop-shadow-[1px_1px_0px_rgb(190,242,100)]">

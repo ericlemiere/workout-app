@@ -37,7 +37,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           // reopened, token refresh, multi-device sync). On a fresh sign-in after
           // sign-out the user_id key is gone, so mergeLocal=false and remote wins.
           const storedUserId = localStorage.getItem(USER_ID_KEY)
-          const mergeLocal = storedUserId === session.user.id
+          const mergeGuest = localStorage.getItem('moov_merge_guest') === '1'
+          localStorage.removeItem('moov_merge_guest')
+          const mergeLocal = storedUserId === session.user.id || mergeGuest
           localStorage.setItem(USER_ID_KEY, session.user.id)
           localStorage.setItem(WAS_AUTHED_KEY, '1')
           document.cookie = 'moov_guest=; path=/; max-age=0'
