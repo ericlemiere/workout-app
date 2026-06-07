@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { RiBarChartFill } from "react-icons/ri";
-import { TbGridDots } from "react-icons/tb";
 import {
   FaDumbbell,
   FaGear,
   FaCircleInfo,
   FaUserAstronaut,
 } from "react-icons/fa6";
+import { useUserStore } from "@/store/userStore";
 
 const navItems = [
   {
@@ -42,6 +42,7 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  const displayName = useUserStore((s) => s.displayName);
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
   const isWorkoutActive = pathname.startsWith("/workout/");
@@ -51,8 +52,16 @@ export function BottomNav() {
 
   if (isWorkoutActive) return null;
 
+  const isHome = pathname === "/";
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
+      {isHome && displayName !== "Guest" && (
+        <p className="text-xs text-slate-400 flex gap-1 justify-center items-center py-1.5 border-b border-slate-800/50">
+          Logged in as{" "}
+          <span className="text-offwhite font-medium">{displayName}</span>
+        </p>
+      )}
       <div className="h-16 mx-auto max-w-xl px-4">
         <div className="grid grid-cols-5 justify-items-center items-center h-full relative">
           {/* Sliding indicator */}

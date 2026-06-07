@@ -46,7 +46,6 @@ export function WorkoutLibrary({ workouts }: Props) {
   );
   const level = useUserStore((s) => s.level);
   const splashDone = useUserStore((s) => s.splashDone);
-  const displayName = useUserStore((s) => s.displayName);
   const [levelModalOpen, setLevelModalOpen] = useState(false);
 
   const completedIds = useMemo(
@@ -227,19 +226,6 @@ export function WorkoutLibrary({ workouts }: Props) {
             );
           })}
         </div>
-
-        {/* Greeting */}
-        {displayName && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="p-2 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 text-sm text-slate-400 fixed bottom-16 left-1/2 -translate-x-1/2 w-full flex gap-1 justify-center items-center"
-          >
-            Logged in as{" "}
-            <span className="text-offwhite font-medium">{displayName}</span>
-          </motion.p>
-        )}
       </div>
 
       <LevelSelectModal
