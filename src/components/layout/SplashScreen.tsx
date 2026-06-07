@@ -137,6 +137,14 @@ export function SplashScreen() {
     setDismissed(true);
   };
 
+  // Auto-dismiss when returning from OAuth redirect — no button click needed
+  useEffect(() => {
+    if (authReady && sessionStorage.getItem('moov_oauth_pending') === '1') {
+      sessionStorage.removeItem('moov_oauth_pending');
+      dismiss();
+    }
+  }, [authReady]);
+
   if (!visible) return null;
 
   return (

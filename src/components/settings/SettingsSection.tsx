@@ -37,13 +37,13 @@ function Toggle({
   );
 }
 
-export function PreferencesSection() {
+export function SettingsSection() {
   const settings = useProgressStore((s) => s.settings);
   const updateSettings = useProgressStore((s) => s.updateSettings);
 
   return (
-    <div className="px-4 mb-6">
-      <SectionHeader label="Preferences" icon={<FaGear size={20} />} />
+    <div className="px-4">
+      <SectionHeader label="Settings" icon={<FaGear size={20} />} />
       <div className="bg-charcoal/50 rounded-2xl px-4">
         <Toggle
           label={<p className="text-offwhite font-medium">Sound Effects</p>}

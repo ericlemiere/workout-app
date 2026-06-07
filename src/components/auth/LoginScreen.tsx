@@ -3,18 +3,20 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Step = "idle" | "sending" | "sent" | "error";
 
-export function LoginScreen() {
+interface Props {
+  onContinueAsGuest?: () => void;
+}
+
+export function LoginScreen({ onContinueAsGuest }: Props) {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState<Step>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [showGuestWarning, setShowGuestWarning] = useState(false);
   const [googleBusy, setGoogleBusy] = useState(false);
-  const router = useRouter();
 
   const supabase = createClient();
   const redirectTo =
@@ -24,6 +26,7 @@ export function LoginScreen() {
 
   async function handleGoogle() {
     setGoogleBusy(true);
+    sessionStorage.setItem('moov_oauth_pending', '1');
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo },
@@ -49,11 +52,11 @@ export function LoginScreen() {
 
   function handleContinueAsGuest() {
     document.cookie = "moov_guest=1; path=/; max-age=31536000; SameSite=Lax";
-    router.replace("/");
+    onContinueAsGuest?.();
   }
 
   return (
-    <div className="min-h-screen max-w-xl mx-auto bg-navy flex flex-col safe-top safe-bottom">
+    <div className="fixed inset-0 z-40 min-h-screen max-w-xl mx-auto bg-navy flex flex-col safe-top safe-bottom">
       {/* Logo and Tagline at Top */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}

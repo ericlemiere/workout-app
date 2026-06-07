@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaUserAstronaut } from "react-icons/fa6";
 import { createClient } from "@/lib/supabase/client";
+import { pushProgress } from "@/lib/sync";
+import { useUserStore } from "@/store/userStore";
 import { SectionHeader } from "./SectionHeader";
 import { ConfirmModal } from "./ConfirmModal";
 
@@ -13,7 +14,7 @@ export function AccountSection() {
   const [loaded, setLoaded] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
-  const router = useRouter();
+  const setShowLogin = useUserStore(s => s.setShowLogin);
 
   useEffect(() => {
     setIsOffline(!navigator.onLine);
@@ -22,14 +23,26 @@ export function AccountSection() {
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    createClient()
-      .auth.getUser()
-      .then(({ data: { user } }) => {
-        setUserEmail(user?.email ?? null);
+    const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUserEmail(user?.email ?? null);
+      setLoaded(true);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        setUserEmail(session?.user?.email ?? null);
         setLoaded(true);
-      });
+      }
+      if (event === 'SIGNED_OUT') {
+        setUserEmail(null);
+        setLoaded(true);
+      }
+    });
 
     return () => {
+      subscription.unsubscribe();
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
@@ -37,6 +50,12 @@ export function AccountSection() {
 
   async function handleSignOut() {
     setShowConfirm(false);
+    setShowLogin(true);
+    try {
+      await pushProgress();
+    } catch (err) {
+      console.error('[MOOV] Sync failed on sign-out:', err);
+    }
     await createClient().auth.signOut();
   }
 
@@ -95,7 +114,7 @@ export function AccountSection() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   document.cookie = 'moov_guest=; path=/; max-age=0'
-                  router.push('/login')
+                  setShowLogin(true)
                 }}
                 className="w-22 text-center shrink-0 bg-lime/20 text-lime border border-lime/40 whitespace-nowrap text-sm font-semibold px-0 py-2 rounded-xl active:bg-lime/30"
               >

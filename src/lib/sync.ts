@@ -103,13 +103,14 @@ function merge(local: ProgressSnapshot, remote: ProgressSnapshot): ProgressSnaps
   }
 }
 
-// Called on sign-in: pulls remote, merges with local, writes back to both
-export async function syncOnLogin(): Promise<void> {
+// Called on sign-in. When mergeLocal is true (same user, session continuing or app
+// reopened without signing out), local data is merged with remote so offline work and
+// multi-device changes are both preserved. When false (fresh sign-in after sign-out),
+// remote is the source of truth — local was cleared on sign-out so no merge is needed.
+export async function syncOnLogin(mergeLocal: boolean): Promise<void> {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return
-
-  const local = captureLocal()
 
   const { data } = await supabase
     .from('user_progress')
@@ -117,27 +118,33 @@ export async function syncOnLogin(): Promise<void> {
     .eq('user_id', user.id)
     .single()
 
-  const merged = data?.data ? merge(local, data.data as ProgressSnapshot) : local
+  if (!data?.data) return
 
-  applyToStorage(merged)
+  const remote = data.data as ProgressSnapshot
 
-  await supabase.from('user_progress').upsert({
-    user_id: user.id,
-    data: merged,
-    updated_at: new Date().toISOString(),
-  })
+  if (mergeLocal) {
+    const merged = merge(captureLocal(), remote)
+    applyToStorage(merged)
+    await supabase.from('user_progress').upsert({
+      user_id: user.id,
+      data: merged,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'user_id' })
+  } else {
+    applyToStorage(remote)
+  }
 }
 
 // Fire-and-forget push after mutations
 export async function pushProgress(): Promise<void> {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session?.user) return
 
   const snapshot = captureLocal()
   await supabase.from('user_progress').upsert({
-    user_id: user.id,
+    user_id: session.user.id,
     data: snapshot,
     updated_at: new Date().toISOString(),
-  })
+  }, { onConflict: 'user_id' })
 }

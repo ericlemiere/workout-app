@@ -42,14 +42,14 @@ export function ConfirmModal({
             <div className={`flex ${reverse ? "flex-row-reverse" : "flex-row"} gap-3`}>
               <button
                 onClick={onClose}
-                className="flex-1 py-3.5 rounded-2xl bg-slate-700 text-slate-200 font-semibold active:bg-slate-600"
+                className="flex-1 py-3 rounded-2xl border border-slate-700 bg-slate-700 text-slate-200 font-semibold active:bg-slate-600"
               >
                 Cancel
               </button>
               <motion.button
                 whileTap={{ scale: 0.96 }}
                 onClick={onConfirm}
-                className="flex-1 py-3.5 rounded-2xl bg-red-500 text-offwhite font-semibold active:bg-red-600"
+                className="flex-1 py-3 rounded-2xl border border-electric-orange text-electric-orange font-semibold active:bg-electric-orange/20"
               >
                 {confirmLabel}
               </motion.button>

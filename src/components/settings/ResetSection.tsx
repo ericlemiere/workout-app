@@ -37,21 +37,36 @@ export function ResetSection() {
   const [confirmMode, setConfirmMode] = useState<ConfirmMode>(null);
 
   function handleConfirm() {
-    if (confirmMode === "grid") { resetGrid(); setConfirmMode(null); }
-    if (confirmMode === "stats") { setConfirmMode("stats-final"); }
-    if (confirmMode === "stats-final") { resetAllStats(); setConfirmMode(null); }
+    if (confirmMode === "grid") {
+      resetGrid();
+      setConfirmMode(null);
+    }
+    if (confirmMode === "stats") {
+      setConfirmMode("stats-final");
+    }
+    if (confirmMode === "stats-final") {
+      resetAllStats();
+      setConfirmMode(null);
+    }
   }
 
   const resetButton = (onClick: () => void) => (
-    <motion.button whileTap={{ scale: 0.95 }} onClick={onClick}
-      className="w-22 shrink-0 bg-slate-700 text-electric-orange whitespace-nowrap text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600">
+    <motion.button
+      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      className="w-22 shrink-0 bg-slate-700 text-electric-orange whitespace-nowrap text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600"
+    >
       Reset
     </motion.button>
   );
 
   return (
     <div className="px-4">
-      <SectionHeader label="Reset" icon={<PiWarning size={20} />} variant="orange" />
+      <SectionHeader
+        label="Reset"
+        icon={<PiWarning size={20} />}
+        variant="orange"
+      />
       <div className="bg-charcoal/50 rounded-2xl px-4">
         <SettingsRow
           label="Reset Grid"
@@ -62,7 +77,7 @@ export function ResetSection() {
         />
         <SettingsRow
           label="Reset All Stats"
-          description="Reset completed count and streaks to 0, and clear all grid checkmarks"
+          description="Reset completed count and streaks to 0, remove all achievements, and clear all grid checkmarks"
           action={resetButton(() => setConfirmMode("stats"))}
         />
       </div>

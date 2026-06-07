@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { RiBarChartFill } from "react-icons/ri";
 import { TbGridDots } from "react-icons/tb";
-import { FaDumbbell } from "react-icons/fa6";
+import {
+  FaDumbbell,
+  FaGear,
+  FaCircleInfo,
+  FaUserAstronaut,
+} from "react-icons/fa6";
 
 const navItems = [
   {
@@ -19,9 +24,19 @@ const navItems = [
     icon: () => <RiBarChartFill size={20} />,
   },
   {
+    href: "/info",
+    label: "Info",
+    icon: () => <FaCircleInfo size={20} />,
+  },
+  {
     href: "/settings",
-    label: "More",
-    icon: () => <TbGridDots size={20} />,
+    label: "Settings",
+    icon: () => <FaGear size={20} />,
+  },
+  {
+    href: "/user",
+    label: "User",
+    icon: () => <FaUserAstronaut size={20} />,
   },
 ];
 
@@ -38,8 +53,8 @@ export function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
-      <div className="h-16 max-w-sm mx-auto px-4">
-        <div className="flex items-center justify-around h-full relative">
+      <div className="h-16 mx-auto max-w-xl px-4">
+        <div className="flex items-center justify-between h-full relative">
           {/* Sliding indicator */}
           {activeIndex !== -1 && (
             <motion.div

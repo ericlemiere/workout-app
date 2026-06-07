@@ -24,17 +24,22 @@ export function InfoSection() {
   }
 
   return (
-    <div className="px-4 mb-6">
+    <div className="px-4 pt-8 mb-6">
       <SectionHeader label="Info" icon={<FaCircleInfo size={20} />} />
       <div className="bg-charcoal/50 rounded-2xl px-4">
-
         <SettingsRow
           label="What is MOOV?"
-          description={["A 28-workout at-home program.", "No equipment needed."]}
+          description={[
+            "A 28-workout at-home program.",
+            "No equipment needed.",
+          ]}
           border
           action={
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowAboutModal(true)}
-              className="shrink-0 w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowAboutModal(true)}
+              className="shrink-0 w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600"
+            >
               About
             </motion.button>
           }
@@ -45,9 +50,20 @@ export function InfoSection() {
           description="And MOOV with someone"
           border
           action={
-            <motion.button whileTap={{ scale: 0.95 }} onClick={handleShare}
-              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center gap-1.5">
-              <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={handleShare}
+              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center gap-1.5"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="w-4 h-4"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
                 <polyline points="16 6 12 2 8 6" />
                 <line x1="12" y1="2" x2="12" y2="15" />
@@ -62,8 +78,11 @@ export function InfoSection() {
           description={["Have a suggestion? Find a bug?", "Please reach out."]}
           border
           action={
-            <motion.a whileTap={{ scale: 0.95 }} href="mailto:hello@ericlemiere.com"
-              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center">
+            <motion.a
+              whileTap={{ scale: 0.95 }}
+              href="mailto:hello@ericlemiere.com"
+              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center"
+            >
               Contact
             </motion.a>
           }
@@ -72,56 +91,74 @@ export function InfoSection() {
         <SettingsRow
           label="Support MOOV"
           description="Every bit helps. Thank you!"
-          border
+          border={false}
           action={
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => setShowDonateModal(true)}
-              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowDonateModal(true)}
+              className="w-22 shrink-0 bg-slate-700 text-slate-200 text-sm font-semibold px-0 py-2 rounded-xl active:bg-slate-600 flex items-center justify-center"
+            >
               Donate
             </motion.button>
           }
         />
+      </div>
 
-        {/* Home screen tip */}
-        <div className="flex flex-col py-4">
-          <p className="text-slate-400 text-sm">
-            <span className="text-slate-400 font-semibold">Add</span>{" "}
-            <span className="text-white mx-0.5 drop-shadow-[1px_1px_0px_rgb(190,242,100)] font-orbitron tracking-widest">
-              MOOV
-            </span>{" "}
-            <span className="text-slate-400 font-semibold">to your home screen</span>
-          </p>
-          <p className="text-slate-400 text-sm -mt-0.5">
-            <span className="text-slate-400 font-semibold">for the best experience</span>
-          </p>
-        </div>
+      {/* Home screen tip */}
+      <div className="flex flex-col py-8">
+        <p className="text-slate-400 text-lg text-center">
+          <span className="text-slate-400 font-semibold">Add</span>{" "}
+          <span className="text-white mx-0.5 drop-shadow-[1px_1px_0px_rgb(190,242,100)] font-orbitron tracking-widest">
+            MOOV
+          </span>{" "}
+          <span className="text-slate-400 font-semibold">
+            to your home screen
+          </span>
+        </p>
+        <p className="text-slate-400 text-lg text-center -mt-0.5">
+          <span className="text-slate-400 font-semibold">
+            for the best experience
+          </span>
+        </p>
       </div>
 
       {/* About modal */}
-      <ModalFromBottom open={showAboutModal} onClose={() => setShowAboutModal(false)}>
+      <ModalFromBottom
+        open={showAboutModal}
+        onClose={() => setShowAboutModal(false)}
+      >
         <div className="px-6 pt-8 pb-10 space-y-5">
           <h2 className="text-offwhite text-xl font-bold font-orbitron drop-shadow-[1px_1px_0px_rgb(190,242,100)] tracking-widest">
             About MOOV
           </h2>
           <div>
-            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">The Program</p>
+            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+              The Program
+            </p>
             <p className="text-slate-400 text-sm leading-relaxed">
               MOOV is a complete at-home program built around 28 guided workouts
               across four categories: lower body, upper body, core, and full
               body. Each session runs about 20–27 minutes depending on your
-              level, and requires nothing but your bodyweight and an optional mat.
+              level, and requires nothing but your bodyweight and an optional
+              mat.
             </p>
           </div>
           <div>
-            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">Why the Moon?</p>
+            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+              Why the Moon?
+            </p>
             <p className="text-slate-400 text-sm leading-relaxed">
               The lunar cycle is 28 days, and a natural rhythm for building
               consistency. It's not a rigid daily schedule, but a meaningful
               movement cycle that rewards steady effort over time. The moon has
-              tracked human cycles for thousands of years. MOOV just borrowed it.
+              tracked human cycles for thousands of years. MOOV just borrowed
+              it.
             </p>
           </div>
           <div>
-            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">Achievements</p>
+            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+              Achievements
+            </p>
             <p className="text-slate-400 text-sm leading-relaxed">
               As you train, you'll unlock achievements along the way. Milestones
               such as completing your first cycle, building a streak, and
@@ -132,7 +169,9 @@ export function InfoSection() {
             </p>
           </div>
           <div>
-            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">Three Levels</p>
+            <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+              Three Levels
+            </p>
             <p className="text-slate-400 text-sm leading-relaxed">
               Every workout scales across three difficulty levels. Start at
               Level 1 to build the foundation, then advance when you're ready.
@@ -150,34 +189,53 @@ export function InfoSection() {
       <AnimatePresence>
         {showDonateModal && (
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 bg-navy/80 backdrop-blur-sm flex items-end justify-center z-50 pb-10 px-4"
             onClick={() => setShowDonateModal(false)}
           >
             <motion.div
-              initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 60, opacity: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-sm bg-charcoal rounded-3xl px-4 pt-6 pb-2"
             >
-              <h2 className="text-offwhite text-xl font-bold mb-1 font-orbitron">Support MOOV</h2>
+              <h2 className="text-offwhite text-xl font-bold mb-1 font-orbitron">
+                Support MOOV
+              </h2>
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                Help keep our rockets fueled so we can keep going to the moon! &nbsp;🚀
+                Help keep our rockets fueled so we can keep going to the moon!
+                &nbsp;🚀
               </p>
               <div className="flex gap-3">
-                <motion.a whileTap={{ scale: 0.96 }} href="https://cash.app/$ericlemiere"
-                  target="_blank" rel="noopener noreferrer"
-                  className="w-full py-3.5 rounded-2xl flex items-center justify-center gap-2.5 bg-[#00D64F] text-black font-semibold active:opacity-90">
-                  <SiCashapp size={30} />Cash App
+                <motion.a
+                  whileTap={{ scale: 0.96 }}
+                  href="https://cash.app/$ericlemiere"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3.5 rounded-2xl flex items-center justify-center gap-2.5 bg-[#00D64F] text-black font-semibold active:opacity-90"
+                >
+                  <SiCashapp size={30} />
+                  Cash App
                 </motion.a>
-                <motion.a whileTap={{ scale: 0.96 }} href="https://venmo.com/u/airclimber"
-                  target="_blank" rel="noopener noreferrer"
-                  className="w-full py-3.5 rounded-2xl flex items-center justify-center gap-2.5 bg-[#3D95CE] text-white font-semibold active:opacity-90">
-                  <BiLogoVenmo size={30} />Venmo
+                <motion.a
+                  whileTap={{ scale: 0.96 }}
+                  href="https://venmo.com/u/airclimber"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3.5 rounded-2xl flex items-center justify-center gap-2.5 bg-[#3D95CE] text-white font-semibold active:opacity-90"
+                >
+                  <BiLogoVenmo size={30} />
+                  Venmo
                 </motion.a>
               </div>
-              <button onClick={() => setShowDonateModal(false)}
-                className="w-full py-2 text-slate-500 underline mt-3 text-sm">
+              <button
+                onClick={() => setShowDonateModal(false)}
+                className="w-full py-2 text-slate-500 underline mt-3 text-sm"
+              >
                 Maybe later
               </button>
             </motion.div>

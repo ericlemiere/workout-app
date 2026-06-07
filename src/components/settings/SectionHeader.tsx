@@ -9,7 +9,7 @@ interface Props {
 export function SectionHeader({ label, icon, variant = "lime" }: Props) {
   return (
     <h2
-      className={`${variant === "orange" ? "text-electric-orange" : "text-lime"} text-sm font-bold uppercase tracking-widest mb-3 flex items-center`}
+      className={`${variant === "orange" ? "text-electric-orange" : "text-lime"} text-lg font-orbitron font-bold uppercase tracking-widest mb-3 flex items-center`}
     >
       <span className="inline-block mx-2">{icon}</span>
       {label}

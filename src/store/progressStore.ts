@@ -27,6 +27,7 @@ import {
 } from '@/lib/storage'
 import { evaluateAchievements } from '@/lib/achievements'
 import { pushProgress } from '@/lib/sync'
+import { useUserStore } from '@/store/userStore'
 
 interface ProgressState {
   completed: CompletedWorkout[]
@@ -156,7 +157,10 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       const award = checkAndAward(next)
       return award ? { ...next, ...award } : next
     })
-    pushProgress().catch(() => {})
+    pushProgress().catch((err) => {
+      console.error('[MOOV] Sync failed after workout completion:', err)
+      useUserStore.getState().setSyncError('Sync failed. Your workout is saved on this device.')
+    })
   },
 
   updateSettings: (partial) => {
@@ -221,7 +225,10 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
     }
     const award = checkAndAward(next)
     set(award ? { ...next, ...award } : next)
-    pushProgress().catch(() => {})
+    pushProgress().catch((err) => {
+      console.error('[MOOV] Sync failed after cycle completion:', err)
+      useUserStore.getState().setSyncError('Sync failed. Your progress is saved on this device.')
+    })
   },
 
   acknowledgeCycleComplete: () => {
