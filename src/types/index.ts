@@ -68,9 +68,8 @@ export interface StreakData {
 
 export interface AppSettings {
   soundEnabled: boolean;
+  hapticsEnabled: boolean;
   voiceCuesEnabled: boolean;
-  autoAdvance: boolean;
-  defaultRestDuration: number; // seconds
 }
 
 export type UserLevel = 1 | 2 | 3;

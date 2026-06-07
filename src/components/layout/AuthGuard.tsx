@@ -24,6 +24,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const setShowLogin = useUserStore(s => s.setShowLogin)
   const syncError = useUserStore(s => s.syncError)
   const setSyncError = useUserStore(s => s.setSyncError)
+  const setDisplayName = useUserStore(s => s.setDisplayName)
 
   useEffect(() => {
     const supabase = createClient()
@@ -39,6 +40,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           localStorage.setItem(USER_ID_KEY, session.user.id)
           localStorage.setItem(WAS_AUTHED_KEY, '1')
           document.cookie = 'moov_guest=; path=/; max-age=0'
+          setDisplayName((session.user.user_metadata?.display_name ?? session.user.email ?? 'Guest').slice(0, 40))
           rehydrate()
           rehydrateUser()
           setAuthed(true)
@@ -70,6 +72,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       if (event === 'SIGNED_OUT') {
         localStorage.removeItem(WAS_AUTHED_KEY)
         localStorage.removeItem(USER_ID_KEY)
+        setDisplayName('Guest')
         clearAllProgress()
         rehydrate()
         rehydrateUser()

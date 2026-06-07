@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getWorkoutTemplateById } from '@/data/workouts'
-import { ActiveWorkoutScreen } from '@/components/workout/ActiveWorkoutScreen'
+import { ActiveWorkoutScreen } from '@/components/screens/ActiveWorkoutScreen'
 
 interface Props {
   params: Promise<{ id: string }>

@@ -8,9 +8,9 @@ import { useProgressStore } from "@/store/progressStore";
 import { useUserStore } from "@/store/userStore";
 import { MoonIcon } from "@/lib/moonIcon";
 import { IoFlame } from "react-icons/io5";
-import { CycleCompleteScreen } from "@/components/workout/CycleCompleteScreen";
-import { LevelSelectModal } from "@/components/workout/LevelSelectModal";
-import { AchievementUnlockedOverlay } from "@/components/workout/AchievementUnlockedOverlay";
+import { CycleCompleteScreen } from "./CycleCompleteScreen";
+import { LevelSelectModal } from "./LevelSelectModal";
+import { AchievementUnlockedOverlay } from "./AchievementUnlockedOverlay";
 
 interface Props {
   workouts: WorkoutTemplate[];
@@ -46,6 +46,7 @@ export function WorkoutLibrary({ workouts }: Props) {
   );
   const level = useUserStore((s) => s.level);
   const splashDone = useUserStore((s) => s.splashDone);
+  const displayName = useUserStore((s) => s.displayName);
   const [levelModalOpen, setLevelModalOpen] = useState(false);
 
   const completedIds = useMemo(
@@ -165,7 +166,11 @@ export function WorkoutLibrary({ workouts }: Props) {
               <motion.div
                 key={workout.id}
                 initial={{ opacity: 0, scale: 0.85 }}
-                animate={splashDone ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.85 }}
+                animate={
+                  splashDone
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.85 }
+                }
                 transition={{ delay: i * 0.02, duration: 0.25 }}
                 whileTap={{ scale: 0.93 }}
               >
@@ -222,6 +227,19 @@ export function WorkoutLibrary({ workouts }: Props) {
             );
           })}
         </div>
+
+        {/* Greeting */}
+        {displayName && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="p-2 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 text-sm text-slate-400 fixed bottom-16 left-1/2 -translate-x-1/2 w-full flex gap-1 justify-center items-center"
+          >
+            Logged in as{" "}
+            <span className="text-offwhite font-medium">{displayName}</span>
+          </motion.p>
+        )}
       </div>
 
       <LevelSelectModal

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { WorkoutTemplate, Exercise, UserLevel } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
-import { ExerciseModal } from "@/components/workout/ExerciseModal";
+import { ExerciseModal } from "./ExerciseModal";
 import { formatDuration } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";

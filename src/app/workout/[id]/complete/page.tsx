@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getWorkoutById } from '@/data/workouts'
-import { CompletionScreen } from '@/components/workout/CompletionScreen'
+import { CompletionScreen } from '@/components/screens/CompletionScreen'
 
 interface Props {
   params: Promise<{ id: string }>

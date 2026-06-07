@@ -2,7 +2,7 @@
 
 import type { UserLevel } from "@/types";
 import { useUserStore } from "@/store/userStore";
-import { ModalFromBottom } from "@/components/workout/ModalFromBottom";
+import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
 import { MdOutlineTimer } from "react-icons/md";
 
 interface Props {

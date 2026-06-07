@@ -3,7 +3,7 @@
 import type { Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { SlTarget } from "react-icons/sl";
-import { ModalFromBottom } from "@/components/workout/ModalFromBottom";
+import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
 
 interface Props {
   exercise: Exercise | null;

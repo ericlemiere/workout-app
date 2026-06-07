@@ -28,7 +28,7 @@ export function SettingsRow({
   return (
     <div className={`flex items-center justify-between gap-4 py-4 ${borderClass}`}>
       <div>
-        <p className="text-offwhite font-medium">{label}</p>
+        <p className="text-offwhite font-medium leading-tight mb-1">{label}</p>
         {descriptions.map((d, i) => (
           <p key={i} className="text-slate-500 text-xs mt-0.5">{d}</p>
         ))}

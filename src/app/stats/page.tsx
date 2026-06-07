@@ -1,5 +1,5 @@
-import { StatsScreen } from "@/components/workout/StatsScreen";
+import { StatsScreen } from '@/components/screens/StatsScreen'
 
 export default function StatsPage() {
-  return <StatsScreen />;
+  return <StatsScreen />
 }

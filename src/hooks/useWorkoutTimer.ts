@@ -16,7 +16,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
   const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs);
   const pausedDurationMs = useWorkoutStore((s) => s.pausedDurationMs);
   const soundEnabled = useProgressStore((s) => s.settings.soundEnabled);
-  const autoAdvance = useProgressStore((s) => s.settings.autoAdvance);
+  const hapticsEnabled = useProgressStore((s) => s.settings.hapticsEnabled);
 
   const currentExercise = useWorkoutStore((s) => s.getCurrentExercise());
 
@@ -37,11 +37,14 @@ export function useWorkoutTimer(onComplete?: () => void) {
       const ms = getRemainingMs(timer);
       setRemainingMs(ms);
 
-      if (soundEnabled && !isPaused) {
+      if (!isPaused) {
         const secs = Math.ceil(ms / 1000);
         if (secs <= 3 && secs >= 1 && secs !== lastBeepRef.current) {
           lastBeepRef.current = secs;
-          playCountdownBeep(secs);
+          if (soundEnabled) playCountdownBeep(secs);
+          if (hapticsEnabled && typeof navigator !== "undefined" && "vibrate" in navigator) {
+            navigator.vibrate(30);
+          }
         }
       }
 
@@ -49,10 +52,16 @@ export function useWorkoutTimer(onComplete?: () => void) {
         hasCompletedRef.current = true;
         if (isGetReady) {
           if (soundEnabled) playGoBeep();
+          if (hapticsEnabled && typeof navigator !== "undefined" && "vibrate" in navigator) {
+            navigator.vibrate([40, 20, 80]);
+          }
           finishGetReady();
         } else {
           if (soundEnabled) playGoBeep();
-          if (autoAdvance) next();
+          if (hapticsEnabled && typeof navigator !== "undefined" && "vibrate" in navigator) {
+            navigator.vibrate([40, 20, 80]);
+          }
+          next();
         }
         onComplete?.();
       }
@@ -64,7 +73,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
     section,
     timer,
     soundEnabled,
-    autoAdvance,
+    hapticsEnabled,
     isGetReady,
     next,
     onComplete,
@@ -77,9 +86,10 @@ export function useWorkoutTimer(onComplete?: () => void) {
 }
 
 export function useVibration() {
+  const hapticsEnabled = useProgressStore((s) => s.settings.hapticsEnabled);
   return useCallback((pattern: number | number[] = 50) => {
-    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    if (hapticsEnabled && typeof navigator !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate(pattern);
     }
-  }, []);
+  }, [hapticsEnabled]);
 }

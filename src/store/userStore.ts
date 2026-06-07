@@ -11,6 +11,7 @@ interface UserState {
   splashDone: boolean
   showLogin: boolean
   syncError: string | null
+  displayName: string
   hydrate: () => void
   rehydrate: () => void
   setLevel: (level: UserLevel) => void
@@ -18,6 +19,7 @@ interface UserState {
   setSplashDone: () => void
   setShowLogin: (v: boolean) => void
   setSyncError: (msg: string | null) => void
+  setDisplayName: (name: string) => void
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
@@ -27,6 +29,7 @@ export const useUserStore = create<UserState>((set, get) => ({
   splashDone: false,
   showLogin: false,
   syncError: null,
+  displayName: 'Guest',
   hydrate: () => {
     if (get().hydrated) return
     set({ level: getLevel(), hydrated: true })
@@ -42,4 +45,5 @@ export const useUserStore = create<UserState>((set, get) => ({
   setSplashDone: () => set({ splashDone: true }),
   setShowLogin: (v) => set({ showLogin: v }),
   setSyncError: (msg) => set({ syncError: msg }),
+  setDisplayName: (name) => set({ displayName: name }),
 }))

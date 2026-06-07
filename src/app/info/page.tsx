@@ -1,5 +1,5 @@
-import { InfoScreen } from "@/components/workout/InfoScreen";
+import { InfoScreen } from '@/components/screens/InfoScreen'
 
 export default function InfoPage() {
-  return <InfoScreen />;
+  return <InfoScreen />
 }

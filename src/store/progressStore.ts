@@ -80,9 +80,8 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
   streak: { currentStreak: 0, longestStreak: 0, lastCompletedDate: null },
   settings: {
     soundEnabled: true,
+    hapticsEnabled: false,
     voiceCuesEnabled: false,
-    autoAdvance: true,
-    defaultRestDuration: 15,
   },
   cycleStartedAt: null,
   lunarCycles: 0,

@@ -68,7 +68,7 @@ import {
 } from "react-icons/gi";
 
 import { useProgressStore } from "@/store/progressStore";
-import { ModalFromBottom } from "./ModalFromBottom";
+import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
 
 export interface Achievement {
   id: string;

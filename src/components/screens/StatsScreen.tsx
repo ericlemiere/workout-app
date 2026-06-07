@@ -10,7 +10,7 @@ import { IoFlame } from "react-icons/io5";
 import { GiCycle } from "react-icons/gi";
 import { MoonIconStats } from "@/lib/moonIcon";
 import { Achievements } from "./Achievements";
-import { ModalFromBottom } from "./ModalFromBottom";
+import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
 
 const APP_URL = "https://moov-1.vercel.app/";
 

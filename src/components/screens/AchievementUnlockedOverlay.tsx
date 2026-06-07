@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
-import { ACHIEVEMENTS } from "@/components/workout/Achievements";
+import { ACHIEVEMENTS } from "./Achievements";
 
 export function AchievementUnlockedOverlay() {
   const pendingAchievements = useProgressStore((s) => s.pendingAchievements);

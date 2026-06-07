@@ -34,8 +34,8 @@ const navItems = [
     icon: () => <FaGear size={20} />,
   },
   {
-    href: "/user",
-    label: "User",
+    href: "/profile",
+    label: "Profile",
     icon: () => <FaUserAstronaut size={20} />,
   },
 ];
@@ -54,7 +54,7 @@ export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-charcoal/95 backdrop-blur-xl border-t border-slate-800/50 safe-bottom">
       <div className="h-16 mx-auto max-w-xl px-4">
-        <div className="flex items-center justify-between h-full relative">
+        <div className="grid grid-cols-5 justify-items-center items-center h-full relative">
           {/* Sliding indicator */}
           {activeIndex !== -1 && (
             <motion.div
