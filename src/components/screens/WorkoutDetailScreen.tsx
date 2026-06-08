@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { WorkoutTemplate, Exercise, UserLevel } from "@/types";
@@ -10,6 +10,8 @@ import { formatDuration } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
 import { useUserStore } from "@/store/userStore";
+import { useProgressStore } from "@/store/progressStore";
+import { preCacheWorkoutAudio } from "@/lib/preCacheAudio";
 import { MdOutlineTimer } from "react-icons/md";
 import { SlTarget } from "react-icons/sl";
 import { GrYoga } from "react-icons/gr";
@@ -80,10 +82,17 @@ export function WorkoutDetailScreen({ template }: Props) {
   );
   const level = useUserStore((s) => s.level);
   const setLevel = useUserStore((s) => s.setLevel);
+  const voiceName = useUserStore((s) => s.voiceName);
+  const voiceCuesEnabled = useProgressStore((s) => s.settings.voiceCuesEnabled);
   const workout = useMemo(
     () => buildWorkout(template, level),
     [template, level],
   );
+
+  useEffect(() => {
+    if (!voiceCuesEnabled) return;
+    preCacheWorkoutAudio(workout, voiceName);
+  }, [workout, voiceName, voiceCuesEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalRealExercises =
     workout.warmups.length +

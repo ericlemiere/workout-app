@@ -126,7 +126,7 @@ export const pendulumHamstringStretch: Exercise = {
 
 export const highKneesMarch: Exercise = {
   id: "high-knees-march",
-  name: "High Knees March",
+  name: "High Knees March ",
   duration: 30,
   image: ["/images/exercises/high-knees-march.jpg"],
   category: "warm-up",

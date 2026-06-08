@@ -15,6 +15,7 @@ import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
+import { MUSIC_TRACKS } from "@/lib/musicTracks";
 import type { WorkoutTemplate } from "@/types";
 
 interface Props {
@@ -71,8 +72,12 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   );
   const recordCompletion = useProgressStore((s) => s.recordCompletion);
   const voiceCuesEnabled = useProgressStore((s) => s.settings.voiceCuesEnabled);
+  const musicEnabled = useProgressStore((s) => s.settings.musicEnabled);
+  const musicTrack = useProgressStore((s) => s.settings.musicTrack);
+  const voiceName = useUserStore((s) => s.voiceName);
 
-  const { unlock, speak, cancel } = useWorkoutSpeech();
+  const { unlock, speak, cancel } = useWorkoutSpeech(voiceName);
+  const musicRef = useRef<HTMLAudioElement | null>(null);
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -144,8 +149,33 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const handleBegin = useCallback(async () => {
     unlock(); // must be synchronous in gesture handler to unlock iOS speech audio
     await ensureAudioContextResumed();
+    if (musicEnabled) {
+      const track = MUSIC_TRACKS.find((t) => t.id === musicTrack);
+      if (track) {
+        const audio = new Audio(track.src);
+        audio.loop = true;
+        audio.volume = 0.4;
+        musicRef.current = audio;
+        audio.play().catch(() => {});
+      }
+    }
     beginSession();
-  }, [beginSession, unlock]);
+  }, [beginSession, unlock, musicEnabled, musicTrack]);
+
+  // Pause/resume music with workout
+  useEffect(() => {
+    if (!musicRef.current) return;
+    if (isPaused) musicRef.current.pause();
+    else musicRef.current.play().catch(() => {});
+  }, [isPaused]);
+
+  // Stop music on unmount
+  useEffect(() => {
+    return () => {
+      musicRef.current?.pause();
+      musicRef.current = null;
+    };
+  }, []);
 
   // ─── Intro Screen ──────────────────────────────────────────────────────────
   if (section === "intro") {

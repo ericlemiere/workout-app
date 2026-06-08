@@ -4,6 +4,8 @@ import { create } from 'zustand'
 import type { UserLevel } from '@/types'
 import { getLevel, saveLevel } from '@/lib/storage'
 
+export const DEFAULT_VOICE = 'en-US-Journey-F'
+
 interface UserState {
   level: UserLevel
   hydrated: boolean
@@ -13,6 +15,7 @@ interface UserState {
   syncError: string | null
   displayName: string
   userEmail: string | null
+  voiceName: string
   hydrate: () => void
   rehydrate: () => void
   setLevel: (level: UserLevel) => void
@@ -22,6 +25,7 @@ interface UserState {
   setSyncError: (msg: string | null) => void
   setDisplayName: (name: string) => void
   setUserEmail: (email: string | null) => void
+  setVoiceName: (name: string) => void
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
@@ -33,6 +37,7 @@ export const useUserStore = create<UserState>((set, get) => ({
   syncError: null,
   displayName: 'Guest',
   userEmail: null,
+  voiceName: DEFAULT_VOICE,
   hydrate: () => {
     if (get().hydrated) return
     set({ level: getLevel(), hydrated: true })
@@ -50,4 +55,5 @@ export const useUserStore = create<UserState>((set, get) => ({
   setSyncError: (msg) => set({ syncError: msg }),
   setDisplayName: (name) => set({ displayName: name }),
   setUserEmail: (email) => set({ userEmail: email }),
+  setVoiceName: (name) => set({ voiceName: name }),
 }))

@@ -26,6 +26,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const setSyncError = useUserStore(s => s.setSyncError)
   const setDisplayName = useUserStore(s => s.setDisplayName)
   const setUserEmail = useUserStore(s => s.setUserEmail)
+  const setVoiceName = useUserStore(s => s.setVoiceName)
 
   useEffect(() => {
     const supabase = createClient()
@@ -45,6 +46,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           document.cookie = 'moov_guest=; path=/; max-age=0'
           setDisplayName((session.user.user_metadata?.display_name ?? session.user.email ?? 'Guest').slice(0, 40))
           setUserEmail(session.user.email ?? null)
+          if (session.user.user_metadata?.tts_voice) {
+            setVoiceName(session.user.user_metadata.tts_voice)
+          }
           rehydrate()
           rehydrateUser()
           setAuthed(true)
