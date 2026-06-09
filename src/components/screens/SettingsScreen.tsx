@@ -458,6 +458,13 @@ export function SettingsScreen() {
               )}
             </AnimatePresence>
           </div>
+
+          <button
+            onClick={handleClearCache}
+            className="w-full text-left text-xs text-slate-500 py-4 border-t border-lime/20 active:text-slate-300 transition-colors"
+          >
+            {cacheCleared ? "Voice cache cleared ✓" : "Clear voice cache"}
+          </button>
         </div>
 
         <OfflineStatus />

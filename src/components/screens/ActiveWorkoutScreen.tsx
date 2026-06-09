@@ -78,6 +78,8 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
 
   const { unlock, speak, cancel } = useWorkoutSpeech(voiceName);
   const musicRef = useRef<HTMLAudioElement | null>(null);
+  const fadeTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const MUSIC_VOLUME = 0.18;
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -154,7 +156,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
       if (track) {
         const audio = new Audio(track.src);
         audio.loop = true;
-        audio.volume = 0.4;
+        audio.volume = MUSIC_VOLUME;
         musicRef.current = audio;
         audio.play().catch(() => {});
       }
@@ -162,16 +164,48 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     beginSession();
   }, [beginSession, unlock, musicEnabled, musicTrack]);
 
-  // Pause/resume music with workout
+  // Fade music out on pause, fade in on resume
   useEffect(() => {
-    if (!musicRef.current) return;
-    if (isPaused) musicRef.current.pause();
-    else musicRef.current.play().catch(() => {});
-  }, [isPaused]);
+    const audio = musicRef.current;
+    if (!audio) return;
+
+    if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
+
+    const STEPS = 30;
+    const FADE_MS = 700;
+    const intervalMs = FADE_MS / STEPS;
+
+    if (isPaused) {
+      const startVol = audio.volume;
+      let step = 0;
+      fadeTimerRef.current = setInterval(() => {
+        step++;
+        audio.volume = Math.max(0, startVol * (1 - step / STEPS));
+        if (step >= STEPS) {
+          clearInterval(fadeTimerRef.current!);
+          fadeTimerRef.current = null;
+          audio.pause();
+        }
+      }, intervalMs);
+    } else {
+      audio.volume = 0;
+      audio.play().catch(() => {});
+      let step = 0;
+      fadeTimerRef.current = setInterval(() => {
+        step++;
+        audio.volume = Math.min(MUSIC_VOLUME, MUSIC_VOLUME * (step / STEPS));
+        if (step >= STEPS) {
+          clearInterval(fadeTimerRef.current!);
+          fadeTimerRef.current = null;
+        }
+      }, intervalMs);
+    }
+  }, [isPaused]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Stop music on unmount
   useEffect(() => {
     return () => {
+      if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
       musicRef.current?.pause();
       musicRef.current = null;
     };
