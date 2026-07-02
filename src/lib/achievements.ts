@@ -17,6 +17,15 @@ function l3Count(completed: CompletedWorkout[]): number {
   return completed.filter(c => (c.level ?? 1) >= 3).length
 }
 
+function maxWorkoutsInOneDay(completed: CompletedWorkout[]): number {
+  const counts = new Map<string, number>()
+  for (const c of completed) {
+    const date = localDate(c.completedAt)
+    counts.set(date, (counts.get(date) ?? 0) + 1)
+  }
+  return Math.max(0, ...counts.values())
+}
+
 function localDate(isoString: string): string {
   const d = new Date(isoString)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
@@ -66,7 +75,7 @@ export const ACHIEVEMENT_CHECKS: Record<string, CheckFn> = {
   'alien-athlete':          s => s.completed.length >= 20,
   'extraterrestrial-effort':s => s.streak.longestStreak >= 14,
   'planet-core':            s => s.completed.filter(c => categoryIndex(c.workoutId) === 3).length >= 20,
-  'super-satellite':        _  => false, // manual only
+  'daily-double':           s => maxWorkoutsInOneDay(s.completed) >= 2,
   'flex-finisher':          s => s.totalCycles >= 1,
   'upward-force':           s => s.completed.length >= 40,
   'day-worker':             s => totalMs(s.completed) >= 24 * 3_600_000,

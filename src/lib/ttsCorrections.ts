@@ -4,16 +4,42 @@ export const GOOGLE_CORRECTIONS: [string, string][] = [
   // add more as needed
 ];
 
-export function formatForGoogle(text: string): string {
+// Web Speech API fallback: plain text substitutions for phonetic corrections.
+export const SPEECH_CORRECTIONS: [string, string][] = [
+  ["Squat Hold", "Squaw Tolled"],
+  // add more as needed
+];
+
+function applyGoogleCorrections(
+  text: string,
+  toReplacement: (word: string, alias: string) => string,
+): string {
   let result = text;
-  let changed = false;
   for (const [word, alias] of GOOGLE_CORRECTIONS) {
     const re = new RegExp(`\\b${word}\\b`, "gi");
-    const replaced = result.replace(re, `<sub alias="${alias}">${word}</sub>`);
-    if (replaced !== result) {
-      changed = true;
-      result = replaced;
-    }
+    result = result.replace(re, () => toReplacement(word, alias));
   }
-  return changed ? `<speak>${result}</speak>` : text;
+  return result;
+}
+
+export function formatForGoogle(text: string): string {
+  const corrected = applyGoogleCorrections(
+    text,
+    (word, alias) => `<sub alias="${alias}">${word}</sub>`,
+  );
+  return corrected === text ? text : `<speak>${corrected}</speak>`;
+}
+
+// Fallback speech engines do not support SSML; use the alias text directly.
+export function formatGoogleCorrectionsForSpeech(text: string): string {
+  return applyGoogleCorrections(text, (_word, alias) => alias);
+}
+
+// Apply all fallback-only pronunciation tweaks in one place.
+export function formatForFallbackSpeech(text: string): string {
+  const speechCorrected = SPEECH_CORRECTIONS.reduce(
+    (t, [from, to]) => t.replace(from, to),
+    text,
+  );
+  return formatGoogleCorrectionsForSpeech(speechCorrected);
 }

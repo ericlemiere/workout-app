@@ -1,6 +1,5 @@
 import type { Workout } from "@/types";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
-import { formatForGoogle } from "@/lib/ttsCorrections";
 
 export async function preCacheWorkoutAudio(
   workout: Workout,
@@ -26,7 +25,7 @@ export async function preCacheWorkoutAudio(
       const res = await fetch("/api/speak", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: formatForGoogle(text), voiceName }),
+        body: JSON.stringify({ text, voiceName }),
       });
       if (!res.ok) continue;
 

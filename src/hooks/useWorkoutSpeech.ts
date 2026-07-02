@@ -4,20 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { getAudioContext, ensureAudioContextResumed } from "@/lib/audio";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
 import { DEFAULT_VOICE } from "@/store/userStore";
-import { formatForGoogle } from "@/lib/ttsCorrections";
-
-// Web Speech API fallback: plain text substitutions for phonetic corrections.
-export const SPEECH_CORRECTIONS: [string, string][] = [
-  ["Squat Hold", "Squaw Tolled"],
-  // add more as needed
-];
-
-export function formatForSpeech(text: string): string {
-  return SPEECH_CORRECTIONS.reduce(
-    (t, [from, to]) => t.replace(from, to),
-    text,
-  );
-}
+import { formatForFallbackSpeech } from "@/lib/ttsCorrections";
 
 // Preferred Web Speech API voices for the fallback path.
 const WEB_SPEECH_PREFERRED = [
@@ -127,7 +114,7 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     const res = await fetch("/api/speak", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: formatForGoogle(text), voiceName: voice }),
+      body: JSON.stringify({ text, voiceName: voice }),
       signal: controller.signal,
     });
     abortRef.current = null;
@@ -159,7 +146,7 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
 
     if (!played && myGen === genRef.current) {
       try {
-        await speakFallback(formatForSpeech(text), voicePreference);
+        await speakFallback(formatForFallbackSpeech(text), voicePreference);
       } catch {}
     }
 
@@ -201,7 +188,7 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     } catch {
       if (!played) {
         try {
-          await speakFallback(formatForSpeech(text), voiceName);
+          await speakFallback(formatForFallbackSpeech(text), voiceName);
         } catch {}
       }
     }

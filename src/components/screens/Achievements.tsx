@@ -33,7 +33,6 @@ import {
   GiSevenPointedStar,
   GiOrbit,
   GiStarSattelites,
-  GiSattelite,
   GiRobotGolem,
   GiRobotHelmet,
   GiAura,
@@ -65,6 +64,7 @@ import {
   GiDiceFire,
   GiMadScientist,
   GiFox,
+  GiDoubleRingedOrb,
 } from "react-icons/gi";
 
 import { useProgressStore } from "@/store/progressStore";
@@ -144,11 +144,11 @@ export const ACHIEVEMENTS: Achievement[] = [
     icon: <GiPlanetCore size={60} />,
   },
   {
-    id: "super-satellite",
-    name: "Super Satellite",
-    description1: "Share this app with a friend.",
-    description2: "Spreading the word and growing the MOOVment.",
-    icon: <GiSattelite size={60} />,
+    id: "daily-double",
+    name: "Daily Double",
+    description1: "Complete two workouts in one day.",
+    description2: "Double the effort, double the gains.",
+    icon: <GiDoubleRingedOrb size={60} />,
   },
   {
     id: "flex-finisher",
@@ -572,7 +572,9 @@ export function Achievements() {
                 className={`${isEarned ? "text-lime" : "text-slate-600"} flex flex-col items-center justify-center aspect-square text-center gap-2 text-xs active:bg-white/5 rounded-2xl transition-colors`}
               >
                 {a.icon}
-                <p className={`${isEarned ? "text-white" : "text-slate-600"}`}>{a.name}</p>
+                <p className={`${isEarned ? "text-white" : "text-slate-600"}`}>
+                  {a.name}
+                </p>
               </button>
             );
           })}
