@@ -89,9 +89,14 @@ const PRECACHE = [
   '/images/workouts/upper-body.png',
 ]
 
-self.addEventListener('install', (e) => {
-  // Skip waiting immediately — don't block on precache
-  e.waitUntil(self.skipWaiting())
+self.addEventListener('install', () => {
+  // Don't skip waiting automatically — an update sits in the "waiting" state
+  // until the client explicitly confirms (see the message listener below),
+  // so an in-progress workout is never interrupted by an update.
+})
+
+self.addEventListener('message', (e) => {
+  if (e.data?.type === 'SKIP_WAITING') self.skipWaiting()
 })
 
 self.addEventListener('activate', (e) => {
