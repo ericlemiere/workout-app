@@ -11,7 +11,11 @@ import { createClient } from "@/lib/supabase/client";
 // import { clearTtsCache } from "@/lib/ttsCache";
 import { MUSIC_TRACKS } from "@/lib/musicTracks";
 import { MIN_MUSIC_VOLUME, MAX_MUSIC_VOLUME } from "@/lib/audioSettings";
-import { previewSfxPack, ensureAudioContextResumed } from "@/lib/audio";
+import {
+  previewSfxPack,
+  ensureAudioContextResumed,
+  getAudioContext,
+} from "@/lib/audio";
 import { SFX_PACK_LIST } from "@/lib/sfxPacks";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
@@ -228,6 +232,7 @@ export function AudioSelectors({
   // Music preview state
   const [previewingId, setPreviewingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const previewGainRef = useRef<GainNode | null>(null);
   const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Sound FX preview state
@@ -333,18 +338,32 @@ export function AudioSelectors({
       audioRef.current.src = "";
       audioRef.current = null;
     }
+    previewGainRef.current?.disconnect();
+    previewGainRef.current = null;
     setPreviewingId(null);
   }
 
-  function togglePreview(id: string, src: string) {
+  async function togglePreview(id: string, src: string) {
     if (previewingId === id) {
       stopPreview();
       return;
     }
     stopPreview();
+    await ensureAudioContextResumed();
     const audio = new Audio(src);
-    audio.volume = settings.musicVolume;
     audioRef.current = audio;
+    // iOS Safari ignores HTMLMediaElement.volume — route through a Web Audio
+    // GainNode instead, which iOS does respect.
+    const ctx = getAudioContext();
+    if (ctx) {
+      const source = ctx.createMediaElementSource(audio);
+      const gain = ctx.createGain();
+      gain.gain.value = settings.musicVolume;
+      source.connect(gain).connect(ctx.destination);
+      previewGainRef.current = gain;
+    } else {
+      audio.volume = settings.musicVolume;
+    }
     audio.play().catch(() => {
       audioRef.current = null;
       setPreviewingId(null);
@@ -607,7 +626,7 @@ export function AudioSelectors({
             onChange={(e) => {
               const vol = parseFloat(e.target.value);
               updateSettings({ musicVolume: vol });
-              if (audioRef.current) audioRef.current.volume = vol;
+              if (previewGainRef.current) previewGainRef.current.gain.value = vol;
             }}
             className="w-full accent-lime"
             aria-label="Music volume"

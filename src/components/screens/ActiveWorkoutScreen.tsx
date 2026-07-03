@@ -13,7 +13,7 @@ import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { AudioSelectors } from "@/components/settings/AudioSelectors";
 import { formatTime, getProgress } from "@/lib/timer";
-import { ensureAudioContextResumed } from "@/lib/audio";
+import { ensureAudioContextResumed, getAudioContext } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
 import { MUSIC_TRACKS } from "@/lib/musicTracks";
@@ -81,6 +81,25 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const { unlock, speak, cancel } = useWorkoutSpeech(voiceName);
   const musicRef = useRef<HTMLAudioElement | null>(null);
   const currentTrackIdRef = useRef<string | null>(null);
+  const musicGainRef = useRef<GainNode | null>(null);
+
+  // iOS Safari ignores HTMLMediaElement.volume (stuck at 1) — route through a
+  // Web Audio GainNode instead, which iOS does respect.
+  const connectMusicGain = useCallback(
+    (audio: HTMLAudioElement, volume: number) => {
+      const ctx = getAudioContext();
+      if (!ctx) {
+        audio.volume = volume;
+        return;
+      }
+      const source = ctx.createMediaElementSource(audio);
+      const gain = ctx.createGain();
+      gain.gain.value = volume;
+      source.connect(gain).connect(ctx.destination);
+      musicGainRef.current = gain;
+    },
+    [],
+  );
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -158,18 +177,18 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
       if (track) {
         const audio = new Audio(track.src);
         audio.loop = true;
-        audio.volume = musicVolume;
         musicRef.current = audio;
         currentTrackIdRef.current = track.id;
+        connectMusicGain(audio, musicVolume);
         audio.play().catch(() => {});
       }
     }
     beginSession();
-  }, [beginSession, unlock, musicEnabled, musicTrack, musicVolume]);
+  }, [beginSession, unlock, musicEnabled, musicTrack, musicVolume, connectMusicGain]);
 
   // Keep the playing track's volume in sync with the live setting
   useEffect(() => {
-    if (musicRef.current) musicRef.current.volume = musicVolume;
+    if (musicGainRef.current) musicGainRef.current.gain.value = musicVolume;
   }, [musicVolume]);
 
   // Swap to the newly selected track when changed mid-workout
@@ -182,9 +201,9 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     musicRef.current.pause();
     const audio = new Audio(track.src);
     audio.loop = true;
-    audio.volume = musicVolume;
     musicRef.current = audio;
     currentTrackIdRef.current = track.id;
+    connectMusicGain(audio, musicVolume);
     audio.play().catch(() => {});
   }, [musicTrack]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -193,6 +212,8 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     return () => {
       musicRef.current?.pause();
       musicRef.current = null;
+      musicGainRef.current?.disconnect();
+      musicGainRef.current = null;
     };
   }, []);
 
@@ -482,9 +503,9 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 bg-navy/90 backdrop-blur-sm flex flex-col items-center justify-center gap-4 px-24 pb-32 pointer-events-none"
+            className="absolute inset-0 z-10 bg-navy/90 backdrop-blur-sm flex flex-col items-center justify-center gap-4 px-4 pb-32 pointer-events-none"
           >
-            <div className="pointer-events-auto w-full max-h-[50dvh] overflow-y-auto bg-charcoal rounded-2xl border border-lime/20 p-4">
+            <div className="pointer-events-auto w-[90%] max-h-[50dvh] overflow-y-auto bg-charcoal rounded-2xl border border-lime/20 p-4">
               <AudioSelectors title="Audio" />
             </div>
 
@@ -492,12 +513,12 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
               onClick={() => {
                 router.replace(`/workout/${workoutId}`);
               }}
-              className="pointer-events-auto shrink-0 w-full h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-lime flex items-center justify-center gap-2"
+              className="pointer-events-auto shrink-0 w-[90%] h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-electric-orange flex items-center justify-center gap-2"
             >
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
-                className="w-5.5 h-5.5 text-lime"
+                className="w-5.5 h-5.5 text-electric-orange"
                 stroke="currentColor"
                 strokeWidth={2}
                 strokeLinecap="round"
