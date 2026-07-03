@@ -1,3 +1,6 @@
+import { useProgressStore } from '@/store/progressStore'
+import { SFX_PACKS, DEFAULT_SFX_PACK, type ToneSpec } from './sfxPacks'
+
 let audioCtx: AudioContext | null = null
 
 export function getAudioContext(): AudioContext | null {
@@ -43,17 +46,28 @@ function playTone(
   osc.stop(startTime + durationSec + 0.05)
 }
 
+function playSpec(spec: ToneSpec): void {
+  playTone(spec.freq, spec.dur, spec.vol, spec.type, spec.delayMs)
+}
+
+function getActivePack() {
+  const id = useProgressStore.getState().settings.sfxPack
+  return SFX_PACKS[id] ?? SFX_PACKS[DEFAULT_SFX_PACK]
+}
+
 export function playCountdownBeep(countValue: number): void {
-  playTone(660, 0.12, 0.35)
+  playSpec(getActivePack().countdown)
 }
 
 export function playGoBeep(): void {
-  playTone(880, 0.08, 0.4)
-  playTone(1100, 0.15, 0.4, 'sine', 100)
+  getActivePack().go.forEach(playSpec)
 }
 
 export function playCompleteSound(): void {
-  playTone(880, 0.1, 0.4)
-  playTone(1100, 0.1, 0.4, 'sine', 150)
-  playTone(1320, 0.25, 0.4, 'sine', 300)
+  getActivePack().complete.forEach(playSpec)
+}
+
+export function previewSfxPack(id: string): void {
+  const pack = SFX_PACKS[id] ?? SFX_PACKS[DEFAULT_SFX_PACK]
+  pack.go.forEach(playSpec)
 }

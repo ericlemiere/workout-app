@@ -72,6 +72,8 @@ export interface AppSettings {
   voiceCuesEnabled: boolean;
   musicEnabled: boolean;
   musicTrack: string;
+  musicVolume: number;
+  sfxPack: string;
 }
 
 export type UserLevel = 1 | 2 | 3;

@@ -4,6 +4,8 @@ import type {
   AppSettings,
   UserLevel,
 } from "@/types";
+import { DEFAULT_MUSIC_VOLUME } from "@/lib/audioSettings";
+import { DEFAULT_SFX_PACK } from "@/lib/sfxPacks";
 
 const KEYS = {
   completed: "workout_completed",
@@ -108,6 +110,8 @@ const defaultSettings: AppSettings = {
   voiceCuesEnabled: true,
   musicEnabled: false,
   musicTrack: "track-1",
+  musicVolume: DEFAULT_MUSIC_VOLUME,
+  sfxPack: DEFAULT_SFX_PACK,
 };
 
 export function getSettings(): AppSettings {

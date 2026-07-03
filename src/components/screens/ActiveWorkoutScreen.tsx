@@ -11,6 +11,7 @@ import { useWakeLock } from "@/hooks/useWakeLock";
 import { useWorkoutSpeech } from "@/hooks/useWorkoutSpeech";
 import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
+import { AudioSelectors } from "@/components/settings/AudioSelectors";
 import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
@@ -74,12 +75,12 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const voiceCuesEnabled = useProgressStore((s) => s.settings.voiceCuesEnabled);
   const musicEnabled = useProgressStore((s) => s.settings.musicEnabled);
   const musicTrack = useProgressStore((s) => s.settings.musicTrack);
+  const musicVolume = useProgressStore((s) => s.settings.musicVolume);
   const voiceName = useUserStore((s) => s.voiceName);
 
   const { unlock, speak, cancel } = useWorkoutSpeech(voiceName);
   const musicRef = useRef<HTMLAudioElement | null>(null);
-  const fadeTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const MUSIC_VOLUME = 0.18;
+  const currentTrackIdRef = useRef<string | null>(null);
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -157,56 +158,39 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
       if (track) {
         const audio = new Audio(track.src);
         audio.loop = true;
-        audio.volume = MUSIC_VOLUME;
+        audio.volume = musicVolume;
         musicRef.current = audio;
+        currentTrackIdRef.current = track.id;
         audio.play().catch(() => {});
       }
     }
     beginSession();
-  }, [beginSession, unlock, musicEnabled, musicTrack]);
+  }, [beginSession, unlock, musicEnabled, musicTrack, musicVolume]);
 
-  // Fade music out on pause, fade in on resume
+  // Keep the playing track's volume in sync with the live setting
   useEffect(() => {
-    const audio = musicRef.current;
-    if (!audio) return;
+    if (musicRef.current) musicRef.current.volume = musicVolume;
+  }, [musicVolume]);
 
-    if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
+  // Swap to the newly selected track when changed mid-workout
+  useEffect(() => {
+    if (!musicRef.current) return;
+    if (currentTrackIdRef.current === musicTrack) return;
+    const track = MUSIC_TRACKS.find((t) => t.id === musicTrack);
+    if (!track) return;
 
-    const STEPS = 30;
-    const FADE_MS = 700;
-    const intervalMs = FADE_MS / STEPS;
-
-    if (isPaused) {
-      const startVol = audio.volume;
-      let step = 0;
-      fadeTimerRef.current = setInterval(() => {
-        step++;
-        audio.volume = Math.max(0, startVol * (1 - step / STEPS));
-        if (step >= STEPS) {
-          clearInterval(fadeTimerRef.current!);
-          fadeTimerRef.current = null;
-          audio.pause();
-        }
-      }, intervalMs);
-    } else {
-      audio.volume = 0;
-      audio.play().catch(() => {});
-      let step = 0;
-      fadeTimerRef.current = setInterval(() => {
-        step++;
-        audio.volume = Math.min(MUSIC_VOLUME, MUSIC_VOLUME * (step / STEPS));
-        if (step >= STEPS) {
-          clearInterval(fadeTimerRef.current!);
-          fadeTimerRef.current = null;
-        }
-      }, intervalMs);
-    }
-  }, [isPaused]); // eslint-disable-line react-hooks/exhaustive-deps
+    musicRef.current.pause();
+    const audio = new Audio(track.src);
+    audio.loop = true;
+    audio.volume = musicVolume;
+    musicRef.current = audio;
+    currentTrackIdRef.current = track.id;
+    audio.play().catch(() => {});
+  }, [musicTrack]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Stop music on unmount
   useEffect(() => {
     return () => {
-      if (fadeTimerRef.current) clearInterval(fadeTimerRef.current);
       musicRef.current?.pause();
       musicRef.current = null;
     };
@@ -491,20 +475,24 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
         </div>
       </div>
 
-      {/* Pause overlay */}
+      {/* Pause overlay — audio settings + End Workout, centered, clear of the Resume button */}
       <AnimatePresence>
         {isPaused && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 bg-navy/90 backdrop-blur-sm flex items-center justify-center pointer-events-none"
+            className="absolute inset-0 z-10 bg-navy/90 backdrop-blur-sm flex flex-col items-center justify-center gap-4 px-24 pb-32 pointer-events-none"
           >
+            <div className="pointer-events-auto w-full max-h-[50dvh] overflow-y-auto bg-charcoal rounded-2xl border border-lime/20 p-4">
+              <AudioSelectors title="Audio" />
+            </div>
+
             <button
               onClick={() => {
                 router.replace(`/workout/${workoutId}`);
               }}
-              className="pointer-events-auto w-60 m-auto h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-lime flex items-center justify-center gap-2"
+              className="pointer-events-auto shrink-0 w-full h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-lime flex items-center justify-center gap-2"
             >
               <svg
                 viewBox="0 0 24 24"

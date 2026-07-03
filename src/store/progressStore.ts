@@ -33,6 +33,8 @@ import {
 import { evaluateAchievements } from "@/lib/achievements";
 import { pushProgress } from "@/lib/sync";
 import { useUserStore } from "@/store/userStore";
+import { DEFAULT_MUSIC_VOLUME } from "@/lib/audioSettings";
+import { DEFAULT_SFX_PACK } from "@/lib/sfxPacks";
 
 interface ProgressState {
   completed: CompletedWorkout[];
@@ -104,6 +106,8 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
     voiceCuesEnabled: true,
     musicEnabled: false,
     musicTrack: "track-1",
+    musicVolume: DEFAULT_MUSIC_VOLUME,
+    sfxPack: DEFAULT_SFX_PACK,
   },
   cycleStartedAt: null,
   lunarCycles: 0,
