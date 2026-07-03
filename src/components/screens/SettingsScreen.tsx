@@ -36,7 +36,19 @@ const VOICES: TTSVoice[] = [
   { name: "en-AU-Neural2-B", languageCode: "en-AU", gender: "MALE" },
 ];
 
+const VOICE_LABELS: Record<string, string> = {
+  "en-US-Studio-O": "Nova",
+  "en-US-Studio-M": "Orion",
+  "en-GB-Journey-D": "Atlas",
+  "en-GB-Journey-F": "Lyra",
+  "en-GB-Studio-B": "Flint",
+  "en-GB-Studio-C": "Iris",
+  "en-AU-Journey-D": "Reef",
+  "en-AU-Neural2-B": "Echo",
+};
+
 function formatVoiceLabel(name: string): string {
+  if (VOICE_LABELS[name]) return VOICE_LABELS[name];
   const parts = name.split("-");
   return parts.length >= 4 ? parts.slice(2).join(" ") : name;
 }
@@ -235,7 +247,10 @@ export function SettingsScreen() {
         </div>
       </div>
       <div className="px-4 pt-8">
-        <SectionHeader label="Audio Selectors" icon={<FaMicrophoneAlt size={20} />} />
+        <SectionHeader
+          label="Audio Selectors"
+          icon={<FaMicrophoneAlt size={20} />}
+        />
         <div className="bg-charcoal/50 rounded-2xl px-4">
           {/* Voice selector */}
           <div

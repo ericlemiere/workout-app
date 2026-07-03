@@ -4,7 +4,10 @@ import { getFromCache, saveToCache } from "@/lib/ttsCache";
 export async function preCacheWorkoutAudio(
   workout: Workout,
   voiceName: string,
+  options?: { signal?: AbortSignal },
 ): Promise<void> {
+  const signal = options?.signal;
+
   const exercises = [
     ...workout.warmups,
     ...workout.exercises,
@@ -21,6 +24,8 @@ export async function preCacheWorkoutAudio(
   );
 
   for (const text of texts) {
+    if (signal?.aborted) return;
+
     try {
       const cached = await getFromCache(text, voiceName);
       if (cached) continue;
@@ -29,15 +34,27 @@ export async function preCacheWorkoutAudio(
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, voiceName }),
+        signal,
       });
-      if (!res.ok) continue;
+      if (!res.ok) {
+        // Stop pre-caching when cloud TTS is currently unavailable.
+        if (res.status === 400 || res.status === 429) return;
+        continue;
+      }
 
       const blob = await res.blob();
       await saveToCache(text, voiceName, blob);
 
       // Throttle to avoid hitting Google TTS rate limits
       await new Promise((r) => setTimeout(r, 400));
-    } catch {
+    } catch (err) {
+      if (
+        err instanceof DOMException &&
+        (err.name === "AbortError" || err.name === "TimeoutError")
+      ) {
+        return;
+      }
+
       // fail silently — pre-caching is best-effort
     }
   }

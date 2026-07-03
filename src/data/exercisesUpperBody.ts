@@ -29,7 +29,7 @@ export const airplanePushUps: Exercise = {
   instructions:
     "Start in a push-up position. Rotate your torso and arm toward the ceiling and back. Do a push-up. Alternate sides.",
   readInstructions:
-    "Start in a push-up position. Rotate your torso and arm toward the ceiling and back. Do a push-up. All ternate sides.",
+    "Start in a push-up position. Rotate your torso and arm toward the ceiling and back. Do a push-up. All-ternate sides.",
 };
 
 export const wavePushUps: Exercise = {
@@ -57,7 +57,7 @@ export const spiderCrossPlanks: Exercise = {
   instructions:
     "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. Alternate sides.",
   readInstructions:
-    "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. All ternate sides.",
+    "Start in a push-up position. Bring your left knee to the outside of your left elbow, then bring your knee across your body to your right elbow. All-ternate sides.",
 };
 
 // ============================================

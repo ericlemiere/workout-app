@@ -91,7 +91,10 @@ export function WorkoutDetailScreen({ template }: Props) {
 
   useEffect(() => {
     if (!voiceCuesEnabled) return;
-    preCacheWorkoutAudio(workout, voiceName);
+    const controller = new AbortController();
+    preCacheWorkoutAudio(workout, voiceName, { signal: controller.signal });
+
+    return () => controller.abort();
   }, [workout, voiceName, voiceCuesEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalRealExercises =
