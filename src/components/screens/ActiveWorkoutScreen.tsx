@@ -114,8 +114,9 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
       t = setTimeout(() => speak(exercise.name), 700);
     } else if (!isGetReady && exercise.isRest) {
       t = setTimeout(() => speak("Rest"), 700);
-    } else if (!isGetReady && !exercise.isRest && exercise.instructions) {
-      t = setTimeout(() => speak(exercise.instructions!), 700);
+    } else if (!isGetReady && !exercise.isRest) {
+      const spokenText = exercise.readInstructions ?? exercise.instructions;
+      if (spokenText) t = setTimeout(() => speak(spokenText), 700);
     }
 
     return () => clearTimeout(t);

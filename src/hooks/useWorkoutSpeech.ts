@@ -14,6 +14,12 @@ const WEB_SPEECH_PREFERRED = [
   "Samantha",
 ];
 
+const QUOTA_BACKOFF_MS = 10 * 60 * 1000;
+const INVALID_ARGUMENT_BACKOFF_MS = 5 * 60 * 1000;
+let cloudTtsBlockedUntil = 0;
+let lastQuotaWarnAt = 0;
+let lastInvalidArgumentWarnAt = 0;
+
 async function playViaAudioContext(
   blob: Blob,
   sourceRef: React.MutableRefObject<AudioBufferSourceNode | null>,
@@ -105,6 +111,10 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
   }
 
   async function fetchBlob(text: string, voice: string): Promise<Blob> {
+    if (Date.now() < cloudTtsBlockedUntil) {
+      throw new Error("TTS_QUOTA_COOLDOWN");
+    }
+
     const cached = await getFromCache(text, voice);
     if (cached) return cached;
 
@@ -119,7 +129,38 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     });
     abortRef.current = null;
 
-    if (!res.ok) throw new Error("TTS API failed");
+    if (!res.ok) {
+      if (res.status === 400) {
+        cloudTtsBlockedUntil = Date.now() + INVALID_ARGUMENT_BACKOFF_MS;
+
+        const now = Date.now();
+        if (now - lastInvalidArgumentWarnAt > 30_000) {
+          lastInvalidArgumentWarnAt = now;
+          console.warn(
+            `[tts] Cloud TTS rejected request; using fallback speech for ${Math.round(INVALID_ARGUMENT_BACKOFF_MS / 60000)} minutes.`,
+          );
+        }
+
+        throw new Error("TTS_INVALID_ARGUMENT");
+      }
+
+      if (res.status === 429) {
+        cloudTtsBlockedUntil = Date.now() + QUOTA_BACKOFF_MS;
+
+        const now = Date.now();
+        // Keep the console useful while still surfacing why cloud TTS is skipped.
+        if (now - lastQuotaWarnAt > 30_000) {
+          lastQuotaWarnAt = now;
+          console.warn(
+            `[tts] Cloud quota exhausted; using fallback speech for ${Math.round(QUOTA_BACKOFF_MS / 60000)} minutes.`,
+          );
+        }
+
+        throw new Error("TTS_QUOTA_EXHAUSTED");
+      }
+
+      throw new Error("TTS API failed");
+    }
 
     const blob = await res.blob();
     await saveToCache(text, voice, blob);

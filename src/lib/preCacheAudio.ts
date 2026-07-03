@@ -12,9 +12,12 @@ export async function preCacheWorkoutAudio(
   ].filter((ex) => !ex.isRest);
 
   const texts = exercises.flatMap((ex) =>
-    ([ex.name, ex.instructions] as (string | undefined)[]).filter(
-      (t): t is string => !!t,
-    ),
+    (
+      [ex.name, ex.readInstructions ?? ex.instructions] as (
+        | string
+        | undefined
+      )[]
+    ).filter((t): t is string => !!t),
   );
 
   for (const text of texts) {

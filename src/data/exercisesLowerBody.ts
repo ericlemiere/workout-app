@@ -67,6 +67,8 @@ export const lunges: Exercise = {
   matPosition: "standing",
   instructions:
     "Step forward, lower your back knee toward floor. Return to standing. Alternate legs. Keep torso upright.",
+  readInstructions:
+    "Step forward, lower your back knee toward floor. Return to standing. All ternate legs. Keep torso upright.",
 };
 
 export const reverseLunges: Exercise = {
@@ -80,6 +82,8 @@ export const reverseLunges: Exercise = {
   matPosition: "standing",
   instructions:
     "Step backward and lower back knee toward floor. Drive front foot through heel to return. Alternate legs.",
+  readInstructions:
+    "Step backward and lower back knee toward floor. Drive front foot through heel to return. All ternate legs.",
 };
 
 export const sideLungesLeft: Exercise = {
