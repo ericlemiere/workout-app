@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
 import { useWorkoutStore } from "@/store/workoutStore";
 import { playCompleteSound } from "@/lib/audio";
+import { fadeOutWorkoutMusic } from "@/lib/workoutMusic";
 import { formatTime } from "@/lib/timer";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { GiPartyPopper } from "react-icons/gi";
@@ -18,9 +19,11 @@ interface Props {
 const APP_URL = "https://moov-1.vercel.app/";
 
 export function CompletionScreen({ workout }: Props) {
+  const router = useRouter();
   const streak = useProgressStore((s) => s.streak);
   const completed = useProgressStore((s) => s.completed);
   const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
+  const [isLeaving, setIsLeaving] = useState(false);
 
   async function handleShare() {
     const streakText = `🔥 ${streak.currentStreak} day streak!`;
@@ -30,6 +33,13 @@ export function CompletionScreen({ workout }: Props) {
         text: `Just completed ${workout.name} on MOOV!\n${streakText}\n${APP_URL}`,
       });
     } catch (_) {}
+  }
+
+  async function handleBackToWorkouts() {
+    if (isLeaving) return;
+    setIsLeaving(true);
+    void fadeOutWorkoutMusic(650);
+    router.push("/");
   }
 
   const latestCompletion = completed
@@ -119,12 +129,14 @@ export function CompletionScreen({ workout }: Props) {
         transition={{ delay: 0.5 }}
         className="w-full max-w-xs flex flex-col gap-3"
       >
-        <Link
-          href="/"
+        <button
+          type="button"
+          onClick={handleBackToWorkouts}
+          disabled={isLeaving}
           className="bg-lime text-navy border border-lime font-semibold text-lg text-center py-4 rounded-2xl active:bg-charcoal/70"
         >
-          Back to Workouts
-        </Link>
+          {isLeaving ? "Leaving..." : "Back to Workouts"}
+        </button>
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={handleShare}

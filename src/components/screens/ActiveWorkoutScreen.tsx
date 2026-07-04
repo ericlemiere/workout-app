@@ -13,10 +13,15 @@ import { CircularTimer } from "@/components/ui/CircularTimer";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { AudioSelectors } from "@/components/settings/AudioSelectors";
 import { formatTime, getProgress } from "@/lib/timer";
-import { ensureAudioContextResumed, getAudioContext } from "@/lib/audio";
+import { ensureAudioContextResumed } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
-import { MUSIC_TRACKS } from "@/lib/musicTracks";
+import {
+  getCurrentWorkoutMusicTrackId,
+  setWorkoutMusicVolume,
+  startWorkoutMusic,
+  stopWorkoutMusic,
+} from "@/lib/workoutMusic";
 import type { WorkoutTemplate } from "@/types";
 
 interface Props {
@@ -79,27 +84,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const voiceName = useUserStore((s) => s.voiceName);
 
   const { unlock, speak, cancel } = useWorkoutSpeech(voiceName);
-  const musicRef = useRef<HTMLAudioElement | null>(null);
-  const currentTrackIdRef = useRef<string | null>(null);
-  const musicGainRef = useRef<GainNode | null>(null);
-
-  // iOS Safari ignores HTMLMediaElement.volume (stuck at 1) — route through a
-  // Web Audio GainNode instead, which iOS does respect.
-  const connectMusicGain = useCallback(
-    (audio: HTMLAudioElement, volume: number) => {
-      const ctx = getAudioContext();
-      if (!ctx) {
-        audio.volume = volume;
-        return;
-      }
-      const source = ctx.createMediaElementSource(audio);
-      const gain = ctx.createGain();
-      gain.gain.value = volume;
-      source.connect(gain).connect(ctx.destination);
-      musicGainRef.current = gain;
-    },
-    [],
-  );
+  const persistMusicOnUnmountRef = useRef(false);
 
   useWakeLock(section !== "complete" && section !== "intro");
 
@@ -114,6 +99,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   // Navigate to complete page when done
   useEffect(() => {
     if (section === "complete") {
+      persistMusicOnUnmountRef.current = true;
       const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0;
       recordCompletion(workoutId, durationMs, level);
       router.replace(`/workout/${workoutId}/complete`);
@@ -135,7 +121,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     } else if (!isGetReady && exercise.isRest) {
       t = setTimeout(() => speak("Rest"), 700);
     } else if (!isGetReady && !exercise.isRest) {
-      const spokenText = exercise.readInstructions ?? exercise.instructions;
+      const spokenText = exercise.instructions;
       if (spokenText) t = setTimeout(() => speak(spokenText), 700);
     }
 
@@ -173,47 +159,29 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     unlock(); // must be synchronous in gesture handler to unlock iOS speech audio
     await ensureAudioContextResumed();
     if (musicEnabled) {
-      const track = MUSIC_TRACKS.find((t) => t.id === musicTrack);
-      if (track) {
-        const audio = new Audio(track.src);
-        audio.loop = true;
-        musicRef.current = audio;
-        currentTrackIdRef.current = track.id;
-        connectMusicGain(audio, musicVolume);
-        audio.play().catch(() => {});
-      }
+      startWorkoutMusic(musicTrack, musicVolume);
     }
     beginSession();
-  }, [beginSession, unlock, musicEnabled, musicTrack, musicVolume, connectMusicGain]);
+  }, [beginSession, unlock, musicEnabled, musicTrack, musicVolume]);
 
   // Keep the playing track's volume in sync with the live setting
   useEffect(() => {
-    if (musicGainRef.current) musicGainRef.current.gain.value = musicVolume;
+    setWorkoutMusicVolume(musicVolume);
   }, [musicVolume]);
 
   // Swap to the newly selected track when changed mid-workout
   useEffect(() => {
-    if (!musicRef.current) return;
-    if (currentTrackIdRef.current === musicTrack) return;
-    const track = MUSIC_TRACKS.find((t) => t.id === musicTrack);
-    if (!track) return;
-
-    musicRef.current.pause();
-    const audio = new Audio(track.src);
-    audio.loop = true;
-    musicRef.current = audio;
-    currentTrackIdRef.current = track.id;
-    connectMusicGain(audio, musicVolume);
-    audio.play().catch(() => {});
-  }, [musicTrack]); // eslint-disable-line react-hooks/exhaustive-deps
+    const currentTrackId = getCurrentWorkoutMusicTrackId();
+    if (!currentTrackId || currentTrackId === musicTrack) return;
+    startWorkoutMusic(musicTrack, musicVolume);
+  }, [musicTrack, musicVolume]);
 
   // Stop music on unmount
   useEffect(() => {
     return () => {
-      musicRef.current?.pause();
-      musicRef.current = null;
-      musicGainRef.current?.disconnect();
-      musicGainRef.current = null;
+      if (!persistMusicOnUnmountRef.current) {
+        stopWorkoutMusic();
+      }
     };
   }, []);
 
@@ -511,6 +479,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
 
             <button
               onClick={() => {
+                stopWorkoutMusic();
                 router.replace(`/workout/${workoutId}`);
               }}
               className="pointer-events-auto shrink-0 w-[90%] h-16 text-slate-300 text-lg font-semibold rounded-2xl border border-electric-orange flex items-center justify-center gap-2"

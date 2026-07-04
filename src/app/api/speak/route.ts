@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { formatForGoogle } from "@/lib/ttsCorrections";
 
 let lastQuotaLogAt = 0;
 let lastInvalidArgLogAt = 0;
@@ -7,6 +8,7 @@ export async function POST(request: NextRequest) {
   try {
     const { text, voiceName } = await request.json();
     if (!text || !voiceName) return new Response(null, { status: 400 });
+    const normalizedText = formatForGoogle(text);
 
     const apiKey = process.env.GOOGLE_TTS_API_KEY;
     if (!apiKey) return new Response(null, { status: 500 });
@@ -19,7 +21,7 @@ export async function POST(request: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          input: { text },
+          input: { text: normalizedText },
           voice: { languageCode, name: voiceName },
           audioConfig: { audioEncoding: "MP3" },
         }),

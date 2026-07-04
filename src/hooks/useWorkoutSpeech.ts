@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { getAudioContext, ensureAudioContextResumed } from "@/lib/audio";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
 import { DEFAULT_VOICE } from "@/store/userStore";
-import { formatForFallbackSpeech } from "@/lib/ttsCorrections";
+import { formatForFallbackSpeech, formatForGoogle } from "@/lib/ttsCorrections";
 
 // Preferred Web Speech API voices for the fallback path.
 const WEB_SPEECH_PREFERRED = [
@@ -114,8 +114,9 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     if (Date.now() < cloudTtsBlockedUntil) {
       throw new Error("TTS_QUOTA_COOLDOWN");
     }
+    const cloudText = formatForGoogle(text);
 
-    const cached = await getFromCache(text, voice);
+    const cached = await getFromCache(cloudText, voice);
     if (cached) return cached;
 
     const controller = new AbortController();
@@ -124,7 +125,7 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     const res = await fetch("/api/speak", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, voiceName: voice }),
+      body: JSON.stringify({ text: cloudText, voiceName: voice }),
       signal: controller.signal,
     });
     abortRef.current = null;
@@ -163,7 +164,7 @@ export function useWorkoutSpeech(voicePreference: string = DEFAULT_VOICE) {
     }
 
     const blob = await res.blob();
-    await saveToCache(text, voice, blob);
+    await saveToCache(cloudText, voice, blob);
     return blob;
   }
 

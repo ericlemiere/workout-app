@@ -1,5 +1,6 @@
 import type { Workout } from "@/types";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
+import { formatForGoogle } from "@/lib/ttsCorrections";
 
 export async function preCacheWorkoutAudio(
   workout: Workout,
@@ -15,25 +16,23 @@ export async function preCacheWorkoutAudio(
   ].filter((ex) => !ex.isRest);
 
   const texts = exercises.flatMap((ex) =>
-    (
-      [ex.name, ex.readInstructions ?? ex.instructions] as (
-        | string
-        | undefined
-      )[]
-    ).filter((t): t is string => !!t),
+    ([ex.name, ex.instructions] as (string | undefined)[]).filter(
+      (t): t is string => !!t,
+    ),
   );
 
   for (const text of texts) {
     if (signal?.aborted) return;
+    const cloudText = formatForGoogle(text);
 
     try {
-      const cached = await getFromCache(text, voiceName);
+      const cached = await getFromCache(cloudText, voiceName);
       if (cached) continue;
 
       const res = await fetch("/api/speak", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, voiceName }),
+        body: JSON.stringify({ text: cloudText, voiceName }),
         signal,
       });
       if (!res.ok) {
@@ -43,7 +42,7 @@ export async function preCacheWorkoutAudio(
       }
 
       const blob = await res.blob();
-      await saveToCache(text, voiceName, blob);
+      await saveToCache(cloudText, voiceName, blob);
 
       // Throttle to avoid hitting Google TTS rate limits
       await new Promise((r) => setTimeout(r, 400));

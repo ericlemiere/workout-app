@@ -14,8 +14,6 @@ export const dynamicSideBends: Exercise = {
   matPosition: "standing",
   instructions:
     "Stand with feet shoulder-width apart and hands on hips. Reach one arm overhead, bend to the opposite side. Alternate sides in a fluid motion.",
-  readInstructions:
-    "Stand with feet shoulder-width apart and hands on hips. Reach one arm overhead, bend to the opposite side. All-ternate sides in a fluid motion.",
 };
 
 export const chestOpenersWithRotation: Exercise = {
@@ -28,8 +26,6 @@ export const chestOpenersWithRotation: Exercise = {
   matPosition: "standing",
   instructions:
     "Stand tall, arms at sides. Sweep both arms back to open the chest, then rotate the torso to one side. Alternate sides.",
-  readInstructions:
-    "Stand tall, arms at sides. Sweep both arms back to open the chest, then rotate the torso to one side. All-ternate sides.",
 };
 
 export const deepSideToSideLunges: Exercise = {
@@ -66,8 +62,6 @@ export const activeCalfStretch: Exercise = {
   matPosition: "standing",
   instructions:
     "Step one foot forward, flex toes up, lean forward slightly to feel the stretch. Hold 3 seconds, switch legs. Alternate.",
-  readInstructions:
-    "Step one foot forward, flex toes up, lean forward slightly to feel the stretch. Hold 3 seconds, switch legs. All-ternate.",
 };
 
 export const deepHoldSquatWithElbowPry: Exercise = {
@@ -104,8 +98,6 @@ export const standingHipRotations: Exercise = {
   matPosition: "standing",
   instructions:
     "Stand with feet hip-width apart. March in place, lifting knees high. As you lift each knee, rotate it outward to open the hip. Alternate legs.",
-  readInstructions:
-    "Stand with feet hip-width apart. March in place, lifting knees high. As you lift each knee, rotate it outward to open the hip. All-ternate legs.",
 };
 
 export const shoulderRotations: Exercise = {
@@ -154,8 +146,6 @@ export const rotatingToeTouches: Exercise = {
   matPosition: "standing",
   instructions:
     "Stand with feet hip-width apart. Reach your right hand to your left foot while twisting your torso. Alternate sides.",
-  readInstructions:
-    "Stand with feet hip-width apart. Reach your right hand to your left foot while twisting your torso. All-ternate sides.",
 };
 
 export const warmupExercises: Exercise[] = [

@@ -15,8 +15,6 @@ export const mountainClimberWalks: Exercise = {
   matPosition: "floor",
   instructions:
     "Start in plank. Bring one knee toward your chest, then return to plank. Alternate sides. Keep hips level.",
-  readInstructions:
-    "Start in plank. Bring one knee toward your chest, then return to plank. All-ternate sides. Keep hips level.",
 };
 
 export const plank: Exercise = {
@@ -69,8 +67,6 @@ export const deadBug: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, arms straight up, knees bent 90°. Slowly lower opposite arm and leg toward the floor while pressing your lower back into the ground. Return and alternate.",
-  readInstructions:
-    "Lie on back, arms straight up, knees bent 90°. Slowly lower opposite arm and leg toward the floor while pressing your lower back into the ground. Return and all-ternate.",
 };
 
 export const birdDog: Exercise = {
@@ -84,8 +80,6 @@ export const birdDog: Exercise = {
   matPosition: "floor",
   instructions:
     "On hands and knees, extend opposite arm and leg until parallel to floor. Hold 2 seconds, return, alternate. Keep hips level throughout.",
-  readInstructions:
-    "On hands and knees, extend opposite arm and leg until parallel to floor. Hold 2 seconds, return, all-ternate. Keep hips level throughout.",
 };
 
 export const plankRotations: Exercise = {
@@ -99,8 +93,6 @@ export const plankRotations: Exercise = {
   matPosition: "floor",
   instructions:
     "Start in a forearm plank. Rotate your torso and reach one arm toward the ceiling, then return to plank. Alternate sides.",
-  readInstructions:
-    "Start in a forearm plank. Rotate your torso and reach one arm toward the ceiling, then return to plank. All-ternate sides.",
 };
 
 export const pelvicTilts: Exercise = {
@@ -192,8 +184,6 @@ export const scissorKicks: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and alternate crossing one leg over the other in a scissor motion.",
-  readInstructions:
-    "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and all-ternate crossing one leg over the other in a scissor motion.",
 };
 
 export const flutterKicks: Exercise = {
@@ -207,8 +197,6 @@ export const flutterKicks: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and alternate kicking them up and down in a fluttering motion.",
-  readInstructions:
-    "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and all-ternate kicking them up and down in a fluttering motion.",
 };
 
 // ============================================
@@ -239,8 +227,6 @@ export const highPlankToElbowPlank: Exercise = {
   matPosition: "floor",
   instructions:
     "Start in a high plank. Lower down onto your forearms one at a time, then press back up to high plank. Alternate the arm you lead with.",
-  readInstructions:
-    "Start in a high plank. Lower down onto your forearms one at a time, then press back up to high plank. All-ternate the arm you lead with.",
 };
 
 export const windshieldWipers: Exercise = {
@@ -254,8 +240,6 @@ export const windshieldWipers: Exercise = {
   matPosition: "floor",
   instructions:
     "Lie on back, arms out to sides, legs straight up. Lower legs to one side while keeping shoulders on the floor. Return to center and alternate.",
-  readInstructions:
-    "Lie on back, arms out to sides, legs straight up. Lower legs to one side while keeping shoulders on the floor. Return to center and all-ternate.",
 };
 
 // ============================================

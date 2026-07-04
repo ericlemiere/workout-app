@@ -32,7 +32,6 @@ export interface Exercise {
   instructions?: string;
   level?: number; // 1-5, optional difficulty rating
   isRest?: boolean;
-  readInstructions?: string; // optional instructions for TTS
 }
 
 export interface Workout {
