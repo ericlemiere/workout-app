@@ -73,7 +73,7 @@ export const figure4Left: Exercise = {
   target: "glutes",
   matPosition: "floor",
   instructions:
-    "Cross one ankle over opposite knee while lying on back. Pull the uncrossed leg toward chest.",
+    "Cross left ankle over right knee while lying on back. Pull the right leg toward chest.",
 };
 
 export const figure4Right: Exercise = {
@@ -85,7 +85,7 @@ export const figure4Right: Exercise = {
   target: "glutes",
   matPosition: "floor",
   instructions:
-    "Cross one ankle over opposite knee while lying on back. Pull the uncrossed leg toward chest.",
+    "Cross right ankle over left knee while lying on back. Pull the left leg toward chest.",
 };
 
 export const chestStretch: Exercise = {

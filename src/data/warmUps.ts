@@ -73,7 +73,7 @@ export const deepHoldSquatWithElbowPry: Exercise = {
   target: "lower body",
   matPosition: "standing",
   instructions:
-    "Stand with feet wider than hip-width, toes slightly out. Squat down, bringing hands to heart center. Use elbows to gently press knees apart. Hold and breathe.",
+    "Stand with feet wider than hip-width, toes slightly out. Squat down, bringing hands together in front of chest. Use elbows to gently press knees apart. Hold and breathe.",
 };
 
 export const rollDowns: Exercise = {
