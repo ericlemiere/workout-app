@@ -4,6 +4,10 @@ export const REST_DURATION = 30;
 export const GET_READY_DEFAULT = 10;
 export const GET_READY_SHORT = 8;
 
+// Spoken once on the completion screen. Pre-cached alongside the workout's
+// other cues so it still speaks offline.
+export const WORKOUT_COMPLETE_CUE = "Workout complete";
+
 export function calculateWorkoutMinutes(workout: Workout): number {
   const realExerciseCount =
     workout.warmups.length +

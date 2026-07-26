@@ -6,6 +6,7 @@ import type {
 } from "@/types";
 import { DEFAULT_MUSIC_VOLUME } from "@/lib/audioSettings";
 import { DEFAULT_SFX_PACK } from "@/lib/sfxPacks";
+import { SHUFFLE_TRACK_ID } from "@/lib/musicTracks";
 
 const KEYS = {
   completed: "workout_completed",
@@ -109,7 +110,7 @@ const defaultSettings: AppSettings = {
   soundEnabled: true,
   voiceCuesEnabled: true,
   musicEnabled: false,
-  musicTrack: "track-1",
+  musicTrack: SHUFFLE_TRACK_ID,
   musicVolume: DEFAULT_MUSIC_VOLUME,
   sfxPack: DEFAULT_SFX_PACK,
 };

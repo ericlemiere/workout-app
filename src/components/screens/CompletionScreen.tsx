@@ -6,10 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { Workout } from "@/types";
 import { useProgressStore } from "@/store/progressStore";
 import { useWorkoutStore } from "@/store/workoutStore";
+import { useUserStore } from "@/store/userStore";
+import { useWorkoutSpeech } from "@/hooks/useWorkoutSpeech";
 import { playCompleteSound } from "@/lib/audio";
 import { fadeOutWorkoutMusic } from "@/lib/workoutMusic";
 import { formatTime } from "@/lib/timer";
-import { calculateWorkoutMinutes } from "@/lib/workout";
+import { calculateWorkoutMinutes, WORKOUT_COMPLETE_CUE } from "@/lib/workout";
 import { GiPartyPopper } from "react-icons/gi";
 
 interface Props {
@@ -23,6 +25,9 @@ export function CompletionScreen({ workout }: Props) {
   const streak = useProgressStore((s) => s.streak);
   const completed = useProgressStore((s) => s.completed);
   const resetWorkout = useWorkoutStore((s) => s.resetWorkout);
+  const voiceCuesEnabled = useProgressStore((s) => s.settings.voiceCuesEnabled);
+  const voiceName = useUserStore((s) => s.voiceName);
+  const { speak, cancel } = useWorkoutSpeech(voiceName);
   const [isLeaving, setIsLeaving] = useState(false);
 
   async function handleShare() {
@@ -51,6 +56,16 @@ export function CompletionScreen({ workout }: Props) {
     playCompleteSound();
     resetWorkout();
   }, [resetWorkout]);
+
+  // Let the completion chime land before speaking over it.
+  useEffect(() => {
+    if (!voiceCuesEnabled) return;
+    const t = setTimeout(() => speak(WORKOUT_COMPLETE_CUE), 900);
+    return () => {
+      clearTimeout(t);
+      cancel();
+    };
+  }, [voiceCuesEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalForWorkout = completed.filter(
     (c) => c.workoutId === workout.id,

@@ -18,6 +18,7 @@ import {
   scissorKicks,
   flutterKicks,
   legRaises,
+  gluteBridgeHoldKneeToChest,
 } from "./exercisesCore";
 import { airplanePushUps } from "./exercisesUpperBody";
 import { fireHydrantLeft, fireHydrantRight } from "./exercisesLowerBody";
@@ -39,9 +40,17 @@ import {
   spinalTwistRight,
   figure4Left,
   figure4Right,
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
 } from "./coolDowns";
 
+// Alternating glute-stretch finishers — every other workout uses the prone version
 const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END_PRONE = [
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
+  childsPose,
+];
 
 export const coreTemplates: WorkoutTemplate[] = [
   // ── 3 · Core ───────────────────────────────────────────────────────────────
@@ -102,7 +111,7 @@ export const coreTemplates: WorkoutTemplate[] = [
       hipFlexorStretch,
       seatedHamstringStretch,
       upperBackStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -156,7 +165,7 @@ export const coreTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: airplanePushUps, e2: plankRotations },
       { e1: fireHydrantLeft, e2: fireHydrantRight, e3: deadBug },
-      { e1: birdDog, e2: pelvicTilts },
+      { e1: birdDog, e2: gluteBridgeHoldKneeToChest },
     ],
     lvl2Extra: { e1: sidePlankLeft, e2: sidePlankRight },
     lvl3Extra: { e1: [heelTaps, russianTwists], e2: windshieldWipers },
@@ -164,7 +173,7 @@ export const coreTemplates: WorkoutTemplate[] = [
       hipFlexorStretch,
       seatedHamstringStretch,
       upperBackStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -186,7 +195,7 @@ export const coreTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: deadBug, e2: birdDog },
-      { e1: [heelTaps, russianTwists], e2: pelvicTilts },
+      { e1: [heelTaps, russianTwists], e2: gluteBridgeHoldKneeToChest },
       { e1: [mountainClimberWalks, mountainClimbers], e2: plankRotations },
     ],
     lvl2Extra: { e1: sidePlankLeft, e2: sidePlankRight },
@@ -227,7 +236,7 @@ export const coreTemplates: WorkoutTemplate[] = [
       hipFlexorStretch,
       seatedHamstringStretch,
       upperBackStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 

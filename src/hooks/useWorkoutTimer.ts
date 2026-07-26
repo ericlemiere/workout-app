@@ -15,6 +15,7 @@ export function useWorkoutTimer(onComplete?: () => void) {
   const timer = useWorkoutStore((s) => s.timer);
   const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs);
   const pausedDurationMs = useWorkoutStore((s) => s.pausedDurationMs);
+  const pausedAt = useWorkoutStore((s) => s.pausedAt);
   const soundEnabled = useProgressStore((s) => s.settings.soundEnabled);
 
   const currentExercise = useWorkoutStore((s) => s.getCurrentExercise());
@@ -69,8 +70,23 @@ export function useWorkoutTimer(onComplete?: () => void) {
     finishGetReady,
   ]);
 
-  const totalWorkoutElapsed = workoutStartTs ? Date.now() - workoutStartTs - pausedDurationMs : 0;
+  // Paused: getRemainingMs is pinned to the snapshot's pausedTs, so deriving it
+  // here is both exact and stable across re-renders. Running: fall back to the
+  // ticked state, which the interval keeps fresh.
+  const displayedRemainingMs = isPaused ? getRemainingMs(timer) : remainingMs;
 
-  return { remainingMs, totalWorkoutElapsed };
+  // While paused, hold "now" at the moment of the pause so the accumulated time
+  // stops. pausedDurationMs only absorbs the pause on resume, so without this
+  // the clock would keep climbing on any re-render behind the pause overlay.
+  const totalWorkoutElapsed = workoutStartTs
+    ? Math.max(
+        0,
+        (isPaused && pausedAt ? pausedAt : Date.now()) -
+          workoutStartTs -
+          pausedDurationMs,
+      )
+    : 0;
+
+  return { remainingMs: displayedRemainingMs, totalWorkoutElapsed };
 }
 

@@ -37,6 +37,7 @@ import {
   deepSideToSideLunges,
   rotatingToeTouches,
   pendulumHamstringStretch,
+  openTheGate,
 } from "./warmUps";
 import {
   childsPose,
@@ -46,11 +47,19 @@ import {
   seatedHamstringStretch,
   figure4Left,
   figure4Right,
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
   catCow,
   seatedForwardFold,
 } from "./coolDowns";
 
+// Alternating glute-stretch finishers — every other workout uses the prone version
 const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END_PRONE = [
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
+  childsPose,
+];
 
 export const lowerBodyTemplates: WorkoutTemplate[] = [
   // ── 1 · Lower Body ─────────────────────────────────────────────────────────
@@ -72,7 +81,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: lunges, e2: [squats, squatJumps] },
       { e1: gluteBridges, e2: forwardLungeLeft, e3: forwardLungeRight },
-      { e1: reverseLunges, e2: squats },
+      { e1: reverseLunges, e2: sumoSquats },
     ],
     lvl2Extra: { e1: calfRaises, e2: sideLungesLeft, e3: sideLungesRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
@@ -112,7 +121,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       seatedForwardFold,
       seatedHamstringStretch,
       hipFlexorStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -133,9 +142,9 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       torsoTwists,
     ],
     supersets: [
-      { e1: reverseLungesLeft, e2: reverseLungesRight },
-      { e1: squats, e2: lunges, e3: prisonerSquats },
-      { e1: gluteBridges, e2: reverseLungesLeft, e3: reverseLungesRight },
+      { e1: reverseLungesLeft, e2: reverseLungesRight, e3: prisonerSquats },
+      { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
+      { e1: squats, e2: lunges },
     ],
     lvl2Extra: { e1: singleLegDeadliftLeft, e2: singleLegDeadliftRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
@@ -169,14 +178,14 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       { e1: gluteBridgeHolds, e2: donkeyKicksLeft, e3: donkeyKicksRight },
       { e1: reverseLunges, e2: sideLungesLeft, e3: sideLungesRight },
     ],
-    lvl2Extra: { e1: sideLungesLeft, e2: sideLungesRight },
+    lvl2Extra: { e1: singleLegGluteBridgeLeft, e2: singleLegGluteBridgeRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
       catCow,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -201,7 +210,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       { e1: [sumoSquats, squatJumps], e2: lunges },
       { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
     ],
-    lvl2Extra: { e1: sideLungesLeft, e2: sideLungesRight },
+    lvl2Extra: { e1: singleLegDeadliftLeft, e2: singleLegDeadliftRight },
     lvl3Extra: { e1: singleLegSquatsLeft, e2: singleLegSquatsRight },
     cooldowns: [
       hipFlexorStretch,
@@ -240,7 +249,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -254,7 +263,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     tags: ["lower body", "peak", "glutes"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
-      standingHipRotations,
+      openTheGate,
       deepSideToSideLunges,
       deepHoldSquatWithElbowPry,
       activeCalfStretch,

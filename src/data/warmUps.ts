@@ -136,6 +136,19 @@ export const highKneesMarch: Exercise = {
     "March in place, lifting one knee at a time as high as comfortable. Engage your core throughout.",
 };
 
+export const openTheGate: Exercise = {
+  id: "open-the-gate",
+  name: "Open the Gate",
+  duration: 30,
+  level: 3,
+  image: ["/images/exercises/open-the-gate.jpg"],
+  category: "warm-up",
+  target: "lower body",
+  matPosition: "standing",
+  instructions:
+    "Jog lightly in place. Every other step, drive one knee up to hip height and swing it open to the side, then bring it back down into the jog. Alternate legs and keep the rhythm smooth.",
+};
+
 export const rotatingToeTouches: Exercise = {
   id: "rotating-toe-touches",
   name: "Rotating Toe Touches",
@@ -160,5 +173,6 @@ export const warmupExercises: Exercise[] = [
   shoulderRotations,
   pendulumHamstringStretch,
   highKneesMarch,
+  openTheGate,
   rotatingToeTouches,
 ];

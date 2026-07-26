@@ -1,6 +1,7 @@
 import type { Workout } from "@/types";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
 import { formatForGoogle } from "@/lib/ttsCorrections";
+import { WORKOUT_COMPLETE_CUE } from "@/lib/workout";
 
 export async function preCacheWorkoutAudio(
   workout: Workout,
@@ -15,11 +16,14 @@ export async function preCacheWorkoutAudio(
     ...workout.cooldowns,
   ].filter((ex) => !ex.isRest);
 
-  const texts = exercises.flatMap((ex) =>
-    ([ex.name, ex.instructions] as (string | undefined)[]).filter(
-      (t): t is string => !!t,
+  const texts = [
+    ...exercises.flatMap((ex) =>
+      ([ex.name, ex.instructions] as (string | undefined)[]).filter(
+        (t): t is string => !!t,
+      ),
     ),
-  );
+    WORKOUT_COMPLETE_CUE,
+  ];
 
   for (const text of texts) {
     if (signal?.aborted) return;

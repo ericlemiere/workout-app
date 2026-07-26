@@ -3,13 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaMicrophoneAlt } from "react-icons/fa";
+import { FaShuffle } from "react-icons/fa6";
 
 import { useProgressStore } from "@/store/progressStore";
 import { useUserStore } from "@/store/userStore";
 import { useWorkoutSpeech } from "@/hooks/useWorkoutSpeech";
 import { createClient } from "@/lib/supabase/client";
 // import { clearTtsCache } from "@/lib/ttsCache";
-import { MUSIC_TRACKS } from "@/lib/musicTracks";
+import { MUSIC_TRACKS, SHUFFLE_TRACK_ID } from "@/lib/musicTracks";
 import { MIN_MUSIC_VOLUME, MAX_MUSIC_VOLUME } from "@/lib/audioSettings";
 import {
   previewSfxPack,
@@ -267,8 +268,13 @@ export function AudioSelectors({
       setTrackCached(true);
       return;
     }
-    const track = MUSIC_TRACKS.find((t) => t.id === settings.musicTrack);
-    if (!track) return;
+    // Shuffle draws from the whole list, so it only goes silent when nothing at
+    // all has been cached; a single pick needs that one file.
+    const isShuffle = settings.musicTrack === SHUFFLE_TRACK_ID;
+    const needed = isShuffle
+      ? MUSIC_TRACKS
+      : MUSIC_TRACKS.filter((t) => t.id === settings.musicTrack);
+    if (needed.length === 0) return;
     (async () => {
       try {
         const names = await caches.keys();
@@ -278,7 +284,8 @@ export function AudioSelectors({
           return;
         }
         const cache = await caches.open(name);
-        setTrackCached(!!(await cache.match(track.src)));
+        const hits = await Promise.all(needed.map((t) => cache.match(t.src)));
+        setTrackCached(isShuffle ? hits.some(Boolean) : hits.every(Boolean));
       } catch {
         setTrackCached(false);
       }
@@ -542,7 +549,9 @@ export function AudioSelectors({
         <div>
           {!isOnline && !trackCached && settings.musicEnabled && (
             <p className="text-xs text-amber-400 pt-4">
-              This track hasn't been played yet and isn't available offline.
+              {settings.musicTrack === SHUFFLE_TRACK_ID
+                ? "No tracks have been played yet, so none are available offline."
+                : "This track hasn't been played yet and isn't available offline."}
             </p>
           )}
           <button
@@ -551,9 +560,11 @@ export function AudioSelectors({
           >
             <div className="text-left flex gap-1">
               <p className="text-offwhite text-md font-bold">Music: </p>
-              <p className="text-offwhite text-md">
-                {MUSIC_TRACKS.find((t) => t.id === settings.musicTrack)?.name ??
-                  "None"}
+              <p className={`text-offwhite text-md`}>
+                {settings.musicTrack === SHUFFLE_TRACK_ID
+                  ? "Shuffle All"
+                  : (MUSIC_TRACKS.find((t) => t.id === settings.musicTrack)
+                      ?.name ?? "None")}
               </p>
             </div>
             <ChevronIcon open={musicOpen} />
@@ -568,6 +579,44 @@ export function AudioSelectors({
                 className="overflow-hidden"
               >
                 <div className="pb-4 space-y-2">
+                  {/* Shuffle — plays the whole list in a random order */}
+                  {(() => {
+                    const isSelected = settings.musicTrack === SHUFFLE_TRACK_ID;
+                    return (
+                      <div
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors ${isSelected ? "bg-lime/10 border border-lime/40" : "bg-slate-800/50 border border-transparent"}`}
+                      >
+                        <button
+                          className="flex items-center gap-3 flex-1 text-left"
+                          onClick={() =>
+                            updateSettings({ musicTrack: SHUFFLE_TRACK_ID })
+                          }
+                        >
+                          <span
+                            className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${isSelected ? "border-lime" : "border-slate-600"}`}
+                          >
+                            {isSelected && (
+                              <span className="w-2 h-2 rounded-full bg-lime" />
+                            )}
+                          </span>
+                          <span className="flex-1">
+                            <span
+                              className={`text-sm font-medium ${isSelected ? "text-offwhite" : "text-slate-400"}`}
+                            >
+                              Shuffle All
+                            </span>
+                          </span>
+                        </button>
+                        <div
+                          className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-slate-700 text-slate-300"
+                          aria-hidden="true"
+                        >
+                          <FaShuffle className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+                    );
+                  })()}
+
                   {MUSIC_TRACKS.map((track) => {
                     const isSelected = settings.musicTrack === track.id;
                     const isPreviewing = previewingId === track.id;
@@ -626,7 +675,8 @@ export function AudioSelectors({
             onChange={(e) => {
               const vol = parseFloat(e.target.value);
               updateSettings({ musicVolume: vol });
-              if (previewGainRef.current) previewGainRef.current.gain.value = vol;
+              if (previewGainRef.current)
+                previewGainRef.current.gain.value = vol;
             }}
             className="w-full accent-lime"
             aria-label="Music volume"

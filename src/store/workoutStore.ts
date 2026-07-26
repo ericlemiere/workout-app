@@ -34,6 +34,7 @@ interface WorkoutState {
 
   getRemainingMs: () => number;
   getProgress: () => number;
+  getElapsedMs: () => number;
   getCurrentExercise: () => Exercise | null;
   getNextExercise: () => Exercise | null;
   getTotalExerciseCount: () => number;
@@ -283,6 +284,15 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
 
   getRemainingMs: () => getRemainingMs(get().timer),
   getProgress: () => getProgress(get().timer),
+
+  // Wall-clock time spent actually working out — excludes every paused stretch,
+  // including one that is still open (pausedDurationMs only closes on resume).
+  getElapsedMs: () => {
+    const { workoutStartTs, pausedDurationMs, isPaused, pausedAt } = get();
+    if (!workoutStartTs) return 0;
+    const now = isPaused && pausedAt ? pausedAt : Date.now();
+    return Math.max(0, now - workoutStartTs - pausedDurationMs);
+  },
 
   getCurrentExercise: () => {
     const { workout, section, exerciseIndex } = get();

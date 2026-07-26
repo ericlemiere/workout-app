@@ -5,6 +5,7 @@ import {
   plankShoulderTaps,
   birdDog,
   deadBug,
+  gluteBridgeHoldKneeToChest,
 } from "./exercisesCore";
 import {
   kneelingPushUps,
@@ -35,6 +36,7 @@ import {
   torsoTwists,
   activeCalfStretch,
   standingHipRotations,
+  openTheGate,
 } from "./warmUps";
 import {
   childsPose,
@@ -45,9 +47,17 @@ import {
   catCow,
   figure4Left,
   figure4Right,
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
 } from "./coolDowns";
 
+// Alternating glute-stretch finishers — every other workout uses the prone version
 const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END_PRONE = [
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
+  childsPose,
+];
 
 export const fullBodyTemplates: WorkoutTemplate[] = [
   // ── 4 · Full Body ──────────────────────────────────────────────────────────
@@ -72,16 +82,16 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
         e1: [burpeeWalk, burpees, burpees],
         e2: [mountainClimberWalks, mountainClimbers],
       },
-      { e1: lunges, e2: reverseLunges },
+      { e1: lunges, e2: [kneelingPushUps, pushUps] },
     ],
-    lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
-    lvl3Extra: { e1: shadowBoxing, e2: [squatJumps] },
+    lvl2Extra: { e1: reverseLunges, e2: plankShoulderTaps },
+    lvl3Extra: { e1: shadowBoxing, e2: squatJumps },
     cooldowns: [
       hipFlexorStretch,
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -103,10 +113,10 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: gluteBridgeHolds, e2: [birdDog, mountainClimbers] },
-      { e1: [squats, jumpingJacks], e2: calfRaises },
-      { e1: lunges, e2: [calfRaises, highKnees] },
+      { e1: [squats, jumpingJacks], e2: [calfRaises, highKnees] },
+      { e1: lunges, e2: [kneelingPushUps, pushUps] },
     ],
-    lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
+    lvl2Extra: { e1: inchworms, e2: plankShoulderTaps },
     lvl3Extra: { e1: shadowBoxing, e2: squatJumps },
     cooldowns: [
       hipFlexorStretch,
@@ -134,18 +144,18 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       activeCalfStretch,
     ],
     supersets: [
+      { e1: [squats, jumpingJacks], e2: burpeeWalk },
       { e1: [calfRaises, highKnees], e2: lunges },
-      { e1: [squats, jumpingJacks], e2: calfRaises },
-      { e1: burpeeWalk, e2: [deadBug, mountainClimbers] },
+      { e1: [kneelingPushUps, pushUps], e2: [deadBug, mountainClimbers] },
     ],
-    lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
+    lvl2Extra: { e1: inchworms, e2: plankShoulderTaps },
     lvl3Extra: { e1: shadowBoxing, e2: fourPointBoxJumps },
     cooldowns: [
       hipFlexorStretch,
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -154,7 +164,7 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     id: "workout-16",
     name: "Workout 16 · Full Body",
     description:
-      "Floor power and standing cardio in alternating sets. Glute bridge holds and airplane push-ups, then jumping jacks and lunge intervals.",
+      "Floor power and standing cardio in alternating sets. Glute bridge holds with knee drives and airplane push-ups, then jumping jacks and lunge intervals.",
     estimatedDuration: 20,
     tags: ["full body", "conditioning", "strength"],
     coverImage: "/images/workouts/full-body.png",
@@ -166,7 +176,7 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       activeCalfStretch,
     ],
     supersets: [
-      { e1: gluteBridgeHolds, e2: airplanePushUps },
+      { e1: gluteBridgeHoldKneeToChest, e2: airplanePushUps },
       { e1: [calfRaises, highKnees], e2: reverseLunges },
       { e1: [squats, jumpingJacks], e2: lunges },
     ],
@@ -195,24 +205,24 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       torsoTwists,
       deepSideToSideLunges,
       activeCalfStretch,
-      standingHipRotations,
+      openTheGate,
     ],
     supersets: [
       {
         e1: [burpeeWalk, burpees, burpees],
         e2: [mountainClimberWalks, mountainClimbers],
       },
-      { e1: gluteBridgeHolds, e2: burpeeWalk },
+      { e1: gluteBridgeHolds, e2: [kneelingPushUps, pushUps] },
       { e1: [squats, jumpingJacks, highKnees], e2: lunges },
     ],
-    lvl2Extra: { e1: inchworms, e2: [kneelingPushUps, pushUps] },
+    lvl2Extra: { e1: inchworms, e2: walkoutPushUps },
     lvl3Extra: { e1: shadowBoxing, e2: fourPointBoxJumps },
     cooldowns: [
       hipFlexorStretch,
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 
@@ -229,15 +239,18 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       dynamicSideBends,
       deepSideToSideLunges,
       torsoTwists,
-      standingHipRotations,
+      openTheGate,
       activeCalfStretch,
     ],
     supersets: [
-      { e1: [burpeeWalk, burpees, burpees], e2: kneelingPushUps },
+      { e1: [burpeeWalk, burpees, burpees], e2: [kneelingPushUps, pushUps] },
       { e1: [squats, squatJumps], e2: reverseLunges },
-      { e1: burpeeWalk, e2: airplanePushUps },
+      {
+        e1: [mountainClimberWalks, mountainClimbers],
+        e2: airplanePushUps,
+      },
     ],
-    lvl2Extra: { e1: walkoutPushUps, e2: [kneelingPushUps, pushUps] },
+    lvl2Extra: { e1: walkoutPushUps, e2: plankShoulderTaps },
     lvl3Extra: { e1: shadowBoxing, e2: fourPointBoxJumps },
     cooldowns: [
       quadStretchLeft,
@@ -262,24 +275,24 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       deepSideToSideLunges,
       torsoTwists,
       activeCalfStretch,
-      standingHipRotations,
+      openTheGate,
     ],
     supersets: [
       {
         e1: [burpeeWalk, burpees, burpees],
         e2: [mountainClimberWalks, mountainClimbers],
       },
-      { e1: [squats, squatJumps], e2: [lunges, jumpingJacks] },
+      { e1: [squats, squatJumps], e2: [kneelingPushUps, pushUps] },
       { e1: [calfRaises, highKnees], e2: reverseLunges },
     ],
-    lvl2Extra: { e1: inchworms, e2: [kneelingPushUps, pushUps] },
+    lvl2Extra: { e1: inchworms, e2: [lunges, jumpingJacks] },
     lvl3Extra: { e1: shadowBoxing, e2: fourPointBoxJumps },
     cooldowns: [
       hipFlexorStretch,
       quadStretchLeft,
       quadStretchRight,
       seatedHamstringStretch,
-      ...COOLDOWN_END,
+      ...COOLDOWN_END_PRONE,
     ],
   },
 ];

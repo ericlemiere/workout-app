@@ -88,6 +88,30 @@ export const figure4Right: Exercise = {
     "Cross right ankle over left knee while lying on back. Pull the left leg toward chest.",
 };
 
+export const proneGluteStretchLeft: Exercise = {
+  id: "prone-glute-stretch-left",
+  name: "Prone Glute Stretch Left",
+  duration: 30,
+  image: ["/images/exercises/prone-glute-stretch-left.jpg"],
+  category: "cool-down",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Lie face down. Bend your left knee and draw it up under your chest so the shin crosses beneath you. Extend your right leg straight behind, then sink your hips toward the floor and breathe.",
+};
+
+export const proneGluteStretchRight: Exercise = {
+  id: "prone-glute-stretch-right",
+  name: "Prone Glute Stretch Right",
+  duration: 30,
+  image: ["/images/exercises/prone-glute-stretch-right.jpg"],
+  category: "cool-down",
+  target: "glutes",
+  matPosition: "floor",
+  instructions:
+    "Lie face down. Bend your right knee and draw it up under your chest so the shin crosses beneath you. Extend your left leg straight behind, then sink your hips toward the floor and breathe.",
+};
+
 export const chestStretch: Exercise = {
   id: "chest-stretch",
   name: "Chest Stretch",
@@ -192,6 +216,8 @@ export const cooldownExercises: Exercise[] = [
   seatedHamstringStretch,
   figure4Left,
   figure4Right,
+  proneGluteStretchLeft,
+  proneGluteStretchRight,
   chestStretch,
   tricepStretch,
   upperBackStretch,

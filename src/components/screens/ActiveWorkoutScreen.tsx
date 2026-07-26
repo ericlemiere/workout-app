@@ -17,7 +17,7 @@ import { ensureAudioContextResumed } from "@/lib/audio";
 import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
 import {
-  getCurrentWorkoutMusicTrackId,
+  getCurrentMusicSelectionId,
   setWorkoutMusicVolume,
   startWorkoutMusic,
   stopWorkoutMusic,
@@ -61,8 +61,8 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   const isGetReady = useWorkoutStore((s) => s.isGetReady);
   const isPaused = useWorkoutStore((s) => s.isPaused);
   const timer = useWorkoutStore((s) => s.timer);
-  const workoutStartTs = useWorkoutStore((s) => s.workoutStartTs);
 
+  const getElapsedMs = useWorkoutStore((s) => s.getElapsedMs);
   const startWorkout = useWorkoutStore((s) => s.startWorkout);
   const beginSession = useWorkoutStore((s) => s.beginSession);
   const pauseWorkout = useWorkoutStore((s) => s.pauseWorkout);
@@ -100,11 +100,11 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   useEffect(() => {
     if (section === "complete") {
       persistMusicOnUnmountRef.current = true;
-      const durationMs = workoutStartTs ? Date.now() - workoutStartTs : 0;
-      recordCompletion(workoutId, durationMs, level);
+      // Paused stretches don't count toward the recorded workout duration.
+      recordCompletion(workoutId, getElapsedMs(), level);
       router.replace(`/workout/${workoutId}/complete`);
     }
-  }, [section, workoutId, workoutStartTs, recordCompletion, router]);
+  }, [section, workoutId, getElapsedMs, recordCompletion, router]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Voice cues: split across get-ready start vs exercise start
   useEffect(() => {
@@ -169,10 +169,12 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
     setWorkoutMusicVolume(musicVolume);
   }, [musicVolume]);
 
-  // Swap to the newly selected track when changed mid-workout
+  // Swap to the newly selected track when changed mid-workout. Compare against
+  // the *selection*, not the sounding track — under shuffle those differ, and
+  // comparing tracks would restart the run on every volume nudge.
   useEffect(() => {
-    const currentTrackId = getCurrentWorkoutMusicTrackId();
-    if (!currentTrackId || currentTrackId === musicTrack) return;
+    const selectionId = getCurrentMusicSelectionId();
+    if (!selectionId || selectionId === musicTrack) return;
     startWorkoutMusic(musicTrack, musicVolume);
   }, [musicTrack, musicVolume]);
 

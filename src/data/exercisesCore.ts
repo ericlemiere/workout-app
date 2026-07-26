@@ -186,6 +186,19 @@ export const scissorKicks: Exercise = {
     "Lie on back, legs straight, hands under your butt. Lift legs slightly off the floor and alternate crossing one leg over the other in a scissor motion.",
 };
 
+export const gluteBridgeHoldKneeToChest: Exercise = {
+  id: "glute-bridge-hold-knee-to-chest",
+  name: "Glute Bridge Hold with Alternating Knee to Chest",
+  duration: 30,
+  level: 1,
+  image: ["/images/exercises/glute-bridge-hold-knee-to-chest.jpg"],
+  category: "exercise",
+  target: "core",
+  matPosition: "floor",
+  instructions:
+    "Lie on your back, knees bent, and drive your hips up into a glute bridge. Holding the bridge, pull one knee toward your chest, lower the foot back down, then alternate sides. Keep your hips high and level throughout.",
+};
+
 export const flutterKicks: Exercise = {
   id: "flutter-kicks",
   name: "Flutter Kicks",
@@ -305,6 +318,7 @@ export const mainExercises: Exercise[] = [
   sidePlankLeft,
   sidePlankRight,
   scissorKicks,
+  gluteBridgeHoldKneeToChest,
   flutterKicks,
 
   // Level 2
