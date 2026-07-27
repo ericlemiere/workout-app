@@ -183,7 +183,7 @@ export const donkeyKicksLeft: Exercise = {
   target: "glutes",
   matPosition: "floor",
   instructions:
-    "On hands and knees, kick your left leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
+    "On hands and knees, kick your left leg back and up, squeezing the glute at the top. Keep hips level.",
 };
 
 export const donkeyKicksRight: Exercise = {
@@ -196,7 +196,7 @@ export const donkeyKicksRight: Exercise = {
   target: "glutes",
   matPosition: "floor",
   instructions:
-    "On hands and knees, kick your right leg back and up, squeezing the glute at the top. Keep hips level. Do 20 seconds each side.",
+    "On hands and knees, kick your right leg back and up, squeezing the glute at the top. Keep hips level.",
 };
 
 export const forwardLungeLeft: Exercise = {
