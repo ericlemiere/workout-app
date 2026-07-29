@@ -26,6 +26,7 @@ export function ProfileScreen() {
   const displayName = useUserStore((s) => s.displayName);
   const setDisplayName = useUserStore((s) => s.setDisplayName);
   const userEmail = useUserStore((s) => s.userEmail);
+  const memberSince = useUserStore((s) => s.memberSince);
   const authReady = useUserStore((s) => s.authReady);
   const completed = useProgressStore((s) => s.completed);
 
@@ -65,7 +66,9 @@ export function ProfileScreen() {
         });
         if (error) throw error;
       }
-      setDisplayName(trimmed || (isSignedIn ? (userEmail ?? 'Guest') : 'Guest'));
+      setDisplayName(
+        trimmed || (isSignedIn ? (userEmail ?? "Guest") : "Guest"),
+      );
       setEditingName(false);
     } catch {
       setNameError("Couldn't save your name. Please try again.");
@@ -87,6 +90,17 @@ export function ProfileScreen() {
 
   const isSignedIn = authReady && !isOffline && !!userEmail;
   const hasGuestProgress = !userEmail && completed.length > 0;
+
+  function formatMemberSince(isoDate: string | null) {
+    if (!isoDate) return "-";
+    const date = new Date(isoDate);
+    if (Number.isNaN(date.getTime())) return "-";
+    return new Intl.DateTimeFormat(undefined, {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  }
 
   function handleSignInClick() {
     document.cookie = "moov_guest=; path=/; max-age=0";
@@ -172,7 +186,7 @@ export function ProfileScreen() {
             )}
           </div>
           {/* Name row */}
-          <div className="py-4">
+          <div className="py-4 border-b border-lime/50">
             {editingName ? (
               <div className="space-y-3">
                 <input
@@ -213,9 +227,7 @@ export function ProfileScreen() {
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-offwhite font-medium">Profile name</p>
-                  <p className="text-slate-500 text-xs mt-0.5">
-                    {displayName}
-                  </p>
+                  <p className="text-slate-500 text-xs mt-0.5">{displayName}</p>
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
@@ -226,6 +238,17 @@ export function ProfileScreen() {
                 </motion.button>
               </div>
             )}
+          </div>
+          {/* Member Since */}
+          <div className="py-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-offwhite font-medium">MOOVing Since</p>
+              </div>
+              <p className="text-slate-500 text-xs mt-0.5">
+                {formatMemberSince(memberSince)}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -238,14 +261,19 @@ export function ProfileScreen() {
           confirmLabel="Sign out"
         />
 
-        <ModalFromBottom open={showSyncModal} onClose={() => setShowSyncModal(false)}>
+        <ModalFromBottom
+          open={showSyncModal}
+          onClose={() => setShowSyncModal(false)}
+        >
           <div className="px-6 pt-8 pb-10 space-y-5">
             <div className="space-y-1">
               <h2 className="text-offwhite text-xl font-bold font-orbitron">
                 Save your progress?
               </h2>
               <p className="text-slate-400 text-sm leading-relaxed">
-                You have {completed.length} completed workout{completed.length !== 1 ? "s" : ""} as a guest. Would you like to keep them when you sign in?
+                You have {completed.length} completed workout
+                {completed.length !== 1 ? "s" : ""} as a guest. Would you like
+                to keep them when you sign in?
               </p>
             </div>
             <div className="space-y-3">
