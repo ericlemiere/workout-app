@@ -208,6 +208,54 @@ export const seatedForwardFold: Exercise = {
     "Sit with legs crossed. Hinge at hips and reach forward to the floor, keeping back straight.",
 };
 
+export const seatedCrossoverStretchLeft: Exercise = {
+  id: "seated-crossover-stretch-left",
+  name: "Seated Crossover Stretch Left",
+  duration: 30,
+  image: ["/images/exercises/seated-crossover-stretch-left.jpg"],
+  category: "cool-down",
+  target: "full body",
+  matPosition: "floor",
+  instructions:
+    "Sit with legs in front of you. Cross your right ankle over your left knee, place your left elbow on the outside of your right knee, and gently twist your torso to the right. Lift chest, hold, and breathe.",
+};
+
+export const seatedCrossoverStretchRight: Exercise = {
+  id: "seated-crossover-stretch-right",
+  name: "Seated Crossover Stretch Right",
+  duration: 30,
+  image: ["/images/exercises/seated-crossover-stretch-right.jpg"],
+  category: "cool-down",
+  target: "full body",
+  matPosition: "floor",
+  instructions:
+    "Sit with legs in front of you. Cross your left ankle over your right knee, place your right elbow on the outside of your left knee, and gently twist your torso to the left. Lift chest, hold, and breathe.",
+};
+
+export const seatedCrossoverHamstringStretchLeft: Exercise = {
+  id: "seated-crossover-hamstring-stretch-left",
+  name: "Seated Crossover Hamstring Stretch Left",
+  duration: 30,
+  image: ["/images/exercises/seated-crossover-hamstring-stretch-left.jpg"],
+  category: "cool-down",
+  target: "lower body",
+  matPosition: "floor",
+  instructions:
+    "Sit with legs in front of you. Cross your right ankle over your left knee, hug your right knee toward your chest. Hinge forward to stretch your hamstring, and hug your knee to stretch your hip.",
+};
+
+export const seatedCrossoverHamstringStretchRight: Exercise = {
+  id: "seated-crossover-hamstring-stretch-right",
+  name: "Seated Crossover Hamstring Stretch Right",
+  duration: 30,
+  image: ["/images/exercises/seated-crossover-hamstring-stretch-right.jpg"],
+  category: "cool-down",
+  target: "lower body",
+  matPosition: "floor",
+  instructions:
+    "Sit with legs in front of you. Cross your left ankle over your right knee, hug your left knee toward your chest. Hinge forward to stretch your hamstring, and hug your knee to stretch your hip.",
+};
+
 export const cooldownExercises: Exercise[] = [
   childsPose,
   hipFlexorStretch,
@@ -226,4 +274,8 @@ export const cooldownExercises: Exercise[] = [
   spinalTwistRight,
   plankToDownwardDog,
   seatedForwardFold,
+  seatedCrossoverStretchLeft,
+  seatedCrossoverStretchRight,
+  seatedCrossoverHamstringStretchLeft,
+  seatedCrossoverHamstringStretchRight,
 ];

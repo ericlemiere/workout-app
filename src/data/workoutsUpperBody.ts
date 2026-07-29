@@ -17,7 +17,12 @@ import {
   shoulderTapPushUps,
   downwardDogPushUps,
 } from "./exercisesUpperBody";
-import { burpeeWalk, inchworms, pushUpToDownwardDog } from "./exercisesFullBody";
+import {
+  burpeeWalk,
+  inchworms,
+  pushUpToDownwardDog,
+  walkoutPushUps,
+} from "./exercisesFullBody";
 import {
   dynamicSideBends,
   chestOpenersWithRotation,
@@ -99,11 +104,14 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: burpeeWalk, e2: wavePushUps },
       { e1: [mountainClimberWalks, mountainClimbers], e2: plank },
-      { e1: airplanePushUps, e2: [spiderCrossPlanks, inchworms] },
+      {
+        e1: airplanePushUps,
+        e2: [spiderCrossPlanks, pushUpToDownwardDog],
+      },
     ],
     lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
     lvl3Extra: { e1: plankWalkOuts, e2: downwardDogPushUps },
-    cooldowns: [chestStretch, tricepStretch, plankToDownwardDog, ...COOLDOWN_END],
+    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
   },
 
   // ── 10 · Upper Body ────────────────────────────────────────────────────────
@@ -127,7 +135,7 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
         e1: [kneelingPushUps, pushUps],
         e2: [mountainClimberWalks, mountainClimbers],
       },
-      { e1: spiderCrossPlanks, e2: plank },
+      { e1: spiderCrossPlanks, e2: highPlankToElbowPlank },
       { e1: burpeeWalk, e2: wavePushUps },
     ],
     lvl2Extra: { e1: plankShoulderTaps, e2: downwardDogPushUps },
@@ -135,7 +143,7 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     cooldowns: [
       chestStretch,
       tricepStretch,
-      upperBackStretch,
+      plankToDownwardDog,
       ...COOLDOWN_END_PRONE,
     ],
   },
@@ -161,9 +169,14 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
       { e1: [kneelingPushUps, pushUps], e2: plank },
       { e1: burpeeWalk, e2: airplanePushUps },
     ],
-    lvl2Extra: { e1: wavePushUps, e2: shoulderTapPushUps },
-    lvl3Extra: { e1: plankWalkOuts, e2: downwardDogPushUps },
-    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
+    lvl2Extra: { e1: wavePushUps, e2: downwardDogPushUps },
+    lvl3Extra: { e1: plankWalkOuts, e2: pushUpToDownwardDog },
+    cooldowns: [
+      chestStretch,
+      tricepStretch,
+      plankToDownwardDog,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 18 · Upper Body ────────────────────────────────────────────────────────
@@ -216,11 +229,16 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: spiderCrossPlanks, e2: [kneelingPushUps, pushUps] },
       { e1: burpeeWalk, e2: [mountainClimberWalks, mountainClimbers] },
-      { e1: wavePushUps, e2: plank },
+      { e1: wavePushUps, e2: highPlankToElbowPlank },
     ],
     lvl2Extra: { e1: airplanePushUps, e2: shoulderTapPushUps },
-    lvl3Extra: { e1: downwardDogPushUps, e2: tableTopDips },
-    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
+    lvl3Extra: { e1: walkoutPushUps, e2: tableTopDips },
+    cooldowns: [
+      plankToDownwardDog,
+      tricepStretch,
+      upperBackStretch,
+      ...COOLDOWN_END,
+    ],
   },
 
   // ── 26 · Upper Body ────────────────────────────────────────────────────────
@@ -247,8 +265,8 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
         e2: [airplanePushUps, inchworms],
       },
     ],
-    lvl2Extra: { e1: plankShoulderTaps, e2: shoulderTapPushUps },
-    lvl3Extra: { e1: plankWalkOuts, e2: downwardDogPushUps },
+    lvl2Extra: { e1: plankWalkOuts, e2: shoulderTapPushUps },
+    lvl3Extra: { e1: walkoutPushUps, e2: pushUpToDownwardDog },
     cooldowns: [
       chestStretch,
       tricepStretch,
