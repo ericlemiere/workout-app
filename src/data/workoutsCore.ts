@@ -29,6 +29,7 @@ import {
   torsoTwists,
   activeCalfStretch,
   standingHipRotations,
+  rotatingToeTouches,
 } from "./warmUps";
 import {
   childsPose,
@@ -158,14 +159,14 @@ export const coreTemplates: WorkoutTemplate[] = [
     warmups: [
       dynamicSideBends,
       highKneesMarch,
-      torsoTwists,
+      rotatingToeTouches,
       standingHipRotations,
       activeCalfStretch,
     ],
     supersets: [
       { e1: airplanePushUps, e2: plankRotations },
-      { e1: fireHydrantLeft, e2: fireHydrantRight, e3: deadBug },
-      { e1: birdDog, e2: gluteBridgeHoldKneeToChest },
+      { e1: fireHydrantLeft, e2: fireHydrantRight, e3: birdDog },
+      { e1: deadBug, e2: gluteBridgeHoldKneeToChest },
     ],
     lvl2Extra: { e1: sidePlankLeft, e2: sidePlankRight },
     lvl3Extra: { e1: [heelTaps, russianTwists], e2: windshieldWipers },
