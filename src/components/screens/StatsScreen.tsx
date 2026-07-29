@@ -8,9 +8,11 @@ import { RiCalendarCheckLine } from "react-icons/ri";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoFlame } from "react-icons/io5";
 import { GiCycle } from "react-icons/gi";
+import { RiBarChartFill } from "react-icons/ri";
 import { MoonIconStats } from "@/lib/moonIcon";
 import { Achievements } from "./Achievements";
 import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const APP_URL = "https://moov-1.vercel.app/";
 
@@ -100,13 +102,11 @@ export function StatsScreen() {
       className="min-h-screen max-w-xl mx-auto pb-28 safe-top"
     >
       <div className="px-4 pt-8 pb-6">
-        <h1 className="text-offwhite text-3xl font-bold font-orbitron tracking-wider">
-          Stats
-        </h1>
-      </div>
-
-      <div className="px-4 flex flex-col gap-6">
-        <div className="bg-charcoal/50 rounded-2xl px-4">
+        <SectionHeader
+          label="Stats and Achievements"
+          icon={<RiBarChartFill size={20} />}
+        />
+        <div className="bg-charcoal/50 rounded-2xl px-4 mb-6">
           <StatRow
             label="Current Streak"
             value={`${streak.currentStreak}d`}
@@ -217,7 +217,7 @@ export function StatsScreen() {
 
         <Achievements />
 
-        <div className="bg-charcoal/50 rounded-2xl px-4">
+        <div className="bg-charcoal/50 rounded-2xl px-4 mt-6">
           <div className="flex items-center justify-between gap-2 py-4">
             <div>
               <p className="text-offwhite font-medium">Brag To Someone!</p>
