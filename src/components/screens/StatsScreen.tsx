@@ -102,10 +102,7 @@ export function StatsScreen() {
       className="min-h-screen max-w-xl mx-auto pb-28 safe-top"
     >
       <div className="px-4 pt-8 pb-6">
-        <SectionHeader
-          label="Stats and Achievements"
-          icon={<RiBarChartFill size={20} />}
-        />
+        <SectionHeader label="Stats" icon={<RiBarChartFill size={20} />} />
         <div className="bg-charcoal/50 rounded-2xl px-4 mb-6">
           <StatRow
             label="Current Streak"
