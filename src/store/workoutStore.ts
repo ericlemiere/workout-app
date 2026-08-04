@@ -9,7 +9,11 @@ import {
   getRemainingMs,
   getProgress,
 } from "@/lib/timer";
-import { GET_READY_DEFAULT, GET_READY_SHORT } from "@/lib/workout";
+import {
+  GET_READY_DEFAULT,
+  GET_READY_SHORT,
+  countRealExercises,
+} from "@/lib/workout";
 
 interface WorkoutState {
   workout: Workout | null;
@@ -314,11 +318,7 @@ export const useWorkoutStore = create<WorkoutState>((set, get) => ({
   getTotalExerciseCount: () => {
     const { workout } = get();
     if (!workout) return 0;
-    return (
-      workout.warmups.length +
-      workout.exercises.filter((e) => !e.isRest).length +
-      workout.cooldowns.length
-    );
+    return countRealExercises(workout);
   },
 
   getOverallExerciseNumber: () => {

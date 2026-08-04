@@ -72,7 +72,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 1 · Lower Body",
     description:
       "Foundation lower body session. Lunges and squats standing, then glutes and donkey kicks on the floor.",
-    estimatedDuration: 20,
     tags: ["lower body", "glutes", "foundation"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -108,7 +107,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 5 · Lower Body",
     description:
       "Lateral leg strength and glute activation. Side lunges standing, then glute bridges and floor work.",
-    estimatedDuration: 20,
     tags: ["lower body", "glutes", "lateral"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -143,7 +141,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 9 · Lower Body",
     description:
       "Single-leg stability and glute strength. Standing balance work then floor glute activation.",
-    estimatedDuration: 20,
     tags: ["lower body", "stability", "single-leg"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -176,7 +173,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 13 · Lower Body",
     description:
       "Explosive standing lower body paired with floor glute work. Jump squats and lunges alternate with glute bridge holds and donkey kicks.",
-    estimatedDuration: 20,
     tags: ["lower body", "power", "glutes"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -213,7 +209,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 17 · Lower Body",
     description:
       "Progressive lower body strength. Standing balance and jump work, then floor glute activation to finish.",
-    estimatedDuration: 20,
     tags: ["lower body", "strength", "balance"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -225,8 +220,8 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: squats, e2: sideLungesLeft, e3: sideLungesRight },
-      { e1: [sumoSquats, squatJumps], e2: lunges },
       { e1: gluteBridges, e2: donkeyKicksLeft, e3: donkeyKicksRight },
+      { e1: [sumoSquats, squatJumps], e2: lunges },
     ],
     lvl2Extra: {
       e1: prisonerSquats,
@@ -251,7 +246,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 21 · Lower Body",
     description:
       "Reverse lunges and side lunges standing, then glute bridges and fire hydrant on the floor.",
-    estimatedDuration: 20,
     tags: ["lower body", "glutes", "endurance"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [
@@ -287,7 +281,6 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 25 · Lower Body",
     description:
       "Peak lower body session. Explosive standing work and floor glute isolation for maximum leg and glute strength.",
-    estimatedDuration: 20,
     tags: ["lower body", "peak", "glutes"],
     coverImage: "/images/workouts/lower-body.png",
     warmups: [

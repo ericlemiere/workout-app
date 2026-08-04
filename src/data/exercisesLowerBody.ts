@@ -40,7 +40,7 @@ export const sumoSquats: Exercise = {
   target: "lower body",
   matPosition: "standing",
   instructions:
-    "Feet wider than shoulder-width with toes pointed out and hands together in front of chest. Sit back and down until thighs are parallel. Drive through heels to stand.",
+    "Feet wider than shoulder-width with toes pointed out and hands clasped together behind head. Sit back and down until thighs are parallel. Drive through heels to stand.",
 };
 
 export const squatsToCalfRaises: Exercise = {

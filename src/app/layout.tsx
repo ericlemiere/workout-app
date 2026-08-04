@@ -59,14 +59,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geist.variable} ${orbitron.variable} ${spaceMono.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${geist.variable} ${orbitron.variable} ${spaceMono.variable} h-full`}
+    >
       <body className="h-full bg-navy text-offwhite antialiased font-sans overflow-x-hidden">
-        <script dangerouslySetInnerHTML={{ __html: "history.scrollRestoration='manual'" }} />
-        <ServiceWorkerRegistrar />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "history.scrollRestoration='manual'",
+          }}
+        />
+        {process.env.NODE_ENV === "production" ? (
+          <ServiceWorkerRegistrar />
+        ) : null}
         <SplashScreen />
-        <AuthGuard>
-          {children}
-        </AuthGuard>
+        <AuthGuard>{children}</AuthGuard>
       </body>
     </html>
   );

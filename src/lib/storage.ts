@@ -3,7 +3,9 @@ import type {
   StreakData,
   AppSettings,
   UserLevel,
+  RefuelOffer,
 } from "@/types";
+import { toLocalDateString, localDateOf, shiftLocalDate } from "@/lib/refuel";
 import { DEFAULT_MUSIC_VOLUME } from "@/lib/audioSettings";
 import { DEFAULT_SFX_PACK } from "@/lib/sfxPacks";
 import { SHUFFLE_TRACK_ID } from "@/lib/musicTracks";
@@ -19,6 +21,8 @@ const KEYS = {
   earnedAchievements: "workout_earned_achievements",
   levelCycles: "workout_level_cycles",
   levelLunarCycles: "workout_level_lunar_cycles",
+  refuelClaimed: "workout_refuel_claimed",
+  refuelOffer: "workout_refuel_offer",
 } as const;
 
 export function getCompletedWorkouts(): CompletedWorkout[] {
@@ -58,16 +62,32 @@ export function getStreakData(): StreakData {
     };
 
     if (data.lastCompletedDate && data.currentStreak > 0) {
-      const now = new Date();
-      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-      const [y, m, d] = today.split("-").map(Number);
-      const prev = new Date(y, m - 1, d - 1);
-      const yesterday = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-${String(prev.getDate()).padStart(2, "0")}`;
+      const today = toLocalDateString(new Date());
+      const yesterday = shiftLocalDate(today, -1);
 
       if (
         data.lastCompletedDate !== today &&
         data.lastCompletedDate !== yesterday
       ) {
+        // The streak is over. If exactly one day was missed, leave an offer so
+        // the user can spend a banked refuel day to restore it. This has to
+        // happen here because currentStreak is about to be zeroed and the
+        // original value would otherwise be gone.
+        //
+        // Requiring a real workout on lastCompletedDate is what stops refuel
+        // days from being chained: claiming sets lastCompletedDate to the
+        // missed day, which has no workout, so a second missed day in a row
+        // produces no new offer.
+        if (
+          data.lastCompletedDate === shiftLocalDate(today, -2) &&
+          hasWorkoutOn(data.lastCompletedDate)
+        ) {
+          saveRefuelOffer({
+            streak: data.currentStreak,
+            missedDate: yesterday,
+            offeredOn: today,
+          });
+        }
         const reset = { ...data, currentStreak: 0 };
         localStorage.setItem(KEYS.streak, JSON.stringify(reset));
         return reset;
@@ -232,7 +252,80 @@ export function saveLevelLunarCycles(v: Record<2 | 3, number>): void {
   localStorage.setItem(KEYS.levelLunarCycles, JSON.stringify(v));
 }
 
+function hasWorkoutOn(date: string): boolean {
+  return getCompletedWorkouts().some((c) => localDateOf(c.completedAt) === date);
+}
+
+export function getRefuelClaimed(): number {
+  if (typeof window === "undefined") return 0;
+  return parseInt(localStorage.getItem(KEYS.refuelClaimed) ?? "0", 10) || 0;
+}
+
+export function saveRefuelClaimed(count: number): void {
+  localStorage.setItem(KEYS.refuelClaimed, String(count));
+}
+
+function saveRefuelOffer(offer: RefuelOffer): void {
+  localStorage.setItem(KEYS.refuelOffer, JSON.stringify(offer));
+}
+
+export function clearRefuelOffer(): void {
+  localStorage.removeItem(KEYS.refuelOffer);
+}
+
+// An offer is only good on the day the break was noticed — the user has to come
+// back the very next day. A stale one is discarded on read.
+export function getRefuelOffer(): RefuelOffer | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const offer: RefuelOffer | null = JSON.parse(
+      localStorage.getItem(KEYS.refuelOffer) ?? "null",
+    );
+    if (!offer) return null;
+    if (offer.offeredOn !== toLocalDateString(new Date())) {
+      clearRefuelOffer();
+      return null;
+    }
+    return offer;
+  } catch {
+    return null;
+  }
+}
+
+// Spends a banked refuel day to restore the broken streak. Returns the restored
+// streak, or null if there was nothing to claim.
+export function claimRefuelDay(): StreakData | null {
+  const offer = getRefuelOffer();
+  if (!offer) return null;
+
+  const today = toLocalDateString(new Date());
+  const streak = getStreakData();
+
+  // If they already trained today, that workout landed while the streak was
+  // broken and counted as a fresh day 1 — so the restored streak includes it.
+  const restored: StreakData = hasWorkoutOn(today)
+    ? {
+        currentStreak: offer.streak + 1,
+        longestStreak: Math.max(streak.longestStreak, offer.streak + 1),
+        lastCompletedDate: today,
+      }
+    : {
+        // Pointing at the missed day makes today's workout continue the streak
+        // through the existing updateStreakData path.
+        currentStreak: offer.streak,
+        longestStreak: Math.max(streak.longestStreak, offer.streak),
+        lastCompletedDate: offer.missedDate,
+      };
+
+  saveStreakData(restored);
+  saveRefuelClaimed(getRefuelClaimed() + 1);
+  clearRefuelOffer();
+  return restored;
+}
+
 export function clearAllProgress(): void {
+  localStorage.removeItem(KEYS.refuelClaimed);
+  localStorage.removeItem(KEYS.refuelOffer);
   localStorage.removeItem(KEYS.completed);
   localStorage.removeItem(KEYS.streak);
   localStorage.removeItem(KEYS.cycleStartedAt);

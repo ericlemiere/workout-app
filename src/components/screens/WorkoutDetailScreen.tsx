@@ -7,8 +7,8 @@ import type { WorkoutTemplate, Exercise, UserLevel } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { ExerciseModal } from "./ExerciseModal";
 import { formatDuration } from "@/lib/timer";
-import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
+import { countRealExercises } from "@/lib/workout";
 import { useUserStore } from "@/store/userStore";
 import { useProgressStore } from "@/store/progressStore";
 import { preCacheWorkoutAudio } from "@/lib/preCacheAudio";
@@ -97,11 +97,8 @@ export function WorkoutDetailScreen({ template }: Props) {
     return () => controller.abort();
   }, [workout, voiceName, voiceCuesEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const totalRealExercises =
-    workout.warmups.length +
-    workout.exercises.filter((e) => !e.isRest).length +
-    workout.cooldowns.length;
-  const estimatedMinutes = calculateWorkoutMinutes(workout);
+  const totalRealExercises = countRealExercises(workout);
+  const estimatedMinutes = workout.estimatedDuration;
 
   return (
     <>

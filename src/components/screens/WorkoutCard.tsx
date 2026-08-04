@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Workout } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
-import { calculateWorkoutMinutes } from "@/lib/workout";
+import { countRealExercises } from "@/lib/workout";
 
 interface Props {
   workout: Workout;
@@ -19,10 +19,7 @@ const tagColors: Record<string, string> = {
 };
 
 export function WorkoutCard({ workout, completedCount = 0 }: Props) {
-  const totalExercises =
-    workout.warmups.length +
-    workout.exercises.length +
-    workout.cooldowns.length;
+  const totalExercises = countRealExercises(workout);
 
   return (
     <motion.div
@@ -86,7 +83,7 @@ export function WorkoutCard({ workout, completedCount = 0 }: Props) {
                     strokeLinecap="round"
                   />
                 </svg>
-                {calculateWorkoutMinutes(workout)}m
+                {workout.estimatedDuration}m
               </span>
               <span>·</span>
               <span>{totalExercises} moves</span>

@@ -14,6 +14,7 @@ const APP_URL = "https://moov-1.vercel.app/";
 
 export function InfoScreen() {
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showRefuelModal, setShowRefuelModal] = useState(false);
   const [showDonateModal, setShowDonateModal] = useState(false);
 
   async function handleShare() {
@@ -53,6 +54,21 @@ export function InfoScreen() {
           />
 
           <SettingsRow
+            label="Refuel Day?"
+            description={["Bank a day off without", "losing your streak."]}
+            border
+            action={
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowRefuelModal(true)}
+                className="shrink-0 w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600"
+              >
+                Explain
+              </motion.button>
+            }
+          />
+
+          <SettingsRow
             label="Share this app"
             description="And MOOV with someone"
             border
@@ -82,7 +98,10 @@ export function InfoScreen() {
 
           <SettingsRow
             label="Send MOOV a message"
-            description={["Have a suggestion? Find a bug?", "Please reach out."]}
+            description={[
+              "Have a suggestion? Find a bug?",
+              "Please reach out.",
+            ]}
             border
             action={
               <motion.a
@@ -127,11 +146,11 @@ export function InfoScreen() {
                 The Program
               </p>
               <p className="text-slate-400 text-sm leading-relaxed">
-                MOOV is a complete at-home program built around 28 guided workouts
-                across four categories: lower body, upper body, core, and full
-                body. Each session runs about 20–27 minutes depending on your
-                level, and requires nothing but your bodyweight and an optional
-                mat.
+                MOOV is a complete at-home program built around 28 guided
+                workouts across four categories: lower body, upper body, core,
+                and full body. Each session runs about 20–27 minutes depending
+                on your level, and requires nothing but your bodyweight and an
+                optional mat.
               </p>
             </div>
             <div>
@@ -141,9 +160,9 @@ export function InfoScreen() {
               <p className="text-slate-400 text-sm leading-relaxed">
                 The lunar cycle is 28 days, and a natural rhythm for building
                 consistency. It's not a rigid daily schedule, but a meaningful
-                movement cycle that rewards steady effort over time. The moon has
-                tracked human cycles for thousands of years. MOOV just borrowed
-                it.
+                movement cycle that rewards steady effort over time. The moon
+                has tracked human cycles for thousands of years. MOOV just
+                borrowed it.
               </p>
             </div>
             <div>
@@ -151,12 +170,12 @@ export function InfoScreen() {
                 Achievements
               </p>
               <p className="text-slate-400 text-sm leading-relaxed">
-                As you train, you'll unlock achievements along the way. Milestones
-                such as completing your first cycle, building a streak, and
-                finishing every category earn you bragging rights. These
-                achievements are not easy to earn — some require months of
-                consistent effort. Visit the Stats tab to see what you've unlocked
-                and what challenges still lie ahead.
+                As you train, you'll unlock achievements along the way.
+                Milestones such as completing your first cycle, building a
+                streak, and finishing every category earn you bragging rights.
+                These achievements are not easy to earn — some require months of
+                consistent effort. Visit the Stats tab to see what you've
+                unlocked and what challenges still lie ahead.
               </p>
             </div>
             <div>
@@ -172,6 +191,55 @@ export function InfoScreen() {
             </div>
             <p className="text-slate-600 text-xs">
               No subscriptions. No ads. No internet needed after install.
+            </p>
+          </div>
+        </ModalFromBottom>
+
+        {/* Refuel day modal */}
+        <ModalFromBottom
+          open={showRefuelModal}
+          onClose={() => setShowRefuelModal(false)}
+        >
+          <div className="px-6 pt-8 pb-10 space-y-5">
+            <h2 className="text-offwhite text-xl font-bold font-orbitron drop-shadow-[1px_1px_0px_rgb(190,242,100)] tracking-widest">
+              Refuel Day
+            </h2>
+            <div>
+              <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+                Banking One
+              </p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Finish two workouts in the same day and you bank a refuel day.
+                Each day you double up banks one more, and there&apos;s no cap —
+                two workouts a day for a week leaves you with seven in reserve.
+                A third or fourth workout in the same day doesn&apos;t bank
+                extra.
+              </p>
+            </div>
+            <div>
+              <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+                Spending One
+              </p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                Miss a day and your streak would normally reset to zero. If you
+                have a refuel day banked, open MOOV the next day and you&apos;ll
+                be offered the chance to claim one — your streak picks up right
+                where it left off.
+              </p>
+            </div>
+            <div>
+              <p className="text-lime text-xs font-bold uppercase tracking-widest mb-1.5">
+                One Day Only
+              </p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                A refuel day covers a single missed day. You can&apos;t stack
+                them to cover two days in a row, and the offer only stands on
+                the day after the one you missed — come back later and the
+                streak is gone for good.
+              </p>
+            </div>
+            <p className="text-slate-600 text-xs">
+              Rest is part of training. Everyone deserves a break.
             </p>
           </div>
         </ModalFromBottom>

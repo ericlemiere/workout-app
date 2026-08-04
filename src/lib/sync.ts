@@ -4,9 +4,11 @@ import {
   getCompletedWorkouts, getStreakData, getSettings, getCycleStartedAt,
   getLunarCycles, getTotalCycles, getCycleCompleteAcknowledged,
   getEarnedAchievements, getLevelCycles, getLevelLunarCycles, getLevel,
+  getRefuelClaimed,
   saveCompletedWorkouts, saveStreakData, saveSettings, saveCycleStartedAt,
   saveLunarCycles, saveTotalCycles, saveCycleCompleteAcknowledged,
   saveEarnedAchievements, saveLevelCycles, saveLevelLunarCycles, saveLevel,
+  saveRefuelClaimed,
 } from './storage'
 
 export interface ProgressSnapshot {
@@ -21,6 +23,7 @@ export interface ProgressSnapshot {
   cycleCompleteAcknowledged: boolean
   earnedAchievements: string[]
   level: number
+  refuelClaimed: number
   updatedAt: string
 }
 
@@ -37,6 +40,7 @@ function captureLocal(): ProgressSnapshot {
     levelCycles: getLevelCycles(),
     levelLunarCycles: getLevelLunarCycles(),
     level: getLevel(),
+    refuelClaimed: getRefuelClaimed(),
     updatedAt: new Date().toISOString(),
   }
 }
@@ -53,6 +57,7 @@ function applyToStorage(snap: ProgressSnapshot) {
   saveLevelCycles(snap.levelCycles as Record<UserLevel, number>)
   saveLevelLunarCycles(snap.levelLunarCycles as Record<2 | 3, number>)
   saveLevel(Math.min(3, Math.max(1, snap.level)) as UserLevel)
+  saveRefuelClaimed(snap.refuelClaimed ?? 0)
 }
 
 function merge(local: ProgressSnapshot, remote: ProgressSnapshot): ProgressSnapshot {
@@ -99,6 +104,10 @@ function merge(local: ProgressSnapshot, remote: ProgressSnapshot): ProgressSnaps
     cycleCompleteAcknowledged: local.cycleCompleteAcknowledged || remote.cycleCompleteAcknowledged,
     earnedAchievements,
     level: Math.max(local.level, remote.level),
+    // Monotonic spend counter, so the higher side wins — same as the cycle
+    // counters. Summing would double-count a claim the other device already
+    // pulled down.
+    refuelClaimed: Math.max(local.refuelClaimed ?? 0, remote.refuelClaimed ?? 0),
     updatedAt: new Date().toISOString(),
   }
 }

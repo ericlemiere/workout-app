@@ -11,6 +11,7 @@ import { IoFlame } from "react-icons/io5";
 import { CycleCompleteScreen } from "./CycleCompleteScreen";
 import { LevelSelectModal } from "./LevelSelectModal";
 import { AchievementUnlockedOverlay } from "./AchievementUnlockedOverlay";
+import { RefuelDayModal } from "./RefuelDayModal";
 
 interface Props {
   workouts: WorkoutTemplate[];
@@ -73,6 +74,7 @@ export function WorkoutLibrary({ workouts }: Props) {
   return (
     <>
       <AchievementUnlockedOverlay />
+      <RefuelDayModal />
       <AnimatePresence>
         {showCycleComplete && (
           <CycleCompleteScreen isLunarCycle={isLunarCycle} />

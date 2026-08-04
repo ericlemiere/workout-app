@@ -11,7 +11,7 @@ import { useWorkoutSpeech } from "@/hooks/useWorkoutSpeech";
 import { playCompleteSound } from "@/lib/audio";
 import { fadeOutWorkoutMusic } from "@/lib/workoutMusic";
 import { formatTime } from "@/lib/timer";
-import { calculateWorkoutMinutes, WORKOUT_COMPLETE_CUE } from "@/lib/workout";
+import { WORKOUT_COMPLETE_CUE } from "@/lib/workout";
 import { GiPartyPopper } from "react-icons/gi";
 
 interface Props {
@@ -106,7 +106,7 @@ export function CompletionScreen({ workout }: Props) {
             <div className="text-offwhite text-xl font-bold">
               {durationMs > 0
                 ? formatTime(durationMs)
-                : `${calculateWorkoutMinutes(workout)}m`}
+                : `${workout.estimatedDuration}m`}
             </div>
             <div className="text-slate-500 text-xs mt-0.5">duration</div>
           </div>

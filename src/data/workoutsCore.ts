@@ -68,7 +68,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 3 · Core",
     description:
       "Anti-extension and anti-rotation core work. All floor movements — completely safe for lower back pain.",
-    estimatedDuration: 20,
     tags: ["core", "foundation", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -94,7 +93,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 7 · Core",
     description:
       "Core stability deepening. Dead bug, bird dog, and plank progressions all on the floor.",
-    estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -126,7 +124,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 11 · Core",
     description:
       "Bird dog, dead bug, and plank rotations. Maximum spinal stability with zero compression — all floor work.",
-    estimatedDuration: 20,
     tags: ["core", "stability", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -162,7 +159,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 15 · Core",
     description:
       "Plank rotations, fire hydrant, and bird dog. Total floor core session for spinal stability.",
-    estimatedDuration: 20,
     tags: ["core", "lateral strength", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -197,7 +193,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 19 · Core",
     description:
       "Dead bug, Russian twists, and mountain climbers. High-demand floor core session.",
-    estimatedDuration: 20,
     tags: ["core", "strength", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -229,7 +224,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 23 · Core",
     description:
       "Plank rotations, airplane push-ups, and dead bug. Attacks all planes of core stability on the floor.",
-    estimatedDuration: 20,
     tags: ["core", "advanced", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [
@@ -261,7 +255,6 @@ export const coreTemplates: WorkoutTemplate[] = [
     name: "Workout 27 · Core",
     description:
       "Peak core session. Airplane push-ups, bird dog, and fire hydrant for total floor spinal stability.",
-    estimatedDuration: 20,
     tags: ["core", "peak", "back safe"],
     coverImage: "/images/workouts/core.png",
     warmups: [

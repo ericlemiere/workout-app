@@ -14,7 +14,6 @@ import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { AudioSelectors } from "@/components/settings/AudioSelectors";
 import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
-import { calculateWorkoutMinutes } from "@/lib/workout";
 import { buildWorkout } from "@/lib/difficulty";
 import {
   getCurrentMusicSelectionId,
@@ -229,7 +228,7 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
             {template.cooldowns.length} stretches
           </p>
           <p className="text-slate-500 text-sm mb-10">
-            {calculateWorkoutMinutes(builtWorkout)} minutes
+            {builtWorkout.estimatedDuration} minutes
           </p>
           <motion.button
             whileTap={{ scale: 0.96 }}

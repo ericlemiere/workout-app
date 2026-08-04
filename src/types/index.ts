@@ -38,7 +38,7 @@ export interface Workout {
   id: string;
   name: string;
   description: string;
-  estimatedDuration: number; // minutes
+  estimatedDuration: number; // minutes, rounded up — computed by buildWorkout()
   warmups: Exercise[];
   exercises: Exercise[];
   cooldowns: Exercise[];
@@ -58,6 +58,14 @@ export interface CompletedWorkout {
   completedAt: string; // ISO string
   durationMs: number;
   level?: UserLevel;
+}
+
+// Left behind when a streak breaks from exactly one missed day, so the user can
+// be offered a refuel day. Only valid on the day it was created.
+export interface RefuelOffer {
+  streak: number; // the streak that was broken
+  missedDate: string; // YYYY-MM-DD, the day with no workout
+  offeredOn: string; // YYYY-MM-DD, the day the break was noticed
 }
 
 export interface StreakData {
@@ -87,7 +95,10 @@ export interface SupersetDef {
   e3?: ExerciseSlot;
 }
 
-export interface WorkoutTemplate extends Omit<Workout, "exercises"> {
+// Duration depends on the exercises a level actually resolves to, so templates
+// don't carry it — buildWorkout() fills it in.
+export interface WorkoutTemplate
+  extends Omit<Workout, "exercises" | "estimatedDuration"> {
   supersets: [SupersetDef, SupersetDef, SupersetDef];
   lvl2Extra: SupersetDef;
   lvl3Extra: SupersetDef;

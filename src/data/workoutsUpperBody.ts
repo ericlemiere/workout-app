@@ -34,12 +34,13 @@ import {
   childsPose,
   chestStretch,
   tricepStretch,
-  upperBackStretch,
+  hugStretch,
   figure4Left,
   figure4Right,
   proneGluteStretchLeft,
   proneGluteStretchRight,
   plankToDownwardDog,
+  catCow,
 } from "./coolDowns";
 
 // Alternating glute-stretch finishers — every other workout uses the prone version
@@ -57,7 +58,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 2 · Upper Body",
     description:
       "Foundational push strength on the floor. Push-ups, planks, and spider cross planks hit every upper body angle.",
-    estimatedDuration: 20,
     tags: ["upper body", "push", "foundation"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -77,12 +77,7 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     ],
     lvl2Extra: { e1: wavePushUps, e2: downwardDogPushUps },
     lvl3Extra: { e1: shoulderTapPushUps, e2: tableTopDips },
-    cooldowns: [
-      chestStretch,
-      tricepStretch,
-      upperBackStretch,
-      ...COOLDOWN_END_PRONE,
-    ],
+    cooldowns: [chestStretch, tricepStretch, hugStretch, ...COOLDOWN_END_PRONE],
   },
 
   // ── 6 · Upper Body ─────────────────────────────────────────────────────────
@@ -91,7 +86,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 6 · Upper Body",
     description:
       "Upper body strength built entirely on the floor. Wave push-ups, planks, and inchworms for full range of motion.",
-    estimatedDuration: 20,
     tags: ["upper body", "push", "strength"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -111,7 +105,7 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     ],
     lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
     lvl3Extra: { e1: plankWalkOuts, e2: downwardDogPushUps },
-    cooldowns: [chestStretch, tricepStretch, upperBackStretch, ...COOLDOWN_END],
+    cooldowns: [chestStretch, tricepStretch, catCow, ...COOLDOWN_END],
   },
 
   // ── 10 · Upper Body ────────────────────────────────────────────────────────
@@ -120,7 +114,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 10 · Upper Body",
     description:
       "Chest and shoulder focus with push-up and plank combinations — all on the floor.",
-    estimatedDuration: 20,
     tags: ["upper body", "chest", "shoulders"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -154,7 +147,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 14 · Upper Body",
     description:
       "Plank and push-up endurance on the floor. Spider cross planks, shoulder taps, and airplane push-ups test every muscle.",
-    estimatedDuration: 20,
     tags: ["upper body", "endurance", "push"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -185,7 +177,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 18 · Upper Body",
     description:
       "Push-up strength from multiple angles on the floor. Burpee walk, spider planks, and wave push-ups hit every upper body fiber.",
-    estimatedDuration: 20,
     tags: ["upper body", "push", "strength"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -197,17 +188,12 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: burpeeWalk, e2: [kneelingPushUps, pushUps] },
-      { e1: spiderCrossPlanks, e2: [mountainClimberWalks, mountainClimbers] },
-      { e1: wavePushUps, e2: [plank, pushUpToDownwardDog] },
+      { e1: spiderCrossPlanks, e2: [plank, pushUpToDownwardDog] },
+      { e1: wavePushUps, e2: [mountainClimberWalks, mountainClimbers] },
     ],
     lvl2Extra: { e1: airplanePushUps, e2: plankShoulderTaps },
     lvl3Extra: { e1: plankWalkOuts, e2: tableTopDips },
-    cooldowns: [
-      tricepStretch,
-      chestStretch,
-      upperBackStretch,
-      ...COOLDOWN_END_PRONE,
-    ],
+    cooldowns: [tricepStretch, chestStretch, hugStretch, ...COOLDOWN_END_PRONE],
   },
 
   // ── 22 · Upper Body ────────────────────────────────────────────────────────
@@ -216,7 +202,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 22 · Upper Body",
     description:
       "High-rep push endurance on the floor. Spider planks, burpee walks, and wave push-ups will test your stamina.",
-    estimatedDuration: 20,
     tags: ["upper body", "endurance", "push"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -233,12 +218,7 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     ],
     lvl2Extra: { e1: airplanePushUps, e2: shoulderTapPushUps },
     lvl3Extra: { e1: walkoutPushUps, e2: tableTopDips },
-    cooldowns: [
-      plankToDownwardDog,
-      tricepStretch,
-      upperBackStretch,
-      ...COOLDOWN_END,
-    ],
+    cooldowns: [plankToDownwardDog, tricepStretch, hugStretch, ...COOLDOWN_END],
   },
 
   // ── 26 · Upper Body ────────────────────────────────────────────────────────
@@ -247,7 +227,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 26 · Upper Body",
     description:
       "Peak upper body session. A full push-up ladder and plank sequence, finishing with mountain climbers and inchworms.",
-    estimatedDuration: 20,
     tags: ["upper body", "peak", "push"],
     coverImage: "/images/workouts/upper-body.png",
     warmups: [
@@ -267,11 +246,6 @@ export const upperBodyTemplates: WorkoutTemplate[] = [
     ],
     lvl2Extra: { e1: plankWalkOuts, e2: shoulderTapPushUps },
     lvl3Extra: { e1: walkoutPushUps, e2: pushUpToDownwardDog },
-    cooldowns: [
-      chestStretch,
-      tricepStretch,
-      upperBackStretch,
-      ...COOLDOWN_END_PRONE,
-    ],
+    cooldowns: [chestStretch, tricepStretch, hugStretch, ...COOLDOWN_END_PRONE],
   },
 ];

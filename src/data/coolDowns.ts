@@ -136,16 +136,16 @@ export const tricepStretch: Exercise = {
     "Raise one arm overhead, bend elbow. Use other hand to gently press elbow back. Hold 20 seconds each side.",
 };
 
-export const upperBackStretch: Exercise = {
-  id: "upper-back-stretch",
-  name: "Upper Back Stretch",
+export const hugStretch: Exercise = {
+  id: "hug-stretch",
+  name: "Hug Stretch",
   duration: 30,
   image: ["/images/exercises/upper-back-stretch.jpg"],
   category: "cool-down",
   target: "back",
   matPosition: "standing",
   instructions:
-    "Interlace fingers in front, push palms away. Round upper back. Hold and breathe.",
+    "Give yourself a big hug. Grab your shoulders, pull your elbows forward, and gently round your upper back.",
 };
 
 export const catCow: Exercise = {
@@ -157,7 +157,7 @@ export const catCow: Exercise = {
   target: "back",
   matPosition: "floor",
   instructions:
-    "On hands and knees, inhale and let your belly drop (Cow), then exhale and round your spine toward the ceiling (Cat). Move slowly through the full range.",
+    "On hands and knees, inhale and let your belly drop, then exhale and round your spine toward the ceiling. Move slowly through the full range.",
 };
 
 export const spinalTwistLeft: Exercise = {
@@ -268,7 +268,7 @@ export const cooldownExercises: Exercise[] = [
   proneGluteStretchRight,
   chestStretch,
   tricepStretch,
-  upperBackStretch,
+  hugStretch,
   catCow,
   spinalTwistLeft,
   spinalTwistRight,

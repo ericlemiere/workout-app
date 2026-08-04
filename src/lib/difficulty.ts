@@ -1,5 +1,5 @@
 import type { Exercise, Workout, WorkoutTemplate, ExerciseSlot, UserLevel } from '@/types'
-import { REST_DURATION } from '@/lib/workout'
+import { REST_DURATION, calculateWorkoutMinutes } from '@/lib/workout'
 
 const restExercise: Exercise = {
   id: 'rest',
@@ -44,5 +44,6 @@ export function buildWorkout(template: WorkoutTemplate, level: UserLevel): Worko
     return isFinal ? supersetFinal(e1, e2, e3) : superset(e1, e2, e3)
   })
 
-  return { ...workoutFields, exercises }
+  const built = { ...workoutFields, exercises }
+  return { ...built, estimatedDuration: calculateWorkoutMinutes(built) }
 }

@@ -70,7 +70,6 @@ import {
   proneGluteStretchLeft,
   proneGluteStretchRight,
   chestStretch,
-  upperBackStretch,
 } from "./coolDowns";
 
 // Alternating glute-stretch finishers — every other workout uses the prone version
@@ -88,7 +87,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 4 · Full Body",
     description:
       "Cardio on your feet, then power on the floor. Jumping jacks and high knees alternate with burpees and mountain climbers.",
-    estimatedDuration: 20,
     tags: ["full body", "cardio", "foundation"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -123,7 +121,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 8 · Full Body",
     description:
       "Floor power then standing cardio. Glute bridge holds and mountain climbers on the mat, then jumping jacks and lunges on your feet.",
-    estimatedDuration: 20,
     tags: ["full body", "power", "endurance"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -156,7 +153,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 12 · Full Body",
     description:
       "Standing cardio then floor strength. High knees and jumping jacks on your feet, then burpees and mountain climbers on the mat.",
-    estimatedDuration: 20,
     tags: ["full body", "cardio", "strength"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -189,7 +185,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 16 · Full Body",
     description:
       "Floor power and standing cardio in alternating sets. Glute bridge holds with knee drives and airplane push-ups, then jumping jacks and lunge intervals.",
-    estimatedDuration: 20,
     tags: ["full body", "conditioning", "strength"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -201,8 +196,8 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     ],
     supersets: [
       { e1: gluteBridgeHoldKneeToChest, e2: airplanePushUps },
-      { e1: [calfRaises, highKnees], e2: reverseLunges },
-      { e1: [squats, jumpingJacks], e2: sumoSquats },
+      { e1: [squats, highKnees], e2: reverseLunges },
+      { e1: [calfRaises, jumpingJacks], e2: sumoSquats },
     ],
     lvl2Extra: { e1: [kneelingPushUps, pushUps], e2: plankShoulderTaps },
     lvl3Extra: { e1: shadowBoxing, e2: squatsToCalfRaises },
@@ -221,7 +216,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 20 · Full Body",
     description:
       "Burpees on the floor, then standing cardio. A challenging full-body session that tests everything you've built.",
-    estimatedDuration: 20,
     tags: ["full body", "intense", "strength"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -259,7 +253,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 24 · Full Body",
     description:
       "Burpees and kneeling push-ups on the floor, then jump squats and reverse lunges on your feet. High-intensity full-body session.",
-    estimatedDuration: 20,
     tags: ["full body", "intense", "cardio"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [
@@ -281,7 +274,7 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     lvl3Extra: { e1: shadowBoxing, e2: fourPointBoxJumps },
     cooldowns: [
       tricepStretch,
-      upperBackStretch,
+      catCow,
       seatedCrossoverStretchLeft,
       seatedCrossoverStretchRight,
       ...COOLDOWN_END,
@@ -294,7 +287,6 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
     name: "Workout 28 · Full Body",
     description:
       "The final workout. Burpees on the floor, then jump squats and high knees standing. Test everything you've built.",
-    estimatedDuration: 20,
     tags: ["full body", "peak", "challenge"],
     coverImage: "/images/workouts/full-body.png",
     warmups: [

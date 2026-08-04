@@ -15,7 +15,6 @@ import {
   GiTriplePlier,
   GiAstronautHelmet,
   GiSpaceSuit,
-  GiSpaceShuttle,
   GiMoonOrbit,
   GiOrbitalRays,
   GiGiant,
@@ -65,6 +64,7 @@ import {
   GiMadScientist,
   GiFox,
   GiDoubleRingedOrb,
+  GiGasPump,
 } from "react-icons/gi";
 
 import { useProgressStore } from "@/store/progressStore";
@@ -147,8 +147,16 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: "daily-double",
     name: "Daily Double",
     description1: "Complete two workouts in one day.",
-    description2: "Double the effort, double the gains.",
+    description2:
+      "Double the effort, double the gains. This also banks you a refuel day.",
     icon: <GiDoubleRingedOrb size={60} />,
+  },
+  {
+    id: "refuel-day",
+    name: "Refuel Day",
+    description1: "Claim a Refuel Day.",
+    description2: "Everyone deserves a break.",
+    icon: <GiGasPump size={60} />,
   },
   {
     id: "flex-finisher",
@@ -413,7 +421,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: "world-wrecker",
     name: "World Wrecker",
     description1: "Complete 150 total workouts.",
-    description2: "At this point, you're just destroying records.",
+    description2: "At this point, you're just destroying things.",
     icon: <GiExplodingPlanet size={60} />,
   },
   {
@@ -519,13 +527,6 @@ export const ACHIEVEMENTS: Achievement[] = [
     description1: "Complete 6 full lunar cycles.",
     description2: "You've taken the world on — and won.",
     icon: <GiWorld size={60} />,
-  },
-  {
-    id: "space-shuttler",
-    name: "Space Shuttler",
-    description1: "Complete 7 full lunar cycles.",
-    description2: "You don't just visit space — you live there.",
-    icon: <GiSpaceShuttle size={60} />,
   },
   {
     id: "lunar-legend",

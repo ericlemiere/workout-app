@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useProgressStore } from "@/store/progressStore";
 import { ACHIEVEMENTS } from "./Achievements";
@@ -15,6 +16,12 @@ export function AchievementUnlockedOverlay() {
       ? (ACHIEVEMENTS.find((a) => a.id === pendingAchievements[0]) ?? null)
       : null;
 
+  useEffect(() => {
+    if (pendingAchievements.length > 0 && !achievement) {
+      dismissPendingAchievement();
+    }
+  }, [pendingAchievements, achievement, dismissPendingAchievement]);
+
   return (
     <AnimatePresence>
       {achievement && (
@@ -23,7 +30,12 @@ export function AchievementUnlockedOverlay() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.85 }}
-          transition={{ type: "spring", stiffness: 220, damping: 20, delay: 0.3 }}
+          transition={{
+            type: "spring",
+            stiffness: 220,
+            damping: 20,
+            delay: 0.3,
+          }}
           className="fixed inset-0 z-50 bg-navy flex flex-col items-center justify-center px-6 safe-top safe-bottom"
         >
           <p className="text-lime text-xs font-bold uppercase tracking-[0.2em] mb-8">
@@ -33,7 +45,12 @@ export function AchievementUnlockedOverlay() {
           <motion.div
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.45 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 16,
+              delay: 0.45,
+            }}
             className="text-lime mb-6 [&_svg]:w-20 [&_svg]:h-20"
           >
             {achievement.icon}

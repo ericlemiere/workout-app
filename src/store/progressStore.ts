@@ -6,6 +6,7 @@ import type {
   StreakData,
   AppSettings,
   UserLevel,
+  RefuelOffer,
 } from "@/types";
 import {
   addCompletedWorkout,
@@ -29,8 +30,13 @@ import {
   saveLevelCycles,
   getLevelLunarCycles,
   saveLevelLunarCycles,
+  getRefuelClaimed,
+  getRefuelOffer,
+  clearRefuelOffer,
+  claimRefuelDay as claimRefuelDayInStorage,
 } from "@/lib/storage";
 import { evaluateAchievements } from "@/lib/achievements";
+import { countRefuelDaysBanked } from "@/lib/refuel";
 import { pushProgress } from "@/lib/sync";
 import { useUserStore } from "@/store/userStore";
 import { DEFAULT_MUSIC_VOLUME } from "@/lib/audioSettings";
@@ -49,8 +55,14 @@ interface ProgressState {
   cycleCompleteAcknowledged: boolean;
   earnedAchievements: Set<string>;
   pendingAchievements: string[];
+  refuelClaimed: number;
+  refuelOffer: RefuelOffer | null;
+  refuelOfferDismissed: boolean;
   hydrated: boolean;
 
+  refuelDaysAvailable: () => number;
+  claimRefuelDay: () => void;
+  dismissRefuelOffer: () => void;
   hydrate: () => void;
   rehydrate: () => void;
   recordCompletion: (
@@ -77,6 +89,7 @@ function checkAndAward(
     | "levelLunarCycles"
     | "earnedAchievements"
     | "pendingAchievements"
+    | "refuelClaimed"
   >,
 ): { earnedAchievements: Set<string>; pendingAchievements: string[] } | null {
   const nowEarned = evaluateAchievements({
@@ -86,6 +99,7 @@ function checkAndAward(
     totalCycles: state.totalCycles,
     levelCycles: state.levelCycles,
     levelLunarCycles: state.levelLunarCycles,
+    refuelClaimed: state.refuelClaimed,
   });
   const newIds = [...nowEarned].filter(
     (id) => !state.earnedAchievements.has(id),
@@ -118,7 +132,51 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
   cycleCompleteAcknowledged: false,
   earnedAchievements: new Set(),
   pendingAchievements: [],
+  refuelClaimed: 0,
+  refuelOffer: null,
+  refuelOfferDismissed: false,
   hydrated: false,
+
+  // Banked minus spent. Derived from history rather than tracked as a running
+  // total so it can't drift out of sync with the completed workouts.
+  refuelDaysAvailable: () => {
+    const s = get();
+    return Math.max(0, countRefuelDaysBanked(s.completed) - s.refuelClaimed);
+  },
+
+  claimRefuelDay: () => {
+    const restored = claimRefuelDayInStorage();
+    if (!restored) return;
+    set((s) => {
+      const next = {
+        ...s,
+        streak: restored,
+        refuelClaimed: s.refuelClaimed + 1,
+        refuelOffer: null,
+        refuelOfferDismissed: false,
+      };
+      const award = checkAndAward(next);
+      return award ? { ...next, ...award } : next;
+    });
+    pushProgress().catch((err) => {
+      console.error("[MOOV] Sync failed after refuel day claim:", err);
+      useUserStore
+        .getState()
+        .setSyncError("Sync failed. Your refuel day is saved on this device.");
+    });
+  },
+
+  // Dismissing without claiming keeps the offer alive for the rest of the day,
+  // but a purely informational one (nothing banked) has served its purpose.
+  dismissRefuelOffer: () => {
+    const s = get();
+    if (s.refuelDaysAvailable() === 0) {
+      clearRefuelOffer();
+      set({ refuelOffer: null, refuelOfferDismissed: true });
+      return;
+    }
+    set({ refuelOfferDismissed: true });
+  },
 
   hydrate: () => {
     if (get().hydrated) return;
@@ -145,6 +203,10 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       levelLunarCycles: getLevelLunarCycles(),
       cycleCompleteAcknowledged: getCycleCompleteAcknowledged(),
       earnedAchievements: getEarnedAchievements(),
+      refuelClaimed: getRefuelClaimed(),
+      // Read after getStreakData() above, which is what detects the break and
+      // writes the offer.
+      refuelOffer: getRefuelOffer(),
       hydrated: true,
     });
   },
@@ -163,6 +225,10 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       levelLunarCycles: getLevelLunarCycles(),
       cycleCompleteAcknowledged: getCycleCompleteAcknowledged(),
       earnedAchievements: getEarnedAchievements(),
+      refuelClaimed: getRefuelClaimed(),
+      // Read after getStreakData() above, which is what detects the break and
+      // writes the offer.
+      refuelOffer: getRefuelOffer(),
       hydrated: true,
     });
   },
@@ -222,6 +288,9 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       levelLunarCycles: { 2: 0, 3: 0 },
       earnedAchievements: new Set(),
       pendingAchievements: [],
+      refuelClaimed: 0,
+      refuelOffer: null,
+      refuelOfferDismissed: false,
     });
   },
 

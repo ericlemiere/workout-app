@@ -40,7 +40,7 @@ export const wavePushUps: Exercise = {
   target: "chest",
   matPosition: "floor",
   instructions:
-    "Start in a push-up position. Lower yourself to the floor in a wave motion from knees to chest to shoulders. Reverse the motion to push back up.",
+    "Start in a push-up position. Lower yourself to the floor in a wave motion from knees to hips to chest to shoulders. Reverse the motion to push back up.",
 };
 
 export const spiderCrossPlanks: Exercise = {

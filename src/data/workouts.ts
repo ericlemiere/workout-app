@@ -31,11 +31,3 @@ export function getWorkoutById(id: string): Workout | undefined {
   const t = getWorkoutTemplateById(id);
   return t ? buildWorkout(t, 1) : undefined;
 }
-
-export function getTotalExercisesForWorkout(workout: Workout): number {
-  return (
-    workout.warmups.length +
-    workout.exercises.filter((e) => !e.isRest).length +
-    workout.cooldowns.length
-  );
-}

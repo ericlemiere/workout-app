@@ -7,8 +7,9 @@ import { FaDumbbell, FaTrophy } from "react-icons/fa6";
 import { RiCalendarCheckLine } from "react-icons/ri";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoFlame } from "react-icons/io5";
-import { GiCycle } from "react-icons/gi";
-import { RiBarChartFill } from "react-icons/ri";
+import { GiCycle, GiGasPump } from "react-icons/gi";
+import { RiBarChartFill, RiBankFill } from "react-icons/ri";
+import { countRefuelDaysBanked } from "@/lib/refuel";
 import { MoonIconStats } from "@/lib/moonIcon";
 import { Achievements } from "./Achievements";
 import { ModalFromBottom } from "@/components/ui/ModalFromBottom";
@@ -65,6 +66,12 @@ export function StatsScreen() {
   const streak = useProgressStore((s) => s.streak);
   const lunarCycles = useProgressStore((s) => s.lunarCycles);
   const totalCycles = useProgressStore((s) => s.totalCycles);
+  const refuelClaimed = useProgressStore((s) => s.refuelClaimed);
+
+  const bankedRefuels = useMemo(
+    () => Math.max(0, countRefuelDaysBanked(completed) - refuelClaimed),
+    [completed, refuelClaimed],
+  );
 
   const totalTimeMs = useMemo(
     () => completed.reduce((sum, c) => sum + c.durationMs, 0),
@@ -160,6 +167,36 @@ export function StatsScreen() {
                 description:
                   "The total number of workouts you've finished across your entire history, including all past cycles.",
                 icon: <FaDumbbell size={48} />,
+              })
+            }
+          />
+          <StatRow
+            label="Banked Refuels"
+            value={bankedRefuels}
+            description="Refuel days you have available to spend. Finish two workouts in the same day to bank one — there's no limit to how many you can stockpile."
+            icon={<RiBankFill size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Banked Refuels",
+                value: bankedRefuels,
+                description:
+                  "Refuel days you have available to spend. Finish two workouts in the same day to bank one — there's no limit to how many you can stockpile.",
+                icon: <RiBankFill size={48} />,
+              })
+            }
+          />
+          <StatRow
+            label="Refuel Days Used"
+            value={refuelClaimed}
+            description="How many refuel days you've used to keep a streak alive after missing a day."
+            icon={<GiGasPump size={40} />}
+            onClick={() =>
+              setActiveStat({
+                label: "Refuel Days Used",
+                value: refuelClaimed,
+                description:
+                  "How many refuel days you've used to keep a streak alive after missing a day.",
+                icon: <GiGasPump size={48} />,
               })
             }
           />
