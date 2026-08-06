@@ -32,6 +32,7 @@ export interface Exercise {
   instructions?: string;
   level?: number; // 1-5, optional difficulty rating
   isRest?: boolean;
+  midSwitch?: boolean; // true if this exercise is a mid-set switch (e.g., left/right)
 }
 
 export interface Workout {
@@ -97,8 +98,10 @@ export interface SupersetDef {
 
 // Duration depends on the exercises a level actually resolves to, so templates
 // don't carry it — buildWorkout() fills it in.
-export interface WorkoutTemplate
-  extends Omit<Workout, "exercises" | "estimatedDuration"> {
+export interface WorkoutTemplate extends Omit<
+  Workout,
+  "exercises" | "estimatedDuration"
+> {
   supersets: [SupersetDef, SupersetDef, SupersetDef];
   lvl2Extra: SupersetDef;
   lvl3Extra: SupersetDef;

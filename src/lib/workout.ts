@@ -8,6 +8,11 @@ export const GET_READY_SHORT = 8;
 // other cues so it still speaks offline.
 export const WORKOUT_COMPLETE_CUE = "Workout complete.";
 
+// Spoken 1s before the halfway mark of a midSwitch exercise (one fixed phrase,
+// so a single cached clip covers every occurrence).
+export const MID_SWITCH_CUE = "Switch sides.";
+export const MID_SWITCH_LEAD_MS = 1000;
+
 // Takes just the exercise lists so buildWorkout() can call these while
 // assembling a Workout, before estimatedDuration exists.
 type WorkoutExercises = Pick<Workout, "warmups" | "exercises" | "cooldowns">;

@@ -15,6 +15,7 @@ import { AudioSelectors } from "@/components/settings/AudioSelectors";
 import { formatTime, getProgress } from "@/lib/timer";
 import { ensureAudioContextResumed } from "@/lib/audio";
 import { buildWorkout } from "@/lib/difficulty";
+import { MID_SWITCH_CUE, MID_SWITCH_LEAD_MS } from "@/lib/workout";
 import {
   getCurrentMusicSelectionId,
   setWorkoutMusicVolume,
@@ -131,6 +132,25 @@ export function ActiveWorkoutScreen({ workoutId, template }: Props) {
   useEffect(() => cancel, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { remainingMs, totalWorkoutElapsed } = useWorkoutTimer();
+
+  // Two-sided stretches: cue the switch just before the halfway mark. Rides the
+  // timer's existing tick, so it costs nothing beyond the one cached clip.
+  const midSwitchSpokenRef = useRef(false);
+  useEffect(() => {
+    midSwitchSpokenRef.current = false;
+  }, [timer.startTs, isGetReady]);
+
+  useEffect(() => {
+    if (!voiceCuesEnabled || isPaused || isGetReady) return;
+    if (midSwitchSpokenRef.current) return;
+    if (!getCurrentExercise()?.midSwitch) return;
+
+    const cueAt = (timer.duration * 1000) / 2 + MID_SWITCH_LEAD_MS;
+    if (remainingMs > cueAt || remainingMs <= 0) return;
+
+    midSwitchSpokenRef.current = true;
+    speak(MID_SWITCH_CUE);
+  }, [remainingMs, isPaused, isGetReady, voiceCuesEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
   const progress = getProgress(timer);
 
   const currentExercise = getCurrentExercise();

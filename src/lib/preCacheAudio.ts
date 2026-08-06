@@ -1,7 +1,7 @@
 import type { Workout } from "@/types";
 import { getFromCache, saveToCache } from "@/lib/ttsCache";
 import { formatForGoogle } from "@/lib/ttsCorrections";
-import { WORKOUT_COMPLETE_CUE } from "@/lib/workout";
+import { MID_SWITCH_CUE, WORKOUT_COMPLETE_CUE } from "@/lib/workout";
 
 export async function preCacheWorkoutAudio(
   workout: Workout,
@@ -23,6 +23,7 @@ export async function preCacheWorkoutAudio(
       ),
     ),
     WORKOUT_COMPLETE_CUE,
+    ...(exercises.some((ex) => ex.midSwitch) ? [MID_SWITCH_CUE] : []),
   ];
 
   for (const text of texts) {

@@ -24,6 +24,7 @@ export const hipFlexorStretch: Exercise = {
   category: "cool-down",
   target: "lower body",
   matPosition: "floor",
+  midSwitch: true,
   instructions:
     "Kneel on one knee, lunge forward. Push hips forward gently. Hold 20 seconds each side.",
 };
@@ -132,6 +133,7 @@ export const tricepStretch: Exercise = {
   category: "cool-down",
   target: "arms",
   matPosition: "standing",
+  midSwitch: true,
   instructions:
     "Raise one arm overhead, bend elbow. Use other hand to gently press elbow back. Hold 20 seconds each side.",
 };
