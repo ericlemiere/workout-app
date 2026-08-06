@@ -81,7 +81,7 @@ export function WorkoutLibrary({ workouts }: Props) {
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen max-w-xl mx-auto bg-navy pb-28 safe-top">
+      <div className="min-h-screen max-w-xl mx-auto bg-navy pb-36 safe-top">
         {/* Header */}
         <div className="py-2">
           <motion.div
