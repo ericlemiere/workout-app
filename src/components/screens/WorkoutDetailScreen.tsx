@@ -3,10 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { WorkoutTemplate, Exercise, UserLevel } from "@/types";
+import type { WorkoutTemplate, Exercise } from "@/types";
 import { ExerciseImage } from "@/components/ui/ExercisePlaceholder";
 import { ExerciseModal } from "./ExerciseModal";
-import { formatDuration } from "@/lib/timer";
+import { ExerciseRow } from "@/components/exercises/ExerciseRow";
 import { buildWorkout } from "@/lib/difficulty";
 import { countRealExercises } from "@/lib/workout";
 import { useUserStore } from "@/store/userStore";
@@ -18,62 +18,6 @@ import { GrYoga } from "react-icons/gr";
 
 interface Props {
   template: WorkoutTemplate;
-}
-
-const categoryColor: Record<string, string> = {
-  "warm-up": "text-warmup",
-  exercise: "text-exercise",
-  "cool-down": "text-cooldown",
-};
-
-function ExerciseRow({
-  exercise,
-  index,
-  onClick,
-}: {
-  exercise: Exercise;
-  index: number;
-  onClick?: () => void;
-}) {
-  return (
-    <motion.button
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.04 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className="w-full flex items-center gap-3 py-3 border-b border-slate-800/50 last:border-0 text-left active:bg-slate-800/30 rounded-lg"
-    >
-      <div className="w-12 h-12 rounded-xl overflow-hidden shrink-0">
-        <ExerciseImage
-          src={exercise.image?.[0] ?? ""}
-          alt=""
-          className="w-full h-full"
-          category={exercise.category}
-          isRest={exercise.isRest}
-        />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p
-          className={`${exercise.isRest ? "text-rest" : "text-offwhite"} text-sm font-medium leading-snug`}
-        >
-          {exercise.name}
-        </p>
-        {!exercise.isRest && (
-          <p
-            className={`text-xs ${categoryColor[exercise.category]} capitalize`}
-          >
-            {exercise.target}
-          </p>
-        )}
-      </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <span className="text-slate-500 text-xs">
-          {formatDuration(exercise.duration)}
-        </span>
-      </div>
-    </motion.button>
-  );
 }
 
 export function WorkoutDetailScreen({ template }: Props) {

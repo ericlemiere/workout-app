@@ -55,10 +55,11 @@ import {
   proneGluteStretchRight,
   catCow,
   seatedForwardFold,
+  fullBodyStretch,
 } from "./coolDowns";
 
 // Alternating glute-stretch finishers — every other workout uses the prone version
-const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END = [figure4Left, figure4Right, fullBodyStretch];
 const COOLDOWN_END_PRONE = [
   proneGluteStretchLeft,
   proneGluteStretchRight,
@@ -258,7 +259,7 @@ export const lowerBodyTemplates: WorkoutTemplate[] = [
     supersets: [
       { e1: reverseLungesLeft, e2: reverseLungesRight },
       { e1: gluteBridges, e2: fireHydrantLeft, e3: fireHydrantRight },
-      { e1: [squats, squatJumps], e2: forwardLungeLeft },
+      { e1: [squats, squatJumps], e2: forwardLungeLeft, e3: forwardLungeRight },
     ],
     lvl2Extra: { e1: singleLegDeadliftLeft, e2: singleLegDeadliftRight },
     lvl3Extra: {

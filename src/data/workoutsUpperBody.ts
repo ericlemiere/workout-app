@@ -41,10 +41,11 @@ import {
   proneGluteStretchRight,
   plankToDownwardDog,
   catCow,
+  fullBodyStretch,
 } from "./coolDowns";
 
 // Alternating glute-stretch finishers — every other workout uses the prone version
-const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END = [figure4Left, figure4Right, fullBodyStretch];
 const COOLDOWN_END_PRONE = [
   proneGluteStretchLeft,
   proneGluteStretchRight,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCircleInfo } from "react-icons/fa6";
 import { SiCashapp } from "react-icons/si";
@@ -65,6 +66,22 @@ export function InfoScreen() {
               >
                 Explain
               </motion.button>
+            }
+          />
+
+          <SettingsRow
+            label="Workouts"
+            description="See a list of all of the MOOVments"
+            border
+            action={
+              <Link href="/moovments" className="shrink-0">
+                <motion.span
+                  whileTap={{ scale: 0.95 }}
+                  className="block w-22 bg-slate-700 text-slate-200 text-sm font-semibold px-4 py-2 rounded-xl active:bg-slate-600 text-center"
+                >
+                  See All
+                </motion.span>
+              </Link>
             }
           />
 

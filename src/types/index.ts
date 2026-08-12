@@ -9,7 +9,13 @@ export type MuscleTarget =
   | "legs"
   | "chest"
   | "shoulders"
-  | "glutes"
+  | "glutes";
+
+// The four buckets a workout — and therefore an exercise — belongs to.
+export type WorkoutArea =
+  | "upper body"
+  | "lower body"
+  | "core"
   | "full body";
 
 export type WorkoutSection =
@@ -26,13 +32,20 @@ export interface Exercise {
   duration: number; // seconds
   image: string[];
   category: ExerciseCategory;
-  target: MuscleTarget;
+  target: MuscleTarget[]; // muscles worked, most significant first
   matPosition?: "floor" | "standing";
   audio?: string;
   instructions?: string;
   level?: number; // 1-5, optional difficulty rating
   isRest?: boolean;
   midSwitch?: boolean; // true if this exercise is a mid-set switch (e.g., left/right)
+  description?: string; // optional description for the exercise
+  area?: WorkoutArea; // overrides the area the catalog would infer from target
+}
+
+// An exercise plus the workout area it belongs to, as listed on /moovments.
+export interface CatalogExercise extends Exercise {
+  area: WorkoutArea;
 }
 
 export interface Workout {

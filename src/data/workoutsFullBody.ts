@@ -51,6 +51,7 @@ import {
 } from "./warmUps";
 import {
   childsPose,
+  fullBodyStretch,
   hipFlexorStretch,
   tricepStretch,
   quadStretchLeft,
@@ -73,7 +74,7 @@ import {
 } from "./coolDowns";
 
 // Alternating glute-stretch finishers — every other workout uses the prone version
-const COOLDOWN_END = [figure4Left, figure4Right, childsPose];
+const COOLDOWN_END = [figure4Left, figure4Right, fullBodyStretch];
 const COOLDOWN_END_PRONE = [
   proneGluteStretchLeft,
   proneGluteStretchRight,
@@ -233,7 +234,8 @@ export const fullBodyTemplates: WorkoutTemplate[] = [
       { e1: gluteBridgeHolds, e2: [kneelingPushUps, pushUps] },
       {
         e1: [squats, jumpingJacks, highKnees],
-        e2: [reverseLungesLeft, reverseLungesRight],
+        e2: reverseLungesLeft,
+        e3: reverseLungesRight,
       },
     ],
     lvl2Extra: { e1: inchworms, e2: walkoutPushUps },

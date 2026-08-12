@@ -19,21 +19,21 @@ const LEVELS: {
   {
     level: 1,
     name: "Ignition",
-    time: "20 minute workouts",
+    time: "~20 minute workouts",
     detail:
       "Foundational routines focused on mobility, stability, and beginner-friendly strength building.",
   },
   {
     level: 2,
     name: "Liftoff",
-    time: "24 minute workouts",
+    time: "~24 minute workouts",
     detail:
       "Expanded movement combinations with longer sessions and a steady increase in intensity.",
   },
   {
     level: 3,
     name: "Orbit",
-    time: "27 minute workouts",
+    time: "~27 minute workouts",
     detail:
       "Longer, more demanding workouts that combine strength, balance, mobility, and endurance.",
   },

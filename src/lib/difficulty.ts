@@ -7,7 +7,7 @@ const restExercise: Exercise = {
   duration: REST_DURATION,
   image: [],
   category: 'exercise',
-  target: 'full body',
+  target: [],
   isRest: true,
 }
 
